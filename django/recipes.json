@@ -1,0 +1,3136 @@
+[
+    {
+        "name": "Taiwanese Beef Noodle Soup",
+        "tags": ["Ron", "Main Course", "Dinner", "Lunch", "Asian", "Noodle", "Beef"],
+        "ingredients": [
+            "rock sugar",
+            "spicy bean paste",
+            "beef shank",
+            "taiwanese noodle",
+            "soy sauce",
+            "dark soy sauce",
+            "green onion",
+            "ginger",
+            "bok choy",
+            "tomato",
+            "star anise",
+            "vegetable oil",
+            "white onion",
+            "rice wine",
+            "white pepper",
+            "salt granulated",
+            "cilantro"
+        ],
+        "last_used_on": "2026-01-01"
+    },
+    {
+        "name": "Bao Zi",
+        "tags": ["Ron", "Main Course", "Dinner", "Lunch", "Asian", "Pork", "Dough"],
+        "ingredients": [
+            "flour unbleached",
+            "yeast",
+            "sugar",
+            "vegetable oil",
+            "ground pork",
+            "soy sauce",
+            "oyster sauce",
+            "dark soy sauce",
+            "sesame oil",
+            "chicken broth",
+            "green onion",
+            "napa cabbage"
+        ],
+        "last_used_on": "2026-02-12"
+    },
+    {
+        "name": "Beef Chow Fun",
+        "tags": ["Ron", "Main Course", "Dinner", "Lunch", "Asian", "Noodle", "Beef"],
+        "ingredients": [
+            "ho fun",
+            "flank steak",
+            "rice wine",
+            "corn starch",
+            "chicken broth",
+            "soy sauce",
+            "dark soy sauce",
+            "sugar",
+            "ginger",
+            "garlic",
+            "white onion",
+            "bean sprout",
+            "green onion",
+            "sesame oil"
+        ],
+        "last_used_on": "2026-02-12"
+    },
+    {
+        "name": "Chive Box",
+        "tags": ["Ron", "Dinner", "Lunch", "Main Course", "Asian", "Pork", "Dough"],
+        "ingredients": [
+            "vermicelli noodle",
+            "garlic chive",
+            "ground pork",
+            "egg",
+            "five spice powder",
+            "soy sauce",
+            "white pepper",
+            "sesame oil",
+            "flour unbleached",
+            "salt granulated"
+        ]
+    },
+    {
+        "name": "Grilled Salmon",
+        "tags": ["Ron", "Dinner", "Lunch", "Main Course", "Grill", "Fish"],
+        "ingredients": [
+            "salmon",
+            "olive oil",
+            "brown sugar",
+            "soy sauce",
+            "lemon",
+            "mustard dijon",
+            "parsley",
+            "salt granulated",
+            "pepper",
+            "garlic powder"
+        ],
+        "last_used_on": "2026-02-08"
+    },
+    {
+        "name": "Huli Huli Chicken",
+        "tags": ["Ron", "Dinner", "Lunch", "Main Course", "Grill", "Chicken", "Rice"],
+        "ingredients": [
+            "chicken thigh",
+            "pineapple juice",
+            "soy sauce",
+            "brown sugar",
+            "ketchup",
+            "chicken broth",
+            "ginger",
+            "garlic",
+            "green onion",
+            "white rice"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chicken Shawarma",
+        "tags": ["Ron", "Dinner", "Lunch", "Main Course", "Grill", "Chicken", "Bread"],
+        "ingredients": [
+            "chicken thigh",
+            "salt granulated",
+            "paprika",
+            "onion powder",
+            "garlic powder",
+            "coriander",
+            "cardamom",
+            "cayenne",
+            "turmeric",
+            "cinnamon",
+            "pepper",
+            "cumin",
+            "pita",
+            "tomato",
+            "white onion",
+            "chimichurri sauce",
+            "hummus",
+            "tzatziki sauce"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Brazilian Pico De Gallo",
+        "tags": ["Ron", "Dinner", "Lunch", "Vegetable"],
+        "ingredients": [
+            "tomato",
+            "white onion",
+            "red pepper",
+            "green pepper",
+            "garlic powder",
+            "parsley",
+            "apple cider vinegar",
+            "olive oil",
+            "salt granulated",
+            "pepper"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Noodle Soup",
+        "tags": ["Ron", "Dinner", "Lunch", "Main Course", "Asian", "Noodle", "Beef"],
+        "ingredients": [
+            "ground beef",
+            "egg",
+            "tofu firm",
+            "tofu fried",
+            "tofu puff",
+            "green onion",
+            "tomato",
+            "mushroom",
+            "ginger",
+            "yu choy",
+            "bean sprout",
+            "instant ramen",
+            "sha cha jiang",
+            "miso",
+            "daikon",
+            "chicken broth",
+            "fish ball",
+            "fuzhou fish ball",
+            "soy sauce",
+            "sesame oil"
+        ],
+        "last_used_on": "2025-12-15"
+    },
+    {
+        "name": "Spaghetti",
+        "tags": ["Ron", "Dinner", "Lunch", "Main Course", "Pasta", "Beef"],
+        "ingredients": [
+            "ground beef",
+            "marinara",
+            "spaghetti pasta",
+            "yellow onion",
+            "parsley",
+            "roma tomato",
+            "mushroom",
+            "garlic",
+            "italian seasoning",
+            "oregano"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Sticky Rice",
+        "tags": ["Ron", "Dinner", "Lunch", "Main Course", "Asian", "Rice", "Pork"],
+        "ingredients": [
+            "pork loin",
+            "sweet rice",
+            "shallot",
+            "dried shitake mushroom",
+            "cilantro",
+            "five spice powder",
+            "soy sauce",
+            "oyster sauce",
+            "rice wine",
+            "bamboo leaf"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Bolognese",
+        "tags": ["Dinner", "Lunch", "Main Course", "Pasta", "Beef", "Pork", "Vegetable"],
+        "ingredients": [
+            "olive oil",
+            "white onion",
+            "garlic",
+            "carrot",
+            "eggplant",
+            "ground beef",
+            "ground pork",
+            "tomato paste",
+            "crushed tomato can",
+            "star anise",
+            "bay leaf",
+            "thyme",
+            "soy sauce",
+            "heavy cream",
+            "cavatappi pasta"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Yu Choy",
+        "tags": ["Dinner", "Lunch", "Vegetable", "Asian"],
+        "ingredients": [
+            "yu choy"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Fluffy Pancakes",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "buttermilk",
+            "egg",
+            "butter unsalted",
+            "flour unbleached",
+            "sugar",
+            "baking powder",
+            "baking soda",
+            "salt granulated",
+        ],
+        "last_used_on": "2026-01-12"
+    },
+    {
+        "name": "Annie's Pancakes",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "annie's pancake mix"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Chocolate Pancakes",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "flour unbleached",
+            "cocoa powder",
+            "sugar",
+            "baking powder",
+            "salt granulated",
+            "milk",
+            "vanilla extract",
+            "egg",
+            "butter unsalted",
+            "maple syrup"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Omelette",
+        "tags": ["Breakfast", "Dinner", "Lunch", "Main Course"],
+        "ingredients": [
+
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Boiled Sweet Potato",
+        "tags": ["Dinner", "Lunch", "Vegetable", "Potato"],
+        "ingredients": [
+            "sweet potato"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Grilled Picanha",
+        "tags": ["Dinner", "Lunch", "Main Course", "Ron", "Grill", "Beef"],
+        "ingredients": [
+            "picanha",
+            "salt kosher"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Brazilian Sausage",
+        "tags": ["Dinner", "Lunch", "Main Course", "Ron", "Grill", "Sausage"],
+        "ingredients": [
+            "texas de brazil sausage"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Sauteed Zucchini",
+        "tags": ["Dinner", "Lunch", "Vegetable"],
+        "ingredients": [
+            "zucchini",
+            "salt granulated",
+            "vegetable oil"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Sauteed Broccoli",
+        "tags": ["Dinner", "Lunch", "Vegetable"],
+        "ingredients": [
+            "broccoli",
+            "garlic powder",
+            "vegetable oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Sauteed Cauliflower",
+        "tags": ["Dinner", "Lunch", "Vegetable"],
+        "ingredients": [
+            "cauliflower",
+            "garlic powder",
+            "vegetable oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Chicken Meatballs",
+        "tags": ["Dinner", "Lunch", "Main Course", "Chicken"],
+        "ingredients": [
+            "ground chicken",
+            "egg",
+            "panko bread crumbs",
+            "parmesan grated",
+            "olive oil",
+            "garlic powder",
+            "onion powder",
+            "salt granulated",
+            "pepper"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Baked Mac and Cheese",
+        "tags": ["Dinner", "Lunch", "Side", "Pasta"],
+        "ingredients": [
+            "elbow pasta",
+            "butter unsalted",
+            "flour unbleached",
+            "half and half",
+            "milk",
+            "cheddar grated",
+            "gruyere block",
+            "salt granulated",
+            "pepper",
+            "paprika"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Chicken Melts",
+        "tags": ["Dinner", "Lunch", "Main Course", "Chicken"],
+        "ingredients": [
+            "frozen chicken melt"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Pepperoni",
+        "tags": ["Dinner", "Lunch", "Side", "Pork"],
+        "ingredients": [
+            "pepperoni"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Pumpkin Cake",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "pumpkin puree can",
+            "plain yogurt",
+            "butter unsalted",
+            "egg",
+            "vanilla extract",
+            "flour unbleached",
+            "sugar",
+            "pumpkin pie spice",
+            "baking powder",
+            "baking soda",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Peanut Butter Oatmeal",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "peanut butter",
+            "quick oats",
+            "milk"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Oatmeal",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "quick oats",
+            "milk"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Cheerios Mix",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "cheerios",
+            "honey nut cheerios",
+            "milk"
+        ],
+        "last_used_on": "2026-01-12"
+    },
+    {
+        "name": "Gyro Meat",
+        "tags": ["Dinner", "Lunch", "Main Course", "Beef"],
+        "ingredients": [
+            "gyro meat"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Wild Rice",
+        "tags": ["Dinner", "Lunch", "Side"],
+        "ingredients": [
+            "wild rice"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Boiled Carrots",
+        "tags": ["Dinner", "Lunch", "Side"],
+        "ingredients": [
+            "carrot"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Air Fryer Potatoes",
+        "tags": ["Dinner", "Lunch", "Side", "Potato"],
+        "ingredients": [
+            "russet potato",
+            "vegetable oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Szechuan Chicken",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Rice", "Chicken"],
+        "ingredients": [
+            "carrot"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Frozen Dumplings",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Pork"],
+        "ingredients": [
+            "frozen dumpling"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Wheat Thins",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "wheat thins"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "ABC Cookies",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "abc cookie"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Chinese Hot Dog Bun",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Pork", "Dough"],
+        "ingredients": [
+            "hot dog",
+            "heavy cream",
+            "milk",
+            "egg",
+            "sugar",
+            "flour unbleached",
+            "yeast",
+            "salt granulated",
+            "vegetable oil"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Asian Cucumber Salad",
+        "tags": ["Dinner", "Lunch", "Side", "Asian", "Vegetable"],
+        "ingredients": [
+            "cucumber",
+            "salt granulated",
+            "sugar",
+            "sesame oil",
+            "soy sauce",
+            "rice vinegar",
+            "garlic",
+            "cilantro"
+        ],
+        "last_used_on": "2025-10-13"
+    },
+    {
+        "name": "Granola",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "granola"
+        ],
+        "last_used_on": "2026-01-12"
+    },
+    {
+        "name": "Sausage Pancake Muffins",
+        "tags": ["Breakfast", "Main Course", "Sausage", "Dough"],
+        "ingredients": [
+            "egg",
+            "milk",
+            "maple syrup",
+            "kodiak pancake mix",
+            "spinach",
+            "breakfast sausage",
+            "cheddar cheese",
+            "salt granulated",
+            "pepper"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Banana Chocolate Chip Muffins",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "flour unbleached",
+            "baking soda",
+            "salt granulated",
+            "semisweet chocolate chips",
+            "banana",
+            "butter unsalted",
+            "egg",
+            "vanilla extract"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Asian Chicken Pasta Salad",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Pasta", "Chicken"],
+        "ingredients": [
+            "vegetable oil",
+            "rice vinegar",
+            "brown sugar",
+            "sesame oil",
+            "soy sauce",
+            "farfalle pasta",
+            "chicken can",
+            "carrot matchstick",
+            "cilantro",
+            "green onion",
+            "red pepper"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Asian Chicken Salad with Lemon",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Chicken"],
+        "ingredients": [
+            "ginger",
+            "green onion",
+            "chicken thigh",
+            "vegetable oil",
+            "garlic",
+            "rice wine",
+            "soy sauce",
+            "rice vinegar",
+            "oyster sauce",
+            "cilantro",
+            "lemon",
+            "salt granulated"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Rotisserie Chicken",
+        "tags": ["Dinner", "Lunch", "Main Course", "Chicken"],
+        "ingredients": [
+            "rotisserie chicken"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Cucumber Coins",
+        "tags": ["Dinner", "Lunch", "Vegetable", "Side"],
+        "ingredients": [
+            "cucumber"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Made Good Granola Bars",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "made good granola bar"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Edamame (Shelled)",
+        "tags": ["Dinner", "Lunch", "Vegetable", "Side"],
+        "ingredients": [
+            "edamame shelled"
+        ],
+        "last_used_on": "2026-01-12"
+    },
+    {
+        "name": "Zuppa Toscana",
+        "tags": ["Dinner", "Lunch", "Main Course", "Sausage", "Potato"],
+        "ingredients": [
+            "italian sausage",
+            "bacon",
+            "yellow onion",
+            "garlic",
+            "flour unbleached",
+            "chicken broth",
+            "russet potato",
+            "heavy cream",
+            "kale",
+            "salt granulated",
+            "pepper"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Pretzel Bread",
+        "tags": ["Dinner", "Lunch", "Side", "Bread"],
+        "ingredients": [
+            "pretzel bread"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Bagels",
+        "tags": ["Breakfast", "Main Course", "Bread"],
+        "ingredients": [
+            "bagel"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Miso Cod",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Fish"],
+        "ingredients": [
+            "frozen cod",
+            "miso",
+            "mirin",
+            "sesame oil",
+            "vegetable oil"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Asian Salad Kit",
+        "tags": ["Dinner", "Lunch", "Side", "Asian", "Vegetable"],
+        "ingredients": [
+            "asian salad kit"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Caesar Salad Kit",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "caesar salad kit"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Gyudon",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Beef", "Rice"],
+        "ingredients": [
+            "thin beef",
+            "vegetable oil",
+            "white onion",
+            "sugar",
+            "mirin",
+            "soy sauce",
+            "dashi stock",
+            "egg",
+            "white rice",
+            "green onion"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Sesame Noodles",
+        "tags": ["Dinner", "Lunch", "Side", "Asian", "Noodle"],
+        "ingredients": [
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Mahi Burger",
+        "tags": ["Dinner", "Lunch", "Main Course", "Fish", "Sandwich"],
+        "ingredients": [
+            "frozen mahi burger"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Little Greek",
+        "tags": ["Dinner", "Lunch", "Main Course", "Takeout", "Bread", "Beef", "Fries"],
+        "ingredients": [],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Italian Beef",
+        "tags": ["Dinner", "Lunch", "Main Course", "Crockpot", "Beef", "Sandwich"],
+        "ingredients": [],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Mexican Rice",
+        "tags": ["Dinner", "Lunch", "Side", "Rice"],
+        "ingredients": [
+            "mexican rice"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Sauteed Romaine Lettuce",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "romaine lettuce"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Hard Boiled Eggs",
+        "tags": ["Dinner", "Lunch", "Breakfast", "Side"],
+        "ingredients": [
+            "egg"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Boiled Baby Carrots",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "carrot baby"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Tortilla Chips",
+        "tags": ["Dinner", "Lunch", "Side"],
+        "ingredients": [
+            "tortilla chips"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Beef Kofta Kebabs",
+        "tags": ["Dinner", "Lunch", "Main Course", "Beef", "Bread"],
+        "ingredients": [
+            "ground beef",
+            "yellow onion",
+            "garlic",
+            "cumin",
+            "coriander",
+            "paprika",
+            "salt kosher",
+            "pepper",
+            "parsley",
+            "baking soda",
+            "olive oil",
+            "red onion",
+            "sumac",
+            "lemon",
+            "greek yogurt",
+            "pita",
+            "tomato",
+            "tzatziki sauce",
+            "hummus",
+            "chimichurri sauce"
+        ],
+        "last_used_on": "2026-01-12"
+    },
+    {
+        "name": "Brioche",
+        "tags": ["Dinner", "Lunch", "Breakfast", "Side", "Main Course", "Bread"],
+        "ingredients": [
+            "brioche"
+        ],
+        "last_used_on": "2025-10-27"
+    },
+    {
+        "name": "Yakisoba",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Noodle", "Vegetable"],
+        "ingredients": [
+            "frozen yakisoba"
+        ],
+        "last_used_on": "2025-10-27"
+    },
+    {
+        "name": "Philly Cheese Steak",
+        "tags": ["Dinner", "Lunch", "Main Course", "Ron", "Beef", "Sandwich"],
+        "ingredients": [
+            "thin beef",
+            "hoagie roll",
+            "provolone slice",
+            "red pepper",
+            "white onion",
+            "mayo",
+            "pickle",
+            "mushroom"
+        ],
+        "last_used_on": "2025-10-27"
+    },
+    {
+        "name": "Peanut Butter Bread",
+        "tags": ["Breakfast", "Main Course", "Bread"],
+        "ingredients": [
+            "multigrain bread",
+            "peanut butter"
+        ],
+        "last_used_on": "2025-10-27"
+    },
+    {
+        "name": "Canadian Bacon",
+        "tags": ["Breakfast", "Dinner", "Lunch", "Side", "Main Course", "Pork"],
+        "ingredients": [
+            "canadian bacon"
+        ],
+        "last_used_on": "2025-10-27"
+    },
+    {
+        "name": "Vegan Fried Rice",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Rice", "Vegetable"],
+        "ingredients": [
+            "tofu extra firm",
+            "white rice",
+            "garlic",
+            "green onion",
+            "frozen pea and carrot",
+            "edamame shelled",
+            "soy sauce",
+            "peanut butter",
+            "brown sugar",
+            "sesame oil"
+        ],
+        "last_used_on": "2025-10-27"
+    },
+    {
+        "name": "Papa Johns",
+        "tags": ["Dinner", "Lunch", "Main Course", "Takeout"],
+        "ingredients": [],
+        "last_used_on": "2025-10-27"
+    },
+    {
+        "name": "Shrimp Pasta",
+        "tags": ["Dinner", "Lunch", "Main Course", "Pasta", "Shrimp", "Vegetable"],
+        "ingredients": [
+            "shrimp",
+            "butter unsalted",
+            "garlic",
+            "lemon",
+            "salt granulated",
+            "pepper",
+            "oregano",
+            "chicken broth",
+            "marinara",
+            "soy sauce",
+            "broccoli",
+            "cherry tomato"
+        ],
+        "last_used_on": "2025-10-27"
+    },
+    {
+        "name": "Baked Sea Bass",
+        "tags": ["Dinner", "Lunch", "Main Course", "Fish"],
+        "ingredients": [
+            "frozen sea bass"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Peas",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "frozen pea"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Oatmeal Square Cereal",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "oatmeal square cereal"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Sauteed Bok Choy",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "bok choy",
+            "vegetable oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Sweet Potato Fries",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable", "Potato", "Fries"],
+        "ingredients": [
+            "frozen sweet potato fries"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Dinner Rolls",
+        "tags": ["Dinner", "Lunch", "Side", "Bread"],
+        "ingredients": [
+            "dinner roll"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Pulled Chicken with Slaw",
+        "tags": ["Dinner", "Lunch", "Main Course", "Vegetable", "Crockpot", "Chicken", "Sandwich"],
+        "ingredients": [
+            "white onion",
+            "chicken thigh",
+            "chicken broth",
+            "garlic powder",
+            "onion powder",
+            "paprika",
+            "salt granulated",
+            "pepper",
+            "broccoli slaw",
+            "hamburger bun"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Waffles",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "waffle"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Cantonese Beef Bowls",
+        "tags": ["Dinner", "Lunch", "Main Course", "Beef", "Asian", "Rice", "Vegetable", "Noodle"],
+        "ingredients": [
+            "vegetable oil",
+            "ground beef",
+            "white onion",
+            "garlic",
+            "rice wine",
+            "chicken broth",
+            "oyster sauce",
+            "soy sauce",
+            "dark soy sauce",
+            "sesame oil",
+            "white pepper",
+            "frozen pea",
+            "corn starch"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Chinese Braised Beef Stew",
+        "tags": ["Dinner", "Lunch", "Main Course", "Beef", "Asian", "Rice", "Vegetable", "Noodle"],
+        "ingredients": [
+            "flank steak",
+            "vegetable oil",
+            "ginger",
+            "garlic",
+            "star anise",
+            "bay leaf",
+            "rice wine",
+            "soy sauce",
+            "dark soy sauce",
+            "oyster sauce",
+            "sugar",
+            "daikon",
+            "salt granulated",
+            "green onion",
+            "corn starch"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Lao Hu Tong",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Dough", "Pork", "Takeout"],
+        "ingredients": [],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Chicken and Wild Rice Soup",
+        "tags": ["Dinner", "Lunch", "Main Course", "Rice", "Vegetable", "Chicken"],
+        "ingredients": [
+            "chicken broth",
+            "wild rice",
+            "baby bella mushroom",
+            "garlic",
+            "carrot",
+            "celery",
+            "sweet potato",
+            "white onion",
+            "bay leaf",
+            "old bay seasoning",
+            "butter unsalted",
+            "flour unbleached",
+            "milk",
+            "kale",
+            "pepper",
+            "salt kosher"
+        ],
+        "last_used_on": "2025-11-03"
+    },
+    {
+        "name": "Tuna Salad",
+        "tags": ["Dinner", "Lunch", "Main Course", "Fish", "Sandwich"],
+        "ingredients": [
+            "tuna can",
+            "mayo",
+            "celery"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Crescent Rolls",
+        "tags": ["Breakfast", "Dinner", "Lunch", "Side", "Bread"],
+        "ingredients": [
+            "crescent roll dough"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Spinach (Raw)",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "spinach"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Sauteed Spinach",
+        "tags": ["Lunch", "Dinner", "Side", "Vegetable"],
+        "ingredients": [
+            "spinach",
+            "vegetable oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-11-24"
+    },
+    {
+        "name": "Hash Browns",
+        "tags": ["Dinner", "Lunch", "Side", "Potato"],
+        "ingredients": [
+            "hash brown"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Frozen Chicken Nuggets",
+        "tags": ["Dinner", "Lunch", "Main Course", "Chicken"],
+        "ingredients": [
+            "frozen chicken nugget"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Grilled 21 Seasoning Chicken",
+        "tags": ["Dinner", "Lunch", "Main Course", "Chicken", "Grill", "Ron"],
+        "ingredients": [
+            "chicken thigh",
+            "21 seasoning",
+            "salt kosher"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Brazilian Cheese Bread Balls",
+        "tags": ["Dinner", "Lunch", "Side", "Bread"],
+        "ingredients": [
+            "brazilian cheese bread ball"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Silver Dollar Pancakes",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "silver dollar pancake"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Thai Chicken Lettuce Wraps",
+        "tags": ["Dinner", "Lunch", "Main Course", "Chicken", "Asian", "Rice", "Vegetable"],
+        "ingredients": [
+            "ground chicken",
+            "ginger",
+            "garlic",
+            "green onion",
+            "zucchini",
+            "carrot matchstick",
+            "white rice",
+            "lettuce",
+            "mayo",
+            "sriracha",
+            "lime",
+            "soy sauce",
+            "sesame oil",
+            "brown sugar"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Boiled Butternut Squash",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "butternut squash"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Elbow Pasta",
+        "tags": ["Dinner", "Lunch", "Side", "Pasta"],
+        "ingredients": [
+            "elbow pasta"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Banana Bread",
+        "tags": ["Breakfast", "Main Course", "Bread"],
+        "ingredients": [
+            "banana",
+            "butter unsalted",
+            "sugar",
+            "egg",
+            "vanilla extract",
+            "baking soda",
+            "salt granulated",
+            "flour unbleached"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Scallion Pancakes (Frozen)",
+        "tags": ["Dinner", "Lunch", "Side", "Dough", "Asian"],
+        "ingredients": [
+            "scallion pancake"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Beef and Daikon Soup",
+        "tags": ["Dinner", "Lunch", "Main Course", "Beef", "Asian", "Noodle"],
+        "ingredients": [
+            "flank steak",
+            "corn starch",
+            "soy sauce",
+            "salt granulated",
+            "white pepper",
+            "vegetable oil",
+            "ginger",
+            "green onion",
+            "daikon",
+            "cilantro",
+            "white pepper",
+            "oyster sauce",
+            "vermicelli noodle"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Creamy Tuscan Garlic Chicken Pasta",
+        "tags": ["Dinner", "Lunch", "Main Course", "Pasta", "Chicken"],
+        "ingredients": [
+            "rotini pasta",
+            "chicken thigh",
+            "olive oil",
+            "heavy cream",
+            "chicken broth",
+            "garlic powder",
+            "italian seasoning",
+            "grated parmesan",
+            "spinach",
+            "sun dried tomato"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Shumai Dumplings (Frozen)",
+        "tags": ["Dinner", "Lunch", "Side", "Dough", "Pork", "Asian"],
+        "ingredients": [
+            "shumai dumpling"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Naan and Seaweed",
+        "tags": ["Breakfast","Dinner", "Lunch", "Side", "Asian", "Bread"],
+        "ingredients": [
+            "mini naan",
+            "seaweed paste"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Frozen Corn",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "frozen corn"
+        ],
+        "last_used_on": "2026-01-12"
+    },
+    {
+        "name": "Fish Balls",
+        "tags": ["Dinner", "Lunch", "Main Course", "Fish", "Asian"],
+        "ingredients": [
+            "fish ball"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Honey Garlic Chicken",
+        "tags": ["Dinner", "Lunch", "Main Course", "Chicken", "Asian", "Rice", "Noodle"],
+        "ingredients": [
+            "chicken thigh",
+            "salt granulated",
+            "pepper",
+            "garlic powder",
+            "flour unbleached",
+            "olive oil",
+            "honey",
+            "soy sauce",
+            "rice vinegar",
+            "garlic",
+            "green onion"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Sauteed Snap Peas",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "snap pea",
+            "vegetable oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Smoked Pork Sausages",
+        "tags": ["Dinner", "Lunch", "Main Course", "Pork", "Sausage"],
+        "ingredients": [
+            "smoked pork sausage"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Chicken Sausages",
+        "tags": ["Dinner", "Lunch", "Main Course", "Chicken", "Sausage"],
+        "ingredients": [
+            "chicken sausage"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Mashed Potatoes",
+        "tags": ["Dinner", "Lunch", "Side", "Potato"],
+        "ingredients": [
+            "russet potato",
+            "milk",
+            "butter"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Asian Shredded Pork with Slaw",
+        "tags": ["Dinner", "Lunch", "Main Course", "Pork", "Asian", "Crockpot", "Sandwich", "Vegetable"],
+        "ingredients": [
+            "pork shoulder",
+            "soy sauce",
+            "honey",
+            "brown sugar",
+            "sesame oil",
+            "rice wine",
+            "hoisin sauce",
+            "garlic",
+            "rice vinegar",
+            "sesame oil",
+            "broccoli slaw"
+
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Air Fryer Cauliflower",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "cauliflower",
+            "parmesan grated",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Bulgogi Baos",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Beef", "Dough"],
+        "ingredients": [
+            "flour unbleached",
+            "yeast",
+            "sugar",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Trader Joe's Granola Bars",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "trader joes granola bar"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Peanut Butter and Jelly Sandwiches",
+        "tags": ["Breakfast", "Dinner", "Lunch", "Main Course", "Sandwich"],
+        "ingredients": [
+            "peanut butter",
+            "strawberry jelly",
+            "hippo sliced bread"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Baked Cod Tacos",
+        "tags": ["Dinner", "Lunch", "Main Course", "Fish", "Vegetable"],
+        "ingredients": [
+            "frozen cod",
+            "butter unsalted",
+            "lime",
+            "garlic powder",
+            "salt granulated",
+            "avocado",
+            "roma tomato",
+            "cilantro",
+            "white onion",
+            "salsa"
+        ],
+        "last_used_on": "2025-11-17"
+    },
+    {
+        "name": "Cheese and Craker Tray",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "cheese and cracker tray"
+        ],
+        "last_used_on": "2025-11-24"
+    },
+    {
+        "name": "Burger King",
+        "tags": ["Dinner", "Lunch", "Main Course", "Takeout", "Beef", "Sandwich", "Fries"],
+        "ingredients": [],
+        "last_used_on": "2025-11-24"
+    },
+    {
+        "name": "Elmo Biscuits",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "elmo biscuit"
+        ],
+        "last_used_on": "2025-11-24"
+    },
+    {
+        "name": "Roast Vegetables",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "zucchini",
+            "red onion",
+            "mushroom",
+            "vegetable oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-11-24"
+    },
+    {
+        "name": "Mei Fun",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Noodle", "Vegetable", "Chicken"],
+        "ingredients": [
+            "vermicelli noodle",
+            "vegetable oil",
+            "dark soy sauce",
+            "chicken thigh",
+            "corn starch",
+            "oyster sauce",
+            "rice wine",
+            "white pepper", 
+            "five spice powder",
+            "vegetable oil",
+            "ginger",
+            "shallot",
+            "carrot matchstick",
+            "cabbage",
+            "green onion",
+            "soy sauce",
+            "sesame oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-11-24"
+    },
+    {
+        "name": "Scrambled Eggs",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "egg",
+            "milk",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-11-24"
+    },
+    {
+        "name": "Chinese Meat and Potatoes",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Pork", "Potato", "Rice", "Noodle"],
+        "ingredients": [
+            "ground pork",
+            "rice wine",
+            "dark soy sauce",
+            "white pepper",
+            "dried shitake mushroom",
+            "russet potato",
+            "vegetable oil",
+            "ginger",
+            "oyster sauce",
+            "bean paste",
+            "soy sauce",
+            "five spice powder",
+            "garlic",
+            "white onion",
+            "corn starch",
+            "green onion",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-11-24"
+    },
+    {
+        "name": "Loo Roh",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Rice", "Pork", "Noodle"],
+        "ingredients": [
+            "pork cube",
+            "green onion",
+            "ginger",
+            "sugar",
+            "soy sauce",
+            "rice wine",
+            "star anise"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Granola and Yogurt",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "granola",
+            "greek yogurt"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Corn Bread Muffin",
+        "tags": ["Lunch", "Dinner", "Side", "Bread"],
+        "ingredients": [
+            "flour unbleached",
+            "cornmeal",
+            "sugar",
+            "salt granulated",
+            "baking powder",
+            "butter unsalted",
+            "egg",
+            "milk",
+            "frozen corn"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Chili",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Sausage"],
+        "ingredients": [
+            "ground beef",
+            "italian sausage",
+            "cheddar grated",
+            "green onion",
+            "white onion",
+            "red pepper",
+            "celery",
+            "garlic",
+            "oregano",
+            "cumin",
+            "chili powder",
+            "paprika",
+            "cayenne",
+            "sugar",
+            "salt granulated",
+            "pepper",
+            "tomato sauce can",
+            "beer",
+            "diced tomato can",
+            "kidney bean red",
+            "beef bouillon cube",
+            "beef broth"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Beer Bratwurst",
+        "tags": ["Dinner", "Lunch", "Main Course", "Sausage", "Sandwich"],
+        "ingredients": [
+            "beer bratwurst",
+            "white onion",
+            "pickle",
+            "mustard",
+            "beer",
+            "hot dog bun"
+        ],
+        "last_used_on": "2025-10-20"
+    },
+    {
+        "name": "Yogurt Mango Smoothie",
+        "tags": ["Breakfast", "Lunch", "Dinner", "Side"],
+        "ingredients": [
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Mashed Avocado",
+        "tags": ["Lunch", "Dinner", "Side", "Vegetable"],
+        "ingredients": [
+            "avocado",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Rice Cakes",
+        "tags": ["Lunch", "Dinner", "Side", "Rice", "Asian"],
+        "ingredients": [
+            "rice cake"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Artificial Crab",
+        "tags": ["Lunch", "Dinner", "Main Course", "Fish", "Asian"],
+        "ingredients": [
+            "artificial crab"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Peanut Butter Pretzels",
+        "tags": ["Breakfast", "Main Course", "Bread"],
+        "ingredients": [
+            "peanut butter pretzel"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Fuzhou Fish Balls",
+        "tags": ["Lunch", "Dinner", "Main Course", "Fish", "Asian", "Pork"],
+        "ingredients": [
+            "fuzhou fish ball"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Goldfish Crackers",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "goldfish cracker"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Turkey Burgers",
+        "tags": ["Lunch", "Dinner", "Main Course", "Turkey", "Sandwich", "Vegetable"],
+        "ingredients": [
+            "turkey burger",
+            "tomato",
+            "lettuce",
+            "mayo",
+            "white onion",
+            "hamburger bun",
+            "ketchup",
+            "mustard",
+            "mayo",
+            "pickle"
+        ],
+        "last_used_on": "2025-12-01"
+    },
+    {
+        "name": "Chicken Burgers",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Sandwich", "Vegetable"],
+        "ingredients": [
+            "panko bread crumbs",
+            "oregano",
+            "basil dried",
+            "parsley dried",
+            "paprika",
+            "ground chicken",
+            "egg",
+            "olive oil",
+            "salt granulated",
+            "garlic powder",
+            "tomato",
+            "lettuce",
+            "mayo",
+            "white onion",
+            "hamburger bun",
+            "ketchup",
+            "mustard",
+            "mayo",
+            "pickle"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chicken Patties with Garlic Aoili",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken"],
+        "ingredients": [
+            "ground chicken",
+            "greek yogurt",
+            "parmesan grated",
+            "parsley",
+            "onion powder",
+            "salt granulated",
+            "garlic powder",
+            "italian seasoning",
+            "garlic",
+            "lemon juice",
+            "pepper"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chicken Alfredo Pasta",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Ron", "Pasta"],
+        "ingredients": [
+            "chicken thigh",
+            "butter salted",
+            "garlic",
+            "flour unbleached",
+            "half and half",
+            "parmesan grated",
+            "romano cheese",
+            "salt granulated",
+            "pepper",
+            "fettuccine pasta",
+            "parsley"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Hamburgers",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Sandwich", "Vegetable", "Grill", "Ron"],
+        "ingredients": [
+            "frozen beef burger",
+            "tomato",
+            "lettuce",
+            "mayo",
+            "white onion",
+            "hamburger bun",
+            "ketchup",
+            "mustard",
+            "mayo",
+            "pickle"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Wonton Gourmet",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Asian", "Noodle", "Shrimp", "Vegetable", "Takeout"],
+        "ingredients": [],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Hummus and Pita Chips",
+        "tags": ["Breakfast", "Lunch", "Dinner", "Side"],
+        "ingredients": [
+            "hummus and pita chips"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Smashed Potatoes",
+        "tags": ["Lunch", "Dinner", "Side", "Potato"],
+        "ingredients": [
+            "yukon gold potato",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Fried Rice",
+        "tags": ["Lunch", "Dinner", "Main Course", "Pork", "Vegetable", "Asian", "Rice", "Ron"],
+        "ingredients": [
+            "white rice",
+            "frozen pea and carrot",
+            "egg",
+            "pork loin",
+            "soy sauce",
+            "rice wine",
+            "sesame oil",
+            "oyster sauce",
+            "green onion"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Chinese Sausages",
+        "tags": ["Lunch", "Dinner", "Main Course", "Pork", "Asian"],
+        "ingredients": [
+            "chinese sausage"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Biscuits",
+        "tags": ["Breakfast", "Lunch", "Dinner", "Side", "Bread"],
+        "ingredients": [
+            "biscuit dough"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Char Siu Chicken",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Asian", "Rice", "Grill", "Ron", "Noodle"],
+        "ingredients": [
+            "brown sugar",
+            "hoisin sauce",
+            "rice wine",
+            "five spice powder",
+            "white pepper", 
+            "sesame oil",
+            "garlic", 
+            "chicken thigh",
+            "salt granulated"
+        ],
+        "last_used_on": "2025-12-15"
+    },
+    {
+        "name": "Nachos",
+        "tags": ["Lunch", "Dinner", "Main Course", "Vegetable"],
+        "ingredients": [
+            "tortilla chips",
+            "mexican cheese grated",
+            "black bean can",
+            "salsa",
+            "avocado",
+            "white onion",
+            "roma tomato",
+            "cilantro"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Chicken Skewers",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken"],
+        "ingredients": [
+            "chicken skewer"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Lentil Soup",
+        "tags": ["Lunch", "Dinner", "Main Course", "Vegetable"],
+        "ingredients": [
+            "lentil soup"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "String Cheese",
+        "tags": ["Lunch", "Dinner", "Side"],
+        "ingredients": [
+            "string cheese"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Chipotle",
+        "tags": ["Lunch", "Dinner", "Main Course", "Takeout", "Chicken", "Rice", "Vegetable", "Beef", "Pork"],
+        "ingredients": [],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Tensuke",
+        "tags": ["Lunch", "Dinner", "Main Course", "Takeout", "Fish", "Rice", "Asian"],
+        "ingredients": [],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Raisins",
+        "tags": ["Breakfast", "Side"],
+        "ingredients": [
+            "raisin"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Animal Yogurt Crackers",
+        "tags": ["Breakfast", "Side"],
+        "ingredients": [
+            "animal yogurt cracker"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Beef and Broccoli",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Vegetable", "Asian", "Rice", "Noodle"],
+        "ingredients": [
+            "flank steak",
+            "baking soda",
+            "corn starch",
+            "vegetable oil",
+            "oyster sauce",
+            "chicken broth",
+            "sugar",
+            "soy sauce",
+            "dark soy sauce",
+            "sesame oil",
+            "white pepper",
+            "broccoli",
+            "garlic",
+            "ginger",
+            "rice wine"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Beef Onion Stir Fry",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Vegetable", "Asian", "Rice", "Noodle"],
+        "ingredients": [
+            "flank steak",
+            "baking soda",
+            "corn starch",
+            "vegetable oil",
+            "oyster sauce",
+            "soy sauce",
+            "dark soy sauce",
+            "ketchup",
+            "sugar",
+            "sesame oil",
+            "white onion"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Santouka Ramen",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Noodle", "Pork", "Takeout"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Misoya Ramen",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Noodle", "Pork", "Takeout"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Chef Ping",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Noodle", "Rice", "Vegetable", "Shrimp", "Beef", "Takeout"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "McDonalds",
+        "tags": ["Lunch", "Dinner", "Main Course", "Sandwich", "Takeout", "Fries"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Portillos",
+        "tags": ["Lunch", "Dinner", "Main Course", "Sandwich", "Beef", "Takeout", "Fries"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Culvers",
+        "tags": ["Lunch", "Dinner", "Main Course", "Sandwich", "Beef", "Takeout", "Fries"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Popeyes",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Takeout", "Fries"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Coopers Hawk",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Pasta", "Takeout"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Giordanos",
+        "tags": ["Lunch", "Dinner", "Main Course", "Takeout"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Panda Express",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Rice", "Beef", "Chicken", "Noodle", "Takeout"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Pita Inn",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Beef", "Bread", "Takeout"],
+        "ingredients": [],
+        "last_used_on": null
+    },
+    {
+        "name": "Slow Cooker Beef Stew",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Crockpot", "Vegetable", "Potato", "Ron"],
+        "ingredients": [
+            "beef cube",
+            "pepper",
+            "garlic salt",
+            "celery salt",
+            "flour unbleached",
+            "olive oil",
+            "garlic",
+            "butter unsalted",
+            "yellow onion",
+            "beef broth",
+            "worcestershire sauce",
+            "beef bouillon cube",
+            "tomato paste",
+            "carrot",
+            "russet potato",
+            "bay leaf",
+            "frozen pea",
+            "corn starch"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chicken and Broccoli with White Sauce",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Vegetable", "Asian", "Rice", "Noodle"],
+        "ingredients": [
+            "chicken thigh",
+            "oyster sauce",
+            "corn starch",
+            "vegetable oil",
+            "sugar",
+            "salt granulated",
+            "sesame oil",
+            "white pepper",
+            "chicken broth",
+            "broccoli",
+            "ginger",
+            "garlic",
+            "rice wine"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Mexican Beef and Rice Skillet",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Rice", "Vegetable"],
+        "ingredients": [
+            "olive oil",
+            "white onion",
+            "garlic",
+            "ground beef",
+            "red pepper",
+            "yellow pepper",
+            "diced tomato can",
+            "paprika",
+            "cumin",
+            "oregano",
+            "garlic powder",
+            "salt granulated",
+            "pepper",
+            "brown rice",
+            "beef broth",
+            "black bean can",
+            "frozen corn"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Ginger Beef",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Rice", "Vegetable", "Asian", "Noodle"],
+        "ingredients": [
+            "flank steak",
+            "corn starch",
+            "vegetable oil",
+            "oyster sauce",
+            "baking soda",
+            "brown sugar",
+            "soy sauce",
+            "dark soy sauce",
+            "sesame oil",
+            "ginger",
+            "green onion"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Ginger Chicken",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Rice", "Asian", "Noodle"],
+        "ingredients": [
+            "chicken thigh",
+            "green onion",
+            "garlic",
+            "ginger",
+            "vegetable oil",
+            "shallot",
+            "rice wine",
+            "chicken broth",
+            "brown sugar",
+            "soy sauce",
+            "dark soy sauce",
+            "white pepper",
+            "oyster sauce",
+            "corn starch"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Sesame Oil Chicken (Mah Yo Gee)",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Asian", "Noodle"],
+        "ingredients": [
+            "sesame oil",
+            "ginger",
+            "chicken thigh",
+            "soy sauce",
+            "rice wine",
+            "white pepper",
+            "thin flour noodle"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Boursin Chicken and Pasta",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Pasta", "Vegetable", "Crockpot"],
+        "ingredients": [
+            "chicken thigh",
+            "salt kosher",
+            "pepper",
+            "diced tomato can",
+            "chicken broth",
+            "orzo pasta",
+            "gournay cheese",
+            "spinach",
+            "lemon juice"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Mini Chicken Pot Pies",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Dough", "Vegetable"],
+        "ingredients": [
+            "chicken can",
+            "frozen pea and carrot",
+            "cream of chicken",
+            "biscuit dough",
+            "cheddar grated",
+            "garlic powder",
+            "white onion"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Mini Meatloaf Muffins",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef"],
+        "ingredients": [
+            "ground beef",
+            "panko bread crumbs",
+            "white onion",
+            "barbecue sauce",
+            "mustard",
+            "garlic powder",
+            "chili powder",
+            "salt granulated",
+            "pepper",
+            "egg",
+            "brown sugar",
+            "ketchup",
+            "mustard dijon",
+            "nutmeg"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Oven-Baked Five Spice Chicken",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Asian", "Rice", "Noodle"],
+        "ingredients": [
+            "white rice",
+            "soy sauce",
+            "salt granulated",
+            "five spice powder",
+            "red onion",
+            "garlic",
+            "vegetable oil",
+            "rice wine",
+            "sesame oil",
+            "chicken thigh"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Garlic Fried Rice",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Rice"],
+        "ingredients": [
+            "vegetable oil",
+            "garlic",
+            "white rice",
+            "soy sauce",
+            "dark soy sauce",
+            "rice wine",
+            "salt granulated",
+            "sugar",
+            "green onion"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chinese Red-braised Spare Ribs",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Pork", "Rice", "Noodle"],
+        "ingredients": [
+            "pork spare ribs",
+            "vegetable oil",
+            "brown sugar",
+            "soy sauce",
+            "dark soy sauce",
+            "vinegar",
+            "rice wine",
+            "ginger",
+            "green onion",
+            "star anise",
+            "garlic"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Parmesan Chicken Bake",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Dough"],
+        "ingredients": [
+            "olive oil",
+            "garlic",
+            "chicken thigh",
+            "marinara",
+            "basil dried",
+            "mozzarella grated",
+            "grated parmesan",
+            "croutons"
+        ],
+        "last_used_on": "2025-10-06"
+    },
+    {
+        "name": "Corn Fritters",
+        "tags": ["Lunch", "Dinner", "Side", "Vegetable"],
+        "ingredients": [
+            "flour unbleached",
+            "egg",
+            "baking powder",
+            "olive oil",
+            "canned corn",
+            "red pepper",
+            "parsley",
+            "garlic chive",
+            "salt granulated",
+            "pepper"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Mini Baked Canned Salmon Patties",
+        "tags": ["Lunch", "Dinner", "Main Course", "Fish"],
+        "ingredients": [
+            "canned salmon",
+            "yellow onion",
+            "red pepper",
+            "broccoli",
+            "garlic powder",
+            "paprika",
+            "cumin",
+            "panko bread crumbs"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Minestrone Soup",
+        "tags": ["Lunch", "Dinner", "Main Course", "Vegetable", "Pasta"],
+        "ingredients": [
+            "olive oil",
+            "yellow onion",
+            "carrot",
+            "salt kosher",
+            "zucchini",
+            "garlic",
+            "bay leaf",
+            "italian seasoning",
+            "tomato paste",
+            "vegetable broth",
+            "diced tomato can",
+            "kidney bean red",
+            "cannellini bean",
+            "small shell pasta",
+            "pepper",
+            "parmesan grated"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Sausage Hashbrown Breakfast Casserole",
+        "tags": ["Breakfast", "Main Course", "Sausage", "Potato"],
+        "ingredients": [
+            "shredded hash brown",
+            "sausage crumble",
+            "cheddar grated",
+            "egg",
+            "milk",
+            "salt kosher",
+            "pepper"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Crescent Roll Breakfast Casserole with Sausage and Hashbrown",
+        "tags": ["Breakfast", "Main Course", "Sausage", "Potato", "Dough"],
+        "ingredients": [
+            "shredded hash brown",
+            "sausage crumble",
+            "cheddar grated",
+            "egg",
+            "milk",
+            "salt kosher",
+            "pepper",
+            "crescent roll dough"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Slow Cooker Texas Pulled Pork with Slaw",
+        "tags": ["Lunch", "Dinner", "Main Course", "Pork", "Crockpot", "Vegetable", "Sandwich"],
+        "ingredients": [
+            "vegetable oil",
+            "pork shoulder",
+            "barbecue sauce",
+            "apple cider vinegar",
+            "chicken broth",
+            "brown sugar",
+            "mustard",
+            "worchestershire sauce",
+            "white onion",
+            "garlic",
+            "thyme",
+            "hamburger bun",
+            "butter unsalted",
+            "cole slaw",
+            "mayo",
+            "apple cider vinegar",
+            "sugar"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chicken Tetrazzini Casserole",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Pasta"],
+        "ingredients": [
+            "spaghetti pasta",
+            "olive oil",
+            "mushroom",
+            "frozen pea",
+            "flour unbleached",
+            "chicken gravy",
+            "half and half",
+            "salt granulated",
+            "pepper",
+            "chicken can",
+            "parmesan grated",
+            "italian bread crumbs",
+            "butter unsalted"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Shredded Pork Pan-Fried Noodles",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Noodle", "Pork"],
+        "ingredients": [
+            "pork shoulder",
+            "corn starch",
+            "vegetable oil",
+            "rice wine",
+            "oyster sauce",
+            "pan-fry noodles",
+            "chicken broth",
+            "soy sauce",
+            "sesame oil",
+            "sugar",
+            "white pepper",
+            "garlic",
+            "celery",
+            "carrot matchstick",
+            "bean sprout",
+            "garlic chive"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Braised Pork Chops",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Noodle", "Rice", "Pork"],
+        "ingredients": [
+            "pork loin",
+            "rice wine",
+            "salt granulated",
+            "soy sauce",
+            "egg",
+            "corn starch",
+            "green onion",
+            "vegetable oil",
+            "sugar",
+            "dark soy sauce"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chinese Tomato Egg Stir Fry",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Rice", "Vegetable", "Noodle"],
+        "ingredients": [
+            "tomato",
+            "green onion",
+            "egg",
+            "salt",
+            "white pepper",
+            "sesame oil",
+            "rice wine",
+            "vegetable oil",
+            "sugar"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Crockpot Pork Loin",
+        "tags": ["Lunch", "Dinner", "Main Course", "Pork", "Crockpot"],
+        "ingredients": [
+            "pork loin",
+            "yellow onion",
+            "olive oil",
+            "garlic powder",
+            "onion powder",
+            "pepper",
+            "salt granulated",
+            "paprika",
+            "chicken broth"
+        ],
+        "last_used_on": "2025-11-10"
+    },
+    {
+        "name": "Shrimp Toast",
+        "tags": ["Lunch", "Dinner", "Main Course", "Shrimp", "Sandwich"],
+        "ingredients": [
+            "shrimp",
+            "cilantro",
+            "green onion",
+            "ginger",
+            "sesame oil",
+            "sugar",
+            "corn starch",
+            "salt granulated",
+            "egg",
+            "artisan bread",
+            "vegetable oil"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Asian Beef Short Ribs",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Crockpot", "Asian", "Rice"],
+        "ingredients": [
+            "vegetable oil",
+            "beef short ribs",
+            "salt kosher",
+            "pepper",
+            "soy sauce",
+            "brown sugar",
+            "rice venegar",
+            "sesame oil",
+            "carrot",
+            "yellow onion",
+            "garlic",
+            "ginger",
+            "green onion",
+            "white rice"
+        ],
+        "last_used_on": "2025-12-08"
+    },
+    {
+        "name": "Chicken Curry",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Asian", "Rice"],
+        "ingredients": [
+            "chicken thigh",
+            "vegetable oil",
+            "soy sauce",
+            "corn starch",
+            "white onion",
+            "chicken broth",
+            "curry powder",
+            "turmeric",
+            "sugar",
+            "salt granulated"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Banana Oat Pancakes",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "banana",
+            "egg",
+            "quick oats",
+            "vanilla extract",
+            "cinnamon",
+            "vegetable oil"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Homemade English Muffins",
+        "tags": ["Breakfast", "Main Course", "Bread"],
+        "ingredients": [
+            "yeast",
+            "sugar",
+            "flour unbleached",
+            "salt granulated",
+            "greek yogurt",
+            "cornmeal",
+            "vegetable oil"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Banana Oatmeal Chocolate Chip Cookie Bars",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "egg",
+            "banana",
+            "brown sugar",
+            "sugar",
+            "butter unsalted",
+            "vanilla extract",
+            "whole rolled oats",
+            "flour unbleached",
+            "cinnamon",
+            "baking soda",
+            "salt granulated",
+            "semisweet chocolate chips"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Zucchini Stir Fry with Chicken",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Vegetable", "Asian", "Rice", "Noodle"],
+        "ingredients": [
+            "chicken thigh",
+            "corn starch",
+            "vegetable oil",
+            "oyster sauce",
+            "zucchini",
+            "salt granulated",
+            "soy sauce",
+            "sugar",
+            "white pepper",
+            "sesame oil",
+            "garlic",
+            "rice wine"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Mini Garlic Monkey Bread",
+        "tags": ["Breakfast", "Lunch", "Dinner", "Side", "Bread"],
+        "ingredients": [
+            "butter unsalted",
+            "garlic",
+            "parsley dried",
+            "biscuit dough",
+            "parmesan grated"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Homemade Beefaroni",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Pasta"],
+        "ingredients": [
+            "ground beef",
+            "olive oil",
+            "yellow onion",
+            "red pepper",
+            "mushroom",
+            "tomato paste",
+            "paprika",
+            "onion powder",
+            "garlic powder",
+            "pepper",
+            "beef broth",
+            "tomato sauce can",
+            "elbow pasta",
+            "cheddar grated"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Banana Scones",
+        "tags": ["Breakfast", "Main Course", "Bread"],
+        "ingredients": [
+            "banana",
+            "greek yogurt",
+            "brown sugar",
+            "egg",
+            "vanilla extract",
+            "flour unbleached",
+            "baking powder",
+            "cinnamon",
+            "salt granulated",
+            "butter unsalted"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Garlic Tumeric Rice",
+        "tags": ["Lunch", "Dinner", "Side", "Rice"],
+        "ingredients": [
+            "butter unsalted",
+            "garlic",
+            "basmati rice",
+            "turmeric",
+            "chicken broth"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Italian Meatball Sub Sandwiches",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Pork", "Sandwich"],
+        "ingredients": [
+            "ground beef",
+            "ground pork",
+            "garlic powder",
+            "onion powder",
+            "italian seasoning",
+            "salt granulated",
+            "pepper",
+            "egg",
+            "parmesan grated",
+            "panko bread crumbs",
+            "olive oil",
+            "garlic",
+            "crushed tomato can",
+            "sugar",
+            "basil fresh",
+            "hoagie roll",
+            "provolone slice"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Blueberry Yogurt Cake",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "plain yogurt",
+            "maple syrup",
+            "butter unsalted",
+            "egg",
+            "vanilla extract",
+            "flour unbleached",
+            "baking powder",
+            "baking soda",
+            "salt granulated",
+            "frozen blueberry",
+            "lemon"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Blueberry Pancakes",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "flour unbleached",
+            "baking powder",
+            "baking soda",
+            "salt granulated",
+            "sugar",
+            "frozen blueberry",
+            "egg",
+            "milk",
+            "butter unsalted",
+            "lemon"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Fluffy Sweet Potato Muffins",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "sweet potato",
+            "milk",
+            "butter unsalted",
+            "maple syrup",
+            "egg",
+            "vanilla extract",
+            "flour unbleached",
+            "baking soda",
+            "cinnamon",
+            "salt granulated",
+            "sugar",
+            "semisweet chocolate chips"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Slow Cooker Shredded Chicken",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Crockpot"],
+        "ingredients": [
+            "chicken thigh",
+            "chicken broth",
+            "cumin",
+            "paprika",
+            "oregano",
+            "garlic powder",
+            "salt kosher",
+            "pepper"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Pumpkin Muffins",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "flour unbleached",
+            "baking soda",
+            "cinnamon",
+            "pumpkin pie spice",
+            "ground ginger",
+            "salt granulated",
+            "vegetable oil",
+            "sugar",
+            "brown sugar",
+            "pumpkin puree can",
+            "egg",
+            "milk"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Homemade Larabars",
+        "tags": ["Breakfast", "Main Course", "Dough"],
+        "ingredients": [
+            "walnut",
+            "raisin",
+            "whole rolled oats",
+            "cinnamon",
+            "vanilla extract"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chicken and Potato with Garlic Parmesan Cream Sauce",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Potato"],
+        "ingredients": [
+            "chicken thigh",
+            "red pepper",
+            "mushroom",
+            "italian seasoning",
+            "pepper",
+            "butter unsalted",
+            "spinach",
+            "small potato",
+            "parsley",
+            "garlic",
+            "flour unbleached",
+            "chicken broth",
+            "thyme",
+            "basil dried",
+            "half and half",
+            "parmesan grated"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Snickerdoodle Puppy Chow",
+        "tags": ["Breakfast", "Side"],
+        "ingredients": [
+            "rice chex",
+            "white chocolate chips",
+            "powdered sugar",
+            "sugar",
+            "cinnamon",
+            "cinnamon toast crunch"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "One Pot Chicken and Rice",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Rice", "Asian"],
+        "ingredients": [
+            "chicken thigh",
+            "white rice",
+            "shallot",
+            "garlic",
+            "paprika",
+            "cumin",
+            "salt granulated",
+            "pepper",
+            "turmeric",
+            "garlic powder",
+            "chicken broth",
+            "green onion",
+            "dark soy sauce",
+            "sugar"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Bang Bang Shrimp",
+        "tags": ["Lunch", "Dinner", "Main Course", "Shrimp", "Asian"],
+        "ingredients": [
+            "vegetable oil",
+            "buttermilk",
+            "flour unbleached",
+            "corn starch",
+            "egg",
+            "pepper",
+            "panko bread crumbs",
+            "onion powder",
+            "garlic powder",
+            "basil dried",
+            "oregano",
+            "shrimp",
+            "mayo",
+            "sweet chili sauce",
+            "honey",
+            "rice vinegar"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Barbacoa",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Crockpot"],
+        "ingredients": [
+            "chuck roast",
+            "garlic",
+            "adobo sauce",
+            "green chile",
+            "white onion",
+            "lime juice",
+            "apple cider vinegar",
+            "bay leaf",
+            "cumin",
+            "oregano",
+            "cloves",
+            "beef broth"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Korean Beef Bowl",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Beef", "Rice"],
+        "ingredients": [
+            "brown sugar",
+            "soy sauce",
+            "sessame oil",
+            "ground ginger",
+            "vegetable oil",
+            "garlic",
+            "ground beef",
+            "green onion",
+            "white rice"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Beef Stroganoff",
+        "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Pasta", "Crockpot"],
+        "ingredients": [
+            "cream of mushroom",
+            "dry onion mix",
+            "beef cube",
+            "salt granulated",
+            "pepper",
+            "cream cheese",
+            "parsley",
+            "green onion",
+            "egg noodle short"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Red Braised Chicken",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Chicken", "Rice", "Noodle"],
+        "ingredients": [
+            "chicken thigh",
+            "corn starch",
+            "vegetable oil",
+            "rock sugar",
+            "ginger",
+            "rice wine",
+            "soy sauce",
+            "dark soy sauce",
+            "green onion"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Beef Curry Puffs",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Dough", "Beef"],
+        "ingredients": [
+            "vegetable oil",
+            "white onion",
+            "garlic",
+            "ground beef",
+            "curry powder",
+            "tumeric",
+            "cumin",
+            "sugar",
+            "pepper",
+            "salt granulated",
+            "beef broth",
+            "corn starch",
+            "puff pastry",
+            "egg",
+            "frozen pea"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Japchae",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Beef", "Noodle"],
+        "ingredients": [
+            "thin beef",
+            "sweet potato noodles",
+            "carrot matchstick",
+            "spinach",
+            "red pepper",
+            "yellow onion",
+            "dried shitake mushroom",
+            "salt granulated",
+            "garlic",
+            "sesame oil",
+            "soy sauce",
+            "rice wine",
+            "pepper",
+            "honey",
+            "brown sugar",
+            "egg",
+            "vegetable oil"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chinese Beef on a Stick",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Beef", "Grill", "Ron"],
+        "ingredients": [
+            "flank steak",
+            "sugar",
+            "corn starch",
+            "garlic powder",
+            "onion powder",
+            "white pepper",
+            "salt granulated",
+            "vegetable oil",
+            "oyster sauce",
+            "bean paste",
+            "soy sauce",
+            "sesame oil"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Marry Me Chicken Soup",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Pasta"],
+        "ingredients": [
+            "rotisserie chicken",
+            "olive oil",
+            "yellow onion",
+            "pepper",
+            "salt granulated",
+            "garlic powder",
+            "thyme",
+            "tomato paste",
+            "chicken broth",
+            "sugar",
+            "sun dried tomato",
+            "ditalini pasta"
+        ],
+        "last_used_on": "2026-02-28"
+    },
+    {
+        "name": "Bread in a Bag",
+        "tags": ["Lunch", "Dinner", "Side", "Bread"],
+        "ingredients": [
+            "flour unbleached",
+            "sugar",
+            "yeast",
+            "butter salted",
+            "salt granulated"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Fish Congee",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Fish", "Rice"],
+        "ingredients": [
+            "white rice",
+            "cod",
+            "salt granulated",
+            "white pepper",
+            "oyster sauce",
+            "rice wine",
+            "ginger",
+            "egg",
+            "chicken broth",
+            "romaine lettuce",
+            "green onion",
+            "cilantro"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Taiwanese Popcorn Chicken",
+        "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Chicken"],
+        "ingredients": [
+            "chicken thigh",
+            "garlic",
+            "ginger",
+            "soy sauce",
+            "rice wine",
+            "five spice powder",
+            "white pepper",
+            "salt granulated",
+            "sugar",
+            "egg",
+            "coarse potato starch",
+            "basil fresh"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Baked Ziti",
+        "tags": ["Lunch", "Dinner", "Main Course", "Sausage", "Pasta", "Ron"],
+        "ingredients": [
+            "ziti pasta",
+            "cottage cheese",
+            "parmesan grated",
+            "egg",
+            "mozzarella grated",
+            "italian sausage",
+            "yellow onion",
+            "garlic",
+            "salt granulated",
+            "pepper",
+            "onion powder",
+            "italian seasoning",
+            "marinara",
+            "parsley dried"
+
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "String Bean Chicken",
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Vegetable", "Asian", "Rice"],
+        "ingredients": [
+            "chicken thigh",
+            "soy sauce",
+            "sesame oil",
+            "corn starch",
+            "vegetable oil",
+            "chicken broth",
+            "sugar",
+            "dark soy sauce",
+            "white pepper",
+            "string bean",
+            "garlic",
+            "rice wine"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Chicken Caprese Burgers",
+        "tags": ["Lunch", "Dinner", "Main Course", "Sandwich", "Chicken"],
+        "ingredients": [
+            "ground chicken",
+            "milk",
+            "egg",
+            "panko bread crumbs",
+            "basil fresh",
+            "salt granulated",
+            "pepper",
+            "onion powder",
+            "vegetable oil",
+            "hamburger bun",
+            "mozzarella slice",
+            "tomato"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Oven Cheeseburgers",
+        "tags": ["Lunch", "Dinner", "Main Course", "Sandwich", "Beef"],
+        "ingredients": [
+            "frozen beef burger",
+            "salt granulated",
+            "american cheese slice",
+            "hamburger bun",
+            "tomato",
+            "lettuce",
+            "mayo",
+            "white onion",
+            "hamburger bun",
+            "ketchup",
+            "mustard",
+            "mayo",
+            "pickle"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Split Pea Soup",
+        "tags": ["Lunch", "Dinner", "Main Course", "Pork", "Vegetable"],
+        "ingredients": [
+            "olive oil",
+            "ham",
+            "white onion",
+            "celery",
+            "chicken broth",
+            "split pea",
+            "thyme",
+            "bay leaf",
+            "yukon gold potato",
+            "carrot",
+            "salt kosher",
+            "pepper",
+            "garlic",
+            "dill",
+            "parsley"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Peanut Noodles",
+        "tags": ["Lunch", "Dinner", "Side", "Asian", "Noodle", "Vegetable"],
+        "ingredients": [
+            "wide flour noodle",
+            "garlic",
+            "ginger",
+            "peanut butter",
+            "dark soy sauce",
+            "soy sauce",
+            "fish sauce",
+            "sesame oil",
+            "lime juice"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Ribs and Rice",
+        "tags": ["Lunch", "Dinner", "Side", "Asian", "Pork", "Rice"],
+        "ingredients": [
+            "pork spare ribs",
+            "salt granulated",
+            "white pepper",
+            "dark soy sauce",
+            "vegetable oil",
+            "dried shitake mushroom",
+            "ginger",
+            "garlic",
+            "sugar",
+            "carrot",
+            "soy sauce",
+            "white rice",
+            "frozen pea"
+        ],
+        "last_used_on": null
+    },
+]

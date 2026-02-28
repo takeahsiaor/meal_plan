@@ -1,0 +1,225 @@
+{% extends "meal_plan/base.html" %}
+
+{% block title %}Recipes - Meal Plan{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Recipes</h1>
+
+<div class="mb-4">
+    <span class="me-2">Filter by tag:</span>
+    {% for pill in tag_pills %}
+    <a href="{{ pill.url }}" class="btn btn-sm {% if pill.is_selected %}btn-primary{% else %}btn-outline-secondary{% endif %} me-1 mb-1 text-decoration-none">{{ pill.name }}</a>
+    {% endfor %}
+    {% if has_tag_filter %}
+    <span class="ms-3 me-1">Match:</span>
+    <a href="{{ tag_mode_any_url }}" class="btn btn-sm {% if tag_mode == 'any' %}btn-primary{% else %}btn-outline-secondary{% endif %} me-1 mb-1 text-decoration-none">Any</a>
+    <a href="{{ tag_mode_all_url }}" class="btn btn-sm {% if tag_mode == 'all' %}btn-primary{% else %}btn-outline-secondary{% endif %} me-1 mb-1 text-decoration-none">All</a>
+    {% endif %}
+</div>
+
+<div class="row g-4 align-items-start">
+    <div class="col-lg-8">
+        <div class="table-responsive">
+        <table id="recipe-table" class="table table-striped table-hover" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Tags</th>
+                <th>Last used</th>
+                <th class="text-nowrap">Cart</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recipe in recipes %}
+            <tr>
+                <td><a href="#" class="recipe-name-link text-decoration-none" data-recipe-id="{{ recipe.id }}">{{ recipe.name }}</a></td>
+                <td>
+                    {% for tag in recipe.tags.all %}
+                    {% for pill in tag_pills %}
+                    {% if pill.name == tag.name %}
+                    <a href="{{ pill.url }}" class="badge bg-secondary text-decoration-none me-1">{{ tag.name }}</a>
+                    {% endif %}
+                    {% endfor %}
+                    {% empty %}
+                    <span class="text-muted">—</span>
+                    {% endfor %}
+                </td>
+                <td data-order="{{ recipe.last_used_on|date:'U'|default:0 }}">
+                    {% if recipe.last_used_on %}
+                    {{ recipe.last_used_on|date:"M j, Y" }}
+                    {% else %}
+                    <span class="text-muted">Never</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if recipe.id|stringformat:"s" in cart_recipe_ids %}
+                    <form method="post" action="{% url 'meal_plan:remove_from_cart' recipe.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ current_url }}">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">Remove from cart</button>
+                    </form>
+                    {% else %}
+                    <form method="post" action="{% url 'meal_plan:add_to_cart' recipe.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ current_url }}">
+                        <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">No recipes found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Plan cart</span>
+                {% if cart_count %}<span class="badge bg-primary rounded-pill">{{ cart_count }}</span>{% endif %}
+            </div>
+            <div class="card-body">
+                {% if messages %}
+                <div class="alert alert-danger alert-dismissible py-2 small" role="alert">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                    <button type="button" class="btn-close btn-close-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% if cart_recipes %}
+                {% if cart_tag_counts %}
+                <p class="small text-muted mb-2">Tags in cart:</p>
+                <div class="mb-3">
+                    {% for tag_name, count in cart_tag_counts %}
+                    <span class="badge bg-secondary me-1 mb-1">{{ tag_name }} × {{ count }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <ul class="list-group list-group-flush mb-3">
+                    {% for recipe in cart_recipes %}
+                    <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                        {{ recipe.name }}
+                        <form method="post" action="{% url 'meal_plan:remove_from_cart' recipe.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ current_url }}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm py-0" aria-label="Remove from cart">×</button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <form method="post" action="{% url 'meal_plan:cart' %}" class="mb-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ current_url }}">
+                    <div class="mb-2">
+                        <label for="id_plan_date" class="form-label small">Plan date</label>
+                        {{ plan_form.plan_date }}
+                        {% if plan_form.plan_date.errors %}
+                        <div class="invalid-feedback d-block">{{ plan_form.plan_date.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Create plan</button>
+                </form>
+                {% else %}
+                <p class="text-muted small mb-0">Cart is empty. Add recipes from the table.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="recipeDetailModal" tabindex="-1" aria-labelledby="recipeDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recipeDetailModalLabel">Recipe</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted mb-0" id="recipeModalLoading">Loading…</p>
+                <div id="recipeModalContent" class="d-none">
+                    <p class="mb-2"><strong>Tags:</strong> <span id="recipeModalTags"></span></p>
+                    <p class="mb-2"><strong>Last used:</strong> <span id="recipeModalLastUsed"></span></p>
+                    <p class="mb-2"><strong>Ingredients:</strong></p>
+                    <ul id="recipeModalIngredients" class="mb-3"></ul>
+                    <p class="mb-2"><strong>Latest plans:</strong></p>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped mb-0" id="recipeModalPlans">
+                            <thead>
+                                <tr><th>Plan date</th><th>Recipes used</th></tr>
+                            </thead>
+                            <tbody id="recipeModalPlansBody"></tbody>
+                        </table>
+                    </div>
+                    <p id="recipeModalPlansEmpty" class="text-muted small mb-0 d-none">Not used in any plan yet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    var $table = $('#recipe-table');
+    if ($table.find('tbody tr').length > 0 && !$table.find('tbody tr td[colspan]').length) {
+        $table.DataTable({
+            order: [[2, 'asc']],
+            pageLength: 25,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    }
+
+    var recipeDetailBase = "{% url 'meal_plan:recipe_list' %}";
+    var planDetailBase = "{% url 'meal_plan:plan_list' %}".replace(/\/?$/, '');
+    var modal = new bootstrap.Modal(document.getElementById('recipeDetailModal'));
+    var $loading = $('#recipeModalLoading');
+    var $content = $('#recipeModalContent');
+
+    $(document).on('click', '.recipe-name-link', function(e) {
+        e.preventDefault();
+        var recipeId = $(this).data('recipe-id');
+        var url = recipeDetailBase.replace(/\/?$/, '') + '/' + recipeId + '/detail/';
+        $('#recipeDetailModalLabel').text('Recipe');
+        $loading.removeClass('d-none text-danger').text('Loading…').show();
+        $content.addClass('d-none');
+        modal.show();
+        $.getJSON(url).done(function(data) {
+            $('#recipeDetailModalLabel').text(data.name);
+            $('#recipeModalTags').text(data.tags.length ? data.tags.join(', ') : '—');
+            $('#recipeModalLastUsed').text(data.last_used_on || 'Never');
+            var $ul = $('#recipeModalIngredients').empty();
+            if (data.ingredients.length) {
+                data.ingredients.forEach(function(ing) { $ul.append($('<li></li>').text(ing)); });
+            } else {
+                $ul.append($('<li class="text-muted"></li>').text('None'));
+            }
+            var $tbody = $('#recipeModalPlansBody').empty();
+            if (data.recent_plans && data.recent_plans.length > 0) {
+                $('#recipeModalPlansEmpty').addClass('d-none');
+                $('#recipeModalPlans').closest('.table-responsive').removeClass('d-none');
+                data.recent_plans.forEach(function(plan) {
+                    var recipesUsed = plan.recipes_used.length ? plan.recipes_used.join(', ') : '—';
+                    var planLink = $('<a></a>').attr('href', planDetailBase + '/' + plan.plan_id + '/').addClass('text-decoration-none').text(plan.plan_date);
+                    $tbody.append($('<tr></tr>').append($('<td></td>').append(planLink)).append($('<td></td>').text(recipesUsed)));
+                });
+            } else {
+                $('#recipeModalPlans').closest('.table-responsive').addClass('d-none');
+                $('#recipeModalPlansEmpty').removeClass('d-none');
+            }
+            $loading.addClass('d-none').hide();
+            $content.removeClass('d-none');
+        }).fail(function() {
+            $loading.text('Failed to load recipe.').addClass('text-danger').removeClass('d-none').show();
+            $content.addClass('d-none');
+        });
+    });
+});
+</script>
+{% endblock %}

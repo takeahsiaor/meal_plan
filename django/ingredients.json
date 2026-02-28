@@ -1,0 +1,1819 @@
+[
+    {
+        "name": "green onion",
+        "is_staple": false,
+        "stores": ["meijer", "international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "napa cabbage",
+        "is_staple": false,
+        "stores": ["meijer", "international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "bok choy",
+        "is_staple": false,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "ginger",
+        "is_staple": false,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "garlic",
+        "is_staple": false,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "mushroom",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "baby bella mushroom",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "old bay seasoning",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "dried shitake mushroom",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "cilantro",
+        "is_staple": false,
+        "stores": ["meijer", "international"]
+    },
+    {
+        "name": "carrot",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "carrot baby",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "carrot matchstick",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "celery",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "shallot",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "russet potato",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "yukon gold potato",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "small potato",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "white onion",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "hummus and pita chips",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "red onion",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "turkey burger",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "yellow onion",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "goldfish cracker",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "sweet potato",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pan-fry noodles",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "japanese sweet potato",
+        "is_staple": false,
+        "stores": ["meijer", "mituswa"]
+    },
+    {
+        "name": "roma tomato",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "tomato",
+        "is_staple": false,
+        "stores": ["meijer", "international"]
+    },
+    {
+        "name": "cherry tomato",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "zucchini",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mini cucumber",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "grated parmesan",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "lettuce",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "romaine lettuce",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "lime",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "lemon",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "avocado",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "tofu firm",
+        "is_staple": false,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "tofu medium",
+        "is_staple": false,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "tofu soft",
+        "is_staple": false,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "tofu extra firm",
+        "is_staple": false,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "tofu fried",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "tofu puff",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "tofu five spice",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "snap pea",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "snow pea",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "dill",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "basil fresh",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "red pepper",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "yellow pepper",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "green pepper",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "asparagus",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pork spare ribs",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "beef short ribs",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "asparagus frozen",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "ground beef",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "ground chicken",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "ground turkey",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "italian sausage mild",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "breakfast sausage",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "sausage crumble",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "smoked pork sausage",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pork loin",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pork shoulder",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "chicken thigh",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "chicken breast",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "rotisserie chicken",
+        "is_staple": false,
+        "stores": ["meijer", "costco"]
+    },
+    {
+        "name": "avocado",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "beef cube",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pork cube",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "thin beef",
+        "is_staple": false,
+        "stores": ["meijer", "international", "costco"],
+        "preferred_store": "costco"
+    },
+    {
+        "name": "shrimp",
+        "is_staple": false,
+        "stores": ["meijer", "costco"],
+        "preferred_store": "costco"
+    },
+    {
+        "name": "frozen cod",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cheddar grated",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cheddar block",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "gruyere block",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mozzerella grated",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mozzerella ball",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mozzerella slice",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "american cheese slice",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "provolone slice",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "greek yogurt",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "plain yogurt",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "egg",
+        "is_staple": true,
+        "stores": ["meijer", "costco"]
+    },
+    {
+        "name": "milk",
+        "is_staple": true,
+        "stores": ["meijer", "costco"]
+    },
+    {
+        "name": "cottage cheese",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "gournay cheese",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "string cheese",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "raisin",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "maple syrup",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "panko bread crumbs",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "croutons",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "animal yogurt cracker",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "kodiak pancake mix",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "hoagie roll",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "hot dog",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "canadian bacon",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "wild rice",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "buttermilk",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mexican rice",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "sumac",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "sun dried tomato",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "annie's pancake mix",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "tuna can",
+        "is_staple": true,
+        "stores": ["meijer", "costco"]
+    },
+    {
+        "name": "chicken can",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cream of chicken",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "egg noodle short",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "ketchup",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mustard dijon",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mayo",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "japanese mayo",
+        "is_staple": true,
+        "stores": ["mitsuwa", "international"]
+    },
+    {
+        "name": "sugar",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "brown sugar",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "hoisin sauce",
+        "is_staple": true,
+        "stores": ["international", "meijer"]
+    },
+    {
+        "name": "flour unbleached",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "corn starch",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cornmeal",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "baking soda",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "baking powder",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "nutmeg",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "vanilla extract",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cocoa powder",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "yeast",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "semisweet chocolate chips",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "salt granulated",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "salt kosher",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pepper",
+        "is_staple": true,
+        "stores": ["meijer", "costco"]
+    },
+    {
+        "name": "sesame oil",
+        "is_staple": true,
+        "stores": ["meijer", "international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "vegetable oil",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "olive oil",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "rice vinegar",
+        "is_staple": true,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "rice wine",
+        "is_staple": true,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "apple cider vinegar",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "vinegar",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "worchestershire sauce",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "barbeque sauce",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "garlic powder",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "garlic salt",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "celery salt",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "onion powder",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "paprika",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "basil dried",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "parsley dried",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "parsley",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cinnamon",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "italian seasoning",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cumin",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "coriander",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "turmeric",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "curry powder",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "ground ginger",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "oregano",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "bay leaf",
+        "is_staple": true,
+        "stores": ["meijer", "international"]
+    },
+    {
+        "name": "cayenne",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "21 seasoning",
+        "is_staple": true,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "italian dressing dry",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "balsamic vinaigrette",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "chicken broth",
+        "is_staple": true,
+        "stores": ["meijer", "costco"],
+        "preferred_store": "costco"
+    },
+    {
+        "name": "vegetable broth",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "chili powder",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "beef broth",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "beef bouillon cube",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "diced tomato can",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "brown rice",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "tomato paste",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "tomato sauce can",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "crushed tomato can",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "kidney bean red",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "kidney bean white",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "canned corn",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cannellini bean",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "black bean can",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "butter unsalted",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "butter salted",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "five spice powder",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "sha cha jiang",
+        "is_staple": true,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "bamboo leaf",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "white rice",
+        "is_staple": true,
+        "stores": ["costco", "international"],
+        "preferred_store": "costco"
+    },
+    {
+        "name": "basmati rice",
+        "is_staple": true,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "sweet rice",
+        "is_staple": true,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "vermicelli noodle",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "star anise",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "ho fun",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "taiwanese noodle",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "fish sauce",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "thin flour noodle",
+        "is_staple": true,
+        "stores": ["international", "meijer", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "wide flour noodle",
+        "is_staple": true,
+        "stores": ["international", "meijer", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "instant ramen",
+        "is_staple": false,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "soy sauce",
+        "is_staple": true,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "dark soy sauce",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "spicy bean paste",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "bean paste",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "oyster sauce",
+        "is_staple": true,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "yu choy",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "a choy",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "taiwanese spinach",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "winter melon",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "kabocha",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "peapod tip",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "garlic chive",
+        "is_staple": false,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "daikon",
+        "is_staple": false,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "miso",
+        "is_staple": true,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "dumpling wrapper",
+        "is_staple": false,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "fish ball",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "fuzhou fish ball",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "beef shank",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "chinese sausage",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "kimchi",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "rice cake",
+        "is_staple": false,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "fish cake",
+        "is_staple": false,
+        "stores": ["mitsuwa"]
+    },
+    {
+        "name": "edamame shelled",
+        "is_staple": false,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "mitsuwa"
+    },
+    {
+        "name": "edamame in shell",
+        "is_staple": false,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "mitsuwa"
+    },
+    {
+        "name": "ground pork",
+        "is_staple": false,
+        "stores": ["mitsuwa"]
+    },
+    {
+        "name": "canned salmon",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "ribeye",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
+        "name": "new york strip",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
+        "name": "king crab",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
+        "name": "artificial crab",
+        "is_staple": false,
+        "stores": ["mitsuwa"]
+    },
+    {
+        "name": "salmon",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
+        "name": "picanha",
+        "is_staple": false,
+        "stores": ["wildfork"]
+    },
+    {
+        "name": "peanut butter pretzel",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "flank steak",
+        "is_staple": false,
+        "stores": ["costco", "jewel"]
+    },
+    {
+        "name": "brisket",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pineapple juice",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "lime juice",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "lemon juice",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "spaghetti pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cavatappi pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "farfalle pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "small shell pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "medium shell pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "large shell pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "ziti pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "penne pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "orzo pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "elbow pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "ditalini pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "linguine pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "fettuccini pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "rotini pasta",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "kale",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "spinach",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cole slaw",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "broccoli slaw",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "broccoli",
+        "is_staple": false,
+        "stores": ["meijer", "costco"],
+        "preferred_store": "costco"
+    },
+    {
+        "name": "cauliflower",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cabbage",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "string bean",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "corn",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "frozen corn",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "frozen pea",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "frozen pea and carrot",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "eggplant",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "japanese eggplant",
+        "is_staple": false,
+        "stores": ["international", "mitsuwa"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "skirt steak",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "kale",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "marinara",
+        "is_staple": false,
+        "stores": ["meijer", "trader joes"]
+    },
+    {
+        "name": "rock sugar",
+        "is_staple": true,
+        "stores": ["international"]
+    },
+    {
+        "name": "white pepper",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "bean sprout",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "cardamom",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "heavy cream",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "half and half",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "frozen chicken melt",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
+        "name": "pepperoni",
+        "is_staple": false,
+        "stores": ["trader joes"],
+        "preferred_store": "trader joes"
+    },
+    {
+        "name": "peanut butter",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "quick oats",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "whole rolled oats",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cheerios",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "honey nut cheerios",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "honey",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+
+    {
+        "name": "strawberry jelly",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "trader joes granola bar",
+        "is_staple": true,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "gyro meat",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "frozen dumpling",
+        "is_staple": false,
+        "stores": ["international", "trader joes"]
+    },
+    {
+        "name": "wheat thins",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "abc cookie",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "granola",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "made good granola bar",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pretzel bread",
+        "is_staple": false,
+        "stores": ["jewel", "trader joes"]
+    },
+    {
+        "name": "multigrain bread",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "artisan bread",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cheese and cracker tray",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "elmo biscuit",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "biscuit dough",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "sourdough bread",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "hippo sliced bread",
+        "is_staple": false,
+        "stores": ["mitsuwa"]
+    },
+    {
+        "name": "bagel",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "asian salad kit",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "caesar salad kit",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
+        "name": "frozen mahi burger",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
+        "name": "tortilla chips",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pita",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "brioche",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "frozen yakisoba",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
+        "name": "pickle",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "frozen sea bass",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "oatmeal square cereal",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "frozen sweet potato fries",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "dinner roll",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "chimichurri sauce",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "hummus",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "tzatziki sauce",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "waffle",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "crescent roll dough",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "chicken skewer",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
+        "name": "chicken sausage",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "hash brown",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "shredded hash brown",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "lentil soup",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "frozen chicken nugget",
+        "is_staple": true,
+        "stores": ["costco"]
+    },
+    {
+        "name": "brazilian cheese bread ball",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "silver dollar pancake",
+        "is_staple": true,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "butternut squash",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "scallion pancake",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "shumai dumpling",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "mini naan",
+        "is_staple": false,
+        "stores": ["meijer", "costco"]
+    },
+    {
+        "name": "seaweed paste",
+        "is_staple": false,
+        "stores": ["mitsuwa", "international"]
+    },
+    {
+        "name": "texas de brazil sausage",
+        "is_staple": false,
+        "stores": ["texas de brazil"]
+    },
+    {
+        "name": "salsa",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "thyme",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "hamburger bun",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "ham",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "split pea",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "chicken gravy",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "italian bread crumbs",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mirin",
+        "is_staple": true,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "frozen blueberry",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pumpkin pie spice",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "pumpkin puree can",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "walnut",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cinnamon toast crunch",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "rice chex",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "white chocolate chips",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "powdered sugar",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "chili powder",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "beer bratwurst",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "sweet chili sauce",
+        "is_staple": true,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "beer",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "adobo sauce",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "sriracha",
+        "is_staple": true,
+        "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "green chile",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "chuck roast",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "hot dog bun",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cloves",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cream of mushroom",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "dry onion mix",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "cream cheese",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "puff pastry",
+        "is_staple": false,
+        "stores": ["meijer", "jewel"]
+    },
+    {
+        "name": "sweet potato noodle",
+        "is_staple": false,
+        "stores": ["international"]
+    },
+    {
+        "name": "frozen beef burger",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "bacon",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "dashi stock",
+        "is_staple": true,
+        "stores": ["international", "mitsuwa"]
+    },
+    {
+        "name": "romano cheese",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "coarse potato starch",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+]

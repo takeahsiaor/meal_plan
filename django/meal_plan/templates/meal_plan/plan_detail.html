@@ -1,0 +1,277 @@
+{% extends "meal_plan/base.html" %}
+
+{% block title %}Plan {{ plan.plan_date|date:"M j, Y" }} - Meal Plan{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'meal_plan:plan_list' %}">Plans</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ plan.plan_date|date:"M j, Y" }}</li>
+    </ol>
+</nav>
+
+<h1 class="mb-4">Plan: {{ plan.plan_date|date:"M j, Y" }}</h1>
+
+<section class="mb-4">
+    <h2 class="h5 mb-2">Recipes</h2>
+    <p class="mb-0">
+        {% for recipe, color in recipe_color_pairs %}
+        <span class="badge bg-{{ color }}">{{ recipe.name }}</span>
+        {% empty %}
+        <span class="text-muted">None</span>
+        {% endfor %}
+    </p>
+</section>
+
+<ul class="nav nav-tabs mb-3" id="planDetailTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link {% if active_tab == 'shopping' %}active{% endif %}" id="shopping-tab" data-bs-toggle="tab" data-bs-target="#shopping-pane" type="button" role="tab" aria-controls="shopping-pane" aria-selected="{% if active_tab == 'shopping' %}true{% else %}false{% endif %}" data-tab-param="shopping">Shopping list</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link {% if active_tab == 'recipes' %}active{% endif %}" id="recipes-tab" data-bs-toggle="tab" data-bs-target="#recipes-pane" type="button" role="tab" aria-controls="recipes-pane" aria-selected="{% if active_tab == 'recipes' %}true{% else %}false{% endif %}" data-tab-param="recipes">Recipes & prep</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="planDetailTabContent">
+    <div class="tab-pane fade {% if active_tab == 'shopping' %}show active{% endif %}" id="shopping-pane" role="tabpanel" aria-labelledby="shopping-tab">
+        <p class="text-muted small mb-3">Ingredients grouped by store (staples: check current stock). Drag ingredients between stores to override.</p>
+
+    {% if shopping_by_store %}
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+        {% for store, items in shopping_by_store %}
+        <div class="col">
+            <div class="card h-100 store-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>{% if store %}{{ store.name }}{% else %}Other / Unassigned{% endif %}</span>
+                    <button type="button" class="btn btn-link btn-sm text-secondary p-1 store-print-btn" aria-label="Print this store list" title="Print list">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/><path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/></svg>
+                    </button>
+                </div>
+                <div class="card-body store-drop-zone">
+                    <ul class="list-group list-group-flush store-ingredient-list">
+                        {% for ingredient, recipe_names, is_staple, color in items %}
+                        <li class="list-group-item d-flex align-items-center px-3 draggable-ingredient" draggable="true">
+                            <span class="drag-handle me-2 text-muted" aria-hidden="true">⋮⋮</span>
+                            <span class="flex-grow-1">
+                                <span class="border-bottom border-2 border-{{ color }}">{{ ingredient.name }} <span class="text-muted">({{ recipe_names|join:", " }})</span></span>
+                                {% if is_staple %}<span class="badge bg-light text-dark ms-1 small fw-bold">check current stock</span>{% endif %}
+                            </span>
+                            <button type="button" class="btn btn-link btn-sm text-muted p-0 ms-1 store-item-remove text-decoration-none" aria-label="Remove from list" title="Remove from list">×</button>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item text-muted store-empty-placeholder">No ingredients</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted">No ingredients in this plan.</p>
+    {% endif %}
+    </div>
+
+    <div class="tab-pane fade {% if active_tab == 'recipes' %}show active{% endif %}" id="recipes-pane" role="tabpanel" aria-labelledby="recipes-tab">
+        <p class="text-muted small mb-3">Ingredients and prep notes per recipe.</p>
+        {% for recipe, color in recipe_color_pairs %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <span class="badge bg-{{ color }}">{{ recipe.name }}</span>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <h3 class="h6 mb-2">Ingredients</h3>
+                        {% if recipe.ingredients.all %}
+                        <ul class="list-unstyled mb-0">
+                            {% for ing in recipe.ingredients.all %}
+                            <li>{{ ing.name }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="text-muted mb-0 small">No ingredients.</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="h6 mb-2">Prep notes</h3>
+                        {% if recipe.prep_notes %}
+                        <div class="prep-notes text-muted small">{{ recipe.prep_notes|linebreaks }}</div>
+                        {% else %}
+                        <p class="text-muted mb-0 small">—</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No recipes in this plan.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.draggable-ingredient { cursor: grab; }
+.draggable-ingredient:active { cursor: grabbing; }
+.store-drop-zone.drag-over { background-color: rgba(0, 123, 255, 0.08); border-radius: 0.25rem; min-height: 4rem; }
+.drag-handle { cursor: grab; font-size: 0.9rem; user-select: none; }
+.store-item-remove:hover, .store-item-remove:focus { text-decoration: none !important; color: #6c757d !important; }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    // Persist active tab in URL query param so refresh keeps the same tab.
+    var tabList = document.getElementById('planDetailTabs');
+    if (tabList) {
+        tabList.addEventListener('shown.bs.tab', function(e) {
+            var param = e.target.getAttribute('data-tab-param');
+            if (!param) return;
+            var url = new URL(window.location.href);
+            url.searchParams.set('tab', param);
+            window.history.replaceState({}, '', url.toString());
+        });
+    }
+
+    var placeholderHtml = '<li class="list-group-item text-muted store-empty-placeholder">No ingredients</li>';
+
+    function getPlaceholder(el) {
+        return el.querySelector('.store-empty-placeholder');
+    }
+
+    function ensurePlaceholder(ul) {
+        if (!getPlaceholder(ul) && ul.children.length === 0) {
+            ul.insertAdjacentHTML('beforeend', placeholderHtml);
+        }
+    }
+
+    function removePlaceholder(ul) {
+        var ph = getPlaceholder(ul);
+        if (ph) ph.remove();
+    }
+
+    document.querySelectorAll('.store-drop-zone').forEach(function(zone) {
+        var list = zone.querySelector('.store-ingredient-list');
+        if (!list) return;
+        function addDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            zone.classList.add('drag-over');
+        }
+        function removeDragOver(e) {
+            if (!zone.contains(e.relatedTarget)) zone.classList.remove('drag-over');
+        }
+        function handleDrop(e) {
+            e.preventDefault();
+            zone.classList.remove('drag-over');
+            var li = document.querySelector('.draggable-ingredient.dragging');
+            if (!li) return;
+            li.classList.remove('dragging');
+            var sourceList = li.parentElement;
+            var dropTarget = e.target.closest('li.draggable-ingredient') || e.target.closest('li.store-empty-placeholder');
+            if (sourceList === list) {
+                if (dropTarget && dropTarget !== li) {
+                    list.insertBefore(li, dropTarget);
+                }
+            } else {
+                removePlaceholder(list);
+                if (dropTarget && dropTarget.classList.contains('store-empty-placeholder')) {
+                    dropTarget.remove();
+                }
+                if (dropTarget && dropTarget.classList.contains('draggable-ingredient')) {
+                    list.insertBefore(li, dropTarget);
+                } else {
+                    list.appendChild(li);
+                }
+                ensurePlaceholder(sourceList);
+            }
+        }
+        zone.addEventListener('dragover', addDragOver);
+        zone.addEventListener('dragenter', addDragOver);
+        zone.addEventListener('dragleave', removeDragOver);
+        zone.addEventListener('drop', handleDrop);
+    });
+
+    document.querySelectorAll('.draggable-ingredient').forEach(function(li) {
+        li.addEventListener('dragstart', function(e) {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', ''); // required for some browsers
+            li.classList.add('dragging');
+        });
+        li.addEventListener('dragend', function(e) {
+            li.classList.remove('dragging');
+        });
+    });
+
+    document.querySelectorAll('.store-item-remove').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var li = btn.closest('.draggable-ingredient');
+            if (!li) return;
+            var list = li.parentElement;
+            li.remove();
+            if (list.classList.contains('store-ingredient-list') && list.children.length === 0) {
+                list.insertAdjacentHTML('beforeend', placeholderHtml);
+            }
+        });
+    });
+
+    document.querySelectorAll('.store-print-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var card = btn.closest('.store-card');
+            var headerSpan = card.querySelector('.card-header > span');
+            var storeName = headerSpan ? headerSpan.textContent.trim() : 'Shopping list';
+            var list = card.querySelector('.store-ingredient-list');
+            var items = [];
+            if (list) {
+                [].slice.call(list.children).forEach(function(li) {
+                    if (li.classList.contains('draggable-ingredient')) {
+                        var contentSpan = li.querySelector('span:not(.drag-handle)');
+                        var text = contentSpan ? contentSpan.textContent.trim() : li.textContent.trim();
+                        var colorSpan = li.querySelector('span[class*="border-"]');
+                        var color = 'secondary';
+                        if (colorSpan && colorSpan.className) {
+                            var m = colorSpan.className.match(/border-(primary|success|info|warning|danger|secondary|dark)/);
+                            if (m) color = m[1];
+                        }
+                        var staple = text.indexOf('check current stock') !== -1;
+                        if (staple) text = text.replace(/\s*check current stock\s*$/, '').trim();
+                        items.push({ text: text, color: color, staple: staple });
+                    }
+                });
+            }
+            var printColors = { primary: '#0d6efd', success: '#198754', info: '#0dcaf0', warning: '#ffc107', danger: '#dc3545', secondary: '#6c757d', dark: '#212529' };
+            var listHtml = items.map(function(item) {
+                var colorStyle = 'border-left: 3px solid ' + (printColors[item.color] || printColors.secondary) + '; padding-left: 0.35em;';
+                var stapleHtml = item.staple ? ' <span class="print-staple">check current stock</span>' : '';
+                return '<li class="print-item" style="' + colorStyle + '"><label class="print-label"><input type="checkbox" class="print-checkbox"> <span>' + escapeHtml(item.text) + stapleHtml + '</span></label></li>';
+            }).join('');
+            var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Print: ' + escapeHtml(storeName) + '</title><style>' +
+                'body { font-family: system-ui, sans-serif; margin: 0.5in; max-width: 8in; font-size: 12pt; }' +
+                'h1 { font-size: 14pt; margin: 0 0 0.5em 0; }' +
+                'ul { list-style: none; padding: 0; margin: 0; }' +
+                '.print-item { margin: 0.25em 0; }' +
+                '.print-label { display: flex; align-items: baseline; cursor: pointer; }' +
+                '.print-checkbox { margin-right: 0.5em; flex-shrink: 0; }' +
+                '.print-staple { font-size: 0.8em; font-weight: bold; }' +
+                '@media print { body { margin: 0.5in; } }</style></head><body>' +
+                '<h1>' + escapeHtml(storeName) + '</h1>' +
+                (listHtml ? '<ul>' + listHtml + '</ul>' : '<p>No items.</p>') +
+                '</body></html>';
+            var w = window.open('', '_blank');
+            w.document.write(html);
+            w.document.close();
+        });
+    });
+
+    function escapeHtml(text) {
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+})();
+</script>
+{% endblock %}
