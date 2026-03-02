@@ -64,3 +64,5 @@ Then, once I created a `local_settings.py` file with a django secret, I'm able t
 `virtualenv\Scripts\python.exe manage.py runserver` in the django directory
 
 Once all the initial setup is done, the helper script `django/meal_plan_start.bat` can run the server on port 9010.
+
+I copied `meal_plan_start.bat` into `D:\Desktop` and set up a task scheduler task to execute it at startup
