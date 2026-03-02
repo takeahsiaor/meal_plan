@@ -1,4 +1,4 @@
 D:
-call D:\virtualenvs\meal_plan\Scripts\activate
+call D:\meal_plan\virtualenv\Scripts\activate
 cd meal_plan\django
-call D:\virtualenvs\meal_plan\scripts\python.exe manage.py runserver 0.0.0.0:9010
+call D:\meal_plan\virtualenv\scripts\python.exe manage.py runserver 0.0.0.0:9010
