@@ -10,6 +10,7 @@ DEFAULT_STORES = [
     ("jewel", 3),
     ("costco", 3),
     ("international", 3),
+    ("target", 4),
     ("trader joes", 4),
     ("wildfork", 5),
     ("texas de brazil", 6)

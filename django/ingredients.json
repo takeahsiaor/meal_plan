@@ -381,6 +381,11 @@
         "stores": ["meijer"]
     },
     {
+        "name": "frozen breaded fish",
+        "is_staple": false,
+        "stores": ["costco"]
+    },
+    {
         "name": "cheddar grated",
         "is_staple": false,
         "stores": ["meijer"]
@@ -396,17 +401,17 @@
         "stores": ["meijer"]
     },
     {
-        "name": "mozzerella grated",
+        "name": "mozzarella grated",
         "is_staple": false,
         "stores": ["meijer"]
     },
     {
-        "name": "mozzerella ball",
+        "name": "mozzarella ball",
         "is_staple": false,
         "stores": ["meijer"]
     },
     {
-        "name": "mozzerella slice",
+        "name": "mozzarella slice",
         "is_staple": false,
         "stores": ["meijer"]
     },
@@ -481,6 +486,31 @@
         "stores": ["international"]
     },
     {
+        "name": "banana",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "bamba puffs",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "peanut butter sandwich cracker",
+        "is_staple": true,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "soy sauce ramen pack",
+        "is_staple": false,
+        "stores": ["mituswa"]
+    },
+    {
+        "name": "abby sesame street granola bar",
+        "is_staple": true,
+        "stores": ["meijer", "target"]
+    },
+    {
         "name": "kodiak pancake mix",
         "is_staple": true,
         "stores": ["meijer"]
@@ -507,6 +537,11 @@
     },
     {
         "name": "buttermilk",
+        "is_staple": false,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mexican cheese grated",
         "is_staple": false,
         "stores": ["meijer"]
     },
@@ -557,6 +592,11 @@
     },
     {
         "name": "mustard dijon",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
+        "name": "mustard yellow",
         "is_staple": true,
         "stores": ["meijer"]
     },
@@ -670,6 +710,12 @@
         "name": "rice vinegar",
         "is_staple": true,
         "stores": ["meijer", "international"],
+        "preferred_store": "international"
+    },
+    {
+        "name": "rice seasoning",
+        "is_staple": true,
+        "stores": ["international", "mitsuwa"],
         "preferred_store": "international"
     },
     {
@@ -1009,9 +1055,24 @@
         "stores": ["international"]
     },
     {
+        "name": "frozen udon noodle",
+        "is_staple": false,
+        "stores": ["mitsuwa", "international"]
+    },
+    {
+        "name": "frozen fries",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
         "name": "winter melon",
         "is_staple": false,
         "stores": ["international"]
+    },
+    {
+        "name": "soyaki sauce",
+        "is_staple": false,
+        "stores": ["trader joes"]
     },
     {
         "name": "kabocha",
@@ -1292,9 +1353,19 @@
         "stores": ["meijer"]
     },
     {
+        "name": "laughing cow cheese",
+        "is_staple": true,
+        "stores": ["meijer"]
+    },
+    {
         "name": "frozen pea and carrot",
         "is_staple": false,
         "stores": ["meijer"]
+    },
+    {
+        "name": "frozen fried rice",
+        "is_staple": true,
+        "stores": ["costco"]
     },
     {
         "name": "eggplant",
@@ -1470,9 +1541,44 @@
         "stores": ["meijer"]
     },
     {
+        "name": "frozen fish stick",
+        "is_staple": true,
+        "stores": ["trader joes"]
+    },
+    {
         "name": "hippo sliced bread",
         "is_staple": false,
         "stores": ["mitsuwa"]
+    },
+    {
+        "name": "hippo bread stick",
+        "is_staple": false,
+        "stores": ["mitsuwa"]
+    },
+    {
+        "name": "hippo crumble cookie bread",
+        "is_staple": false,
+        "stores": ["mitsuwa"]
+    },
+    {
+        "name": "frozen cauliflower rice",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "premade beef sirloin",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "cheese tortellini",
+        "is_staple": false,
+        "stores": ["trader joes"]
+    },
+    {
+        "name": "frozen asparagus",
+        "is_staple": true,
+        "stores": ["meijer"]
     },
     {
         "name": "bagel",
@@ -1605,7 +1711,7 @@
         "stores": ["trader joes"]
     },
     {
-        "name": "butternut squash",
+        "name": "frozen butternut squash",
         "is_staple": false,
         "stores": ["meijer"]
     },
@@ -1617,7 +1723,7 @@
     {
         "name": "shumai dumpling",
         "is_staple": false,
-        "stores": ["trader joes"]
+        "stores": ["mitsuwa"]
     },
     {
         "name": "mini naan",
@@ -1736,7 +1842,7 @@
         "stores": ["meijer"]
     },
     {
-        "name": "adobo sauce",
+        "name": "chipotle in adobo sauce",
         "is_staple": false,
         "stores": ["meijer"]
     },
@@ -1787,7 +1893,7 @@
         "stores": ["meijer", "jewel"]
     },
     {
-        "name": "sweet potato noodle",
+        "name": "sweet potato noodles",
         "is_staple": false,
         "stores": ["international"]
     },
@@ -1816,4 +1922,9 @@
         "is_staple": false,
         "stores": ["meijer"]
     },
+    {
+        "name": "frozen mango",
+        "is_staple": true,
+        "stores": ["costco"]
+    }
 ]

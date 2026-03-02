@@ -21,7 +21,7 @@
             "salt granulated",
             "cilantro"
         ],
-        "last_used_on": "2026-01-01"
+        "last_used_on": "2026-01-26"
     },
     {
         "name": "Bao Zi",
@@ -61,7 +61,7 @@
             "green onion",
             "sesame oil"
         ],
-        "last_used_on": "2026-02-12"
+        "last_used_on": "2026-02-09"
     },
     {
         "name": "Chive Box",
@@ -77,7 +77,8 @@
             "sesame oil",
             "flour unbleached",
             "salt granulated"
-        ]
+        ],
+        "last_used_on": "2026-01-19"
     },
     {
         "name": "Grilled Salmon",
@@ -94,7 +95,7 @@
             "pepper",
             "garlic powder"
         ],
-        "last_used_on": "2026-02-08"
+        "last_used_on": "2026-02-09"
     },
     {
         "name": "Huli Huli Chicken",
@@ -111,7 +112,7 @@
             "green onion",
             "white rice"
         ],
-        "last_used_on": null
+        "last_used_on": "2026-02-23"
     },
     {
         "name": "Chicken Shawarma",
@@ -236,7 +237,8 @@
             "heavy cream",
             "cavatappi pasta"
         ],
-        "last_used_on": "2025-10-06"
+        "last_used_on": "2025-10-06",
+        "prep_notes": "1 cm white onion\nMince garlic\nHalf moon carrots 1 cm thick\n1 cm eggplant"
     },
     {
         "name": "Yu Choy",
@@ -244,7 +246,8 @@
         "ingredients": [
             "yu choy"
         ],
-        "last_used_on": "2025-10-06"
+        "last_used_on": "2025-10-06",
+        "prep_notes": "2 inch yu choy"
     },
     {
         "name": "Fluffy Pancakes",
@@ -257,7 +260,7 @@
             "sugar",
             "baking powder",
             "baking soda",
-            "salt granulated",
+            "salt granulated"
         ],
         "last_used_on": "2026-01-12"
     },
@@ -290,7 +293,9 @@
         "name": "Omelette",
         "tags": ["Breakfast", "Dinner", "Lunch", "Main Course"],
         "ingredients": [
-
+            "egg",
+            "milk",
+            "salt granulated"
         ],
         "last_used_on": "2025-11-03"
     },
@@ -300,7 +305,16 @@
         "ingredients": [
             "sweet potato"
         ],
-        "last_used_on": "2025-10-06"
+        "last_used_on": "2025-10-06",
+        "prep_notes": "1 inch sweet potato"
+    },
+    {
+        "name": "Roasted Sweet Potato",
+        "tags": ["Dinner", "Lunch", "Vegetable", "Potato"],
+        "ingredients": [
+            "sweet potato"
+        ],
+        "last_used_on": "2026-03-02"
     },
     {
         "name": "Grilled Picanha",
@@ -327,7 +341,8 @@
             "salt granulated",
             "vegetable oil"
         ],
-        "last_used_on": "2025-10-06"
+        "last_used_on": "2026-02-16",
+        "prep_notes": "Half moon zucchini 1 cm thick"
     },
     {
         "name": "Sauteed Broccoli",
@@ -338,7 +353,8 @@
             "vegetable oil",
             "salt granulated"
         ],
-        "last_used_on": "2025-10-06"
+        "last_used_on": "2026-02-09",
+        "prep_notes": "Trim and split broccoli"
     },
     {
         "name": "Sauteed Cauliflower",
@@ -349,7 +365,21 @@
             "vegetable oil",
             "salt granulated"
         ],
-        "last_used_on": "2025-10-06"
+        "last_used_on": "2025-10-06",
+        "prep_notes": "Trim and split cauliflower"
+    },
+    {
+        "name": "Sauteed Cauliflower Broccoli Mix",
+        "tags": ["Dinner", "Lunch", "Vegetable"],
+        "ingredients": [
+            "cauliflower",
+            "broccoli",
+            "garlic powder",
+            "vegetable oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2026-02-23",
+        "prep_notes": "Trim and split cauliflower\nTrim and split broccoli"
     },
     {
         "name": "Chicken Meatballs",
@@ -358,14 +388,14 @@
             "ground chicken",
             "egg",
             "panko bread crumbs",
-            "parmesan grated",
+            "grated parmesan",
             "olive oil",
             "garlic powder",
             "onion powder",
             "salt granulated",
             "pepper"
         ],
-        "last_used_on": "2025-10-13"
+        "last_used_on": "2026-02-16"
     },
     {
         "name": "Baked Mac and Cheese",
@@ -382,7 +412,8 @@
             "pepper",
             "paprika"
         ],
-        "last_used_on": "2025-10-13"
+        "last_used_on": "2025-10-13",
+        "prep_notes": "Grate gruyere\nGrate cheddar if in a block"
     },
     {
         "name": "Chicken Melts",
@@ -393,6 +424,22 @@
         "last_used_on": "2025-10-13"
     },
     {
+        "name": "Cow Cheese",
+        "tags": ["Dinner", "Lunch", "Side"],
+        "ingredients": [
+            "laughing cow cheese"
+        ],
+        "last_used_on": "2026-01-26"
+    },
+    {
+        "name": "Frozen Fried Rice",
+        "tags": ["Dinner", "Lunch", "Main Course", "Chicken", "Asian", "Rice"],
+        "ingredients": [
+            "frozen fried rice"
+        ],
+        "last_used_on": "2026-01-26"
+    },
+    {
         "name": "Pepperoni",
         "tags": ["Dinner", "Lunch", "Side", "Pork"],
         "ingredients": [
@@ -401,8 +448,8 @@
         "last_used_on": "2025-10-13"
     },
     {
-        "name": "Pumpkin Cake",
-        "tags": ["Breakfast", "Main Course", "Dough"],
+        "name": "Pumpkin Cake Bread",
+        "tags": ["Breakfast", "Main Course", "Bread"],
         "ingredients": [
             "pumpkin puree can",
             "plain yogurt",
@@ -416,7 +463,7 @@
             "baking soda",
             "salt granulated"
         ],
-        "last_used_on": "2025-10-13"
+        "last_used_on": "2026-02-09"
     },
     {
         "name": "Peanut Butter Oatmeal",
@@ -426,7 +473,7 @@
             "quick oats",
             "milk"
         ],
-        "last_used_on": "2025-10-13"
+        "last_used_on": "2026-01-19"
     },
     {
         "name": "Oatmeal",
@@ -445,7 +492,7 @@
             "honey nut cheerios",
             "milk"
         ],
-        "last_used_on": "2026-01-12"
+        "last_used_on": "2026-01-19"
     },
     {
         "name": "Gyro Meat",
@@ -453,21 +500,13 @@
         "ingredients": [
             "gyro meat"
         ],
-        "last_used_on": "2025-10-13"
+        "last_used_on": "2026-01-26"
     },
     {
         "name": "Wild Rice",
         "tags": ["Dinner", "Lunch", "Side"],
         "ingredients": [
             "wild rice"
-        ],
-        "last_used_on": "2025-10-13"
-    },
-    {
-        "name": "Boiled Carrots",
-        "tags": ["Dinner", "Lunch", "Side"],
-        "ingredients": [
-            "carrot"
         ],
         "last_used_on": "2025-10-13"
     },
@@ -479,15 +518,28 @@
             "vegetable oil",
             "salt granulated"
         ],
-        "last_used_on": "2025-10-13"
+        "last_used_on": "2026-02-09",
+        "prep_notes": "1 inch peeled russet potato soaked in water"
     },
     {
         "name": "Szechuan Chicken",
-        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Rice", "Chicken"],
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Rice", "Chicken", "Vegetable", "Noodle"],
         "ingredients": [
-            "carrot"
+            "soy sauce",
+            "brown sugar",
+            "corn starch",
+            "rice vinegar",
+            "five spice powder",
+            "garlic powder",
+            "ground chicken",
+            "chicken thigh",
+            "red pepper",
+            "mushroom",
+            "white onion",
+            "chicken thigh"
         ],
-        "last_used_on": "2025-10-13"
+        "last_used_on": "2026-03-02",
+        "prep_notes": "1 inch chicken thigh\n1 inch red pepper\nQuarter mushrooms\n1 inch white onion"
     },
     {
         "name": "Frozen Dumplings",
@@ -515,7 +567,7 @@
     },
     {
         "name": "Chinese Hot Dog Bun",
-        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Pork", "Dough"],
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Pork", "Dough", "Ron"],
         "ingredients": [
             "hot dog",
             "heavy cream",
@@ -533,7 +585,7 @@
         "name": "Asian Cucumber Salad",
         "tags": ["Dinner", "Lunch", "Side", "Asian", "Vegetable"],
         "ingredients": [
-            "cucumber",
+            "mini cucumber",
             "salt granulated",
             "sugar",
             "sesame oil",
@@ -542,7 +594,8 @@
             "garlic",
             "cilantro"
         ],
-        "last_used_on": "2025-10-13"
+        "last_used_on": "2026-01-26",
+        "prep_notes": "Quarter mini cucumber thin\nMince garlic\nChop cilantro"
     },
     {
         "name": "Granola",
@@ -562,11 +615,11 @@
             "kodiak pancake mix",
             "spinach",
             "breakfast sausage",
-            "cheddar cheese",
+            "cheddar grated",
             "salt granulated",
             "pepper"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2026-02-09"
     },
     {
         "name": "Banana Chocolate Chip Muffins",
@@ -593,13 +646,14 @@
             "sesame oil",
             "soy sauce",
             "farfalle pasta",
-            "chicken can",
+            "rotisserie chicken",
             "carrot matchstick",
             "cilantro",
             "green onion",
             "red pepper"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2026-02-09",
+        "prep_notes": "Break down chicken and chop to 1 cm\nChop cilantro\nMince green onion\n1 cm red pepper"
     },
     {
         "name": "Asian Chicken Salad with Lemon",
@@ -618,7 +672,8 @@
             "lemon",
             "salt granulated"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Slice ginger thin\nMince green onion\nMince garlic\nChop cilantro\nLemon sliced thin"
     },
     {
         "name": "Rotisserie Chicken",
@@ -626,13 +681,14 @@
         "ingredients": [
             "rotisserie chicken"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2025-10-20",
+        "prep_notes": "Break down chicken and slice to 1 cm thick pieces"
     },
     {
         "name": "Cucumber Coins",
         "tags": ["Dinner", "Lunch", "Vegetable", "Side"],
         "ingredients": [
-            "cucumber"
+            "mini cucumber"
         ],
         "last_used_on": "2025-10-20"
     },
@@ -650,13 +706,13 @@
         "ingredients": [
             "edamame shelled"
         ],
-        "last_used_on": "2026-01-12"
+        "last_used_on": "2026-01-26"
     },
     {
         "name": "Zuppa Toscana",
         "tags": ["Dinner", "Lunch", "Main Course", "Sausage", "Potato"],
         "ingredients": [
-            "italian sausage",
+            "italian sausage mild",
             "bacon",
             "yellow onion",
             "garlic",
@@ -668,7 +724,8 @@
             "salt granulated",
             "pepper"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2025-10-20",
+        "prep_notes": "1 inch yellow onion\nMince garlic\n1 cm peeled russet potato\n1 inch kale destemmed"
     },
     {
         "name": "Pretzel Bread",
@@ -676,7 +733,7 @@
         "ingredients": [
             "pretzel bread"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2026-02-09"
     },
     {
         "name": "Bagels",
@@ -712,7 +769,7 @@
         "ingredients": [
             "caesar salad kit"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2026-02-16"
     },
     {
         "name": "Gyudon",
@@ -729,14 +786,42 @@
             "white rice",
             "green onion"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2025-10-20",
+        "prep_notes": "Thin sliced onion 1 inch long\n1 inch green onion"
+    },
+    {
+        "name": "Soyaki Pork",
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Pork", "Noodle", "Rice", "Crockpot"],
+        "ingredients": [
+            "pork loin",
+            "soyaki sauce",
+            "white onion",
+            "red pepper"
+        ],
+        "last_used_on": "2026-02-16",
+        "prep_notes": "Thin sliced onion\n1 inch red pepper"
+    },
+    {
+        "name": "Udon Noodles",
+        "tags": ["Dinner", "Lunch", "Side", "Asian", "Noodle"],
+        "ingredients": [
+            "frozen udon noodle"
+        ],
+        "last_used_on": "2026-02-16"
     },
     {
         "name": "Sesame Noodles",
         "tags": ["Dinner", "Lunch", "Side", "Asian", "Noodle"],
         "ingredients": [
+            "spaghetti pasta",
+            "sesame oil",
+            "soy sauce",
+            "sugar",
+            "salt granulated",
+            "green onion"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2025-10-20",
+        "prep_notes": "Mince green onion"
     },
     {
         "name": "Mahi Burger",
@@ -764,7 +849,7 @@
         "ingredients": [
             "mexican rice"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2026-03-02"
     },
     {
         "name": "Sauteed Romaine Lettuce",
@@ -772,7 +857,8 @@
         "ingredients": [
             "romaine lettuce"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2025-10-20",
+        "prep_notes": "2 inch romaine lettuce"
     },
     {
         "name": "Hard Boiled Eggs",
@@ -780,7 +866,7 @@
         "ingredients": [
             "egg"
         ],
-        "last_used_on": "2025-10-20"
+        "last_used_on": "2026-01-26"
     },
     {
         "name": "Boiled Baby Carrots",
@@ -823,7 +909,8 @@
             "hummus",
             "chimichurri sauce"
         ],
-        "last_used_on": "2026-01-12"
+        "last_used_on": "2026-01-12",
+        "prep_notes": "Mince garlic\nMince yellow onion\nMince parsley\nThin red onion slices\nThin tomato slices"
     },
     {
         "name": "Brioche",
@@ -831,7 +918,7 @@
         "ingredients": [
             "brioche"
         ],
-        "last_used_on": "2025-10-27"
+        "last_used_on": "2026-02-16"
     },
     {
         "name": "Yakisoba",
@@ -839,7 +926,7 @@
         "ingredients": [
             "frozen yakisoba"
         ],
-        "last_used_on": "2025-10-27"
+        "last_used_on": "2026-02-02"
     },
     {
         "name": "Philly Cheese Steak",
@@ -875,7 +962,7 @@
     },
     {
         "name": "Vegan Fried Rice",
-        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Rice", "Vegetable"],
+        "tags": ["Dinner", "Lunch", "Main Course", "Asian", "Rice", "Vegetable", "Ron"],
         "ingredients": [
             "tofu extra firm",
             "white rice",
@@ -888,13 +975,14 @@
             "brown sugar",
             "sesame oil"
         ],
-        "last_used_on": "2025-10-27"
+        "last_used_on": "2026-02-09",
+        "prep_notes": "1 cm tofu\nMince garlic\nMince green onion"
     },
     {
         "name": "Papa Johns",
         "tags": ["Dinner", "Lunch", "Main Course", "Takeout"],
         "ingredients": [],
-        "last_used_on": "2025-10-27"
+        "last_used_on": "2026-02-16"
     },
     {
         "name": "Shrimp Pasta",
@@ -911,15 +999,20 @@
             "marinara",
             "soy sauce",
             "broccoli",
-            "cherry tomato"
+            "cherry tomato",
+            "penne pasta"
         ],
-        "last_used_on": "2025-10-27"
+        "last_used_on": "2025-10-27",
+        "prep_notes": "Mince garlic\nBite size broccoli\nHalve cherry tomato"
     },
     {
         "name": "Baked Sea Bass",
         "tags": ["Dinner", "Lunch", "Main Course", "Fish"],
         "ingredients": [
-            "frozen sea bass"
+            "frozen sea bass",
+            "salt granulated",
+            "pepper",
+            "olive oil"
         ],
         "last_used_on": "2025-11-03"
     },
@@ -937,7 +1030,7 @@
         "ingredients": [
             "oatmeal square cereal"
         ],
-        "last_used_on": "2025-11-03"
+        "last_used_on": "2026-01-26"
     },
     {
         "name": "Sauteed Bok Choy",
@@ -947,7 +1040,8 @@
             "vegetable oil",
             "salt granulated"
         ],
-        "last_used_on": "2025-11-03"
+        "last_used_on": "2025-11-03",
+        "prep_notes": "2 inch bok choy"
     },
     {
         "name": "Sweet Potato Fries",
@@ -958,12 +1052,20 @@
         "last_used_on": "2025-11-03"
     },
     {
+        "name": "Frozen Fries",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable", "Potato", "Fries"],
+        "ingredients": [
+            "frozen fries"
+        ],
+        "last_used_on": "2026-02-16"
+    },
+    {
         "name": "Dinner Rolls",
         "tags": ["Dinner", "Lunch", "Side", "Bread"],
         "ingredients": [
             "dinner roll"
         ],
-        "last_used_on": "2025-11-03"
+        "last_used_on": "2026-01-26"
     },
     {
         "name": "Pulled Chicken with Slaw",
@@ -980,7 +1082,16 @@
             "broccoli slaw",
             "hamburger bun"
         ],
-        "last_used_on": "2025-11-03"
+        "last_used_on": "2026-03-02",
+        "prep_notes": "1 inch white onion"
+    },
+    {
+        "name": "Premade Beef Sirloin",
+        "tags": ["Dinner", "Lunch", "Main Course", "Beef"],
+        "ingredients": [
+            "premade beef sirloin"
+        ],
+        "last_used_on": "2026-03-02"
     },
     {
         "name": "Waffles",
@@ -988,7 +1099,7 @@
         "ingredients": [
             "waffle"
         ],
-        "last_used_on": "2025-11-03"
+        "last_used_on": "2026-01-26"
     },
     {
         "name": "Cantonese Beef Bowls",
@@ -1008,7 +1119,8 @@
             "frozen pea",
             "corn starch"
         ],
-        "last_used_on": "2025-11-03"
+        "last_used_on": "2026-02-02",
+        "prep_notes": "1 cm white onion\nMince garlic"
     },
     {
         "name": "Chinese Braised Beef Stew",
@@ -1017,7 +1129,7 @@
             "flank steak",
             "vegetable oil",
             "ginger",
-            "garlic",
+            "cloves",
             "star anise",
             "bay leaf",
             "rice wine",
@@ -1030,7 +1142,8 @@
             "green onion",
             "corn starch"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 inch cube flank steak\nSlice ginger thing\n1 inch daikon\n2 inch green onion"
     },
     {
         "name": "Lao Hu Tong",
@@ -1057,9 +1170,11 @@
             "milk",
             "kale",
             "pepper",
-            "salt kosher"
+            "salt kosher",
+            "chicken can"
         ],
-        "last_used_on": "2025-11-03"
+        "last_used_on": "2026-02-23",
+        "prep_notes": "1 cm baby bella mushroom\n1 cm carrot\n1 cm celery\n1 cm sweet potato\n1 cm white onion\n1 inch kale without stem"
     },
     {
         "name": "Tuna Salad",
@@ -1067,9 +1182,17 @@
         "ingredients": [
             "tuna can",
             "mayo",
-            "celery"
+            "celery",
+            "garlic powder",
+            "onion powder",
+            "salt granulated",
+            "pepper",
+            "olive oil",
+            "italian seasoning",
+            "rice seasoning"
         ],
-        "last_used_on": "2025-11-10"
+        "last_used_on": "2026-02-16",
+        "prep_notes": "Thin celery slices"
     },
     {
         "name": "Crescent Rolls",
@@ -1095,7 +1218,17 @@
             "vegetable oil",
             "salt granulated"
         ],
-        "last_used_on": "2025-11-24"
+        "last_used_on": "2026-01-26"
+    },
+    {
+        "name": "Sauteed Taiwanese Spinach",
+        "tags": ["Lunch", "Dinner", "Side", "Vegetable"],
+        "ingredients": [
+            "taiwanese spinach",
+            "vegetable oil",
+            "salt granulated"
+        ],
+        "last_used_on": "2026-02-09"
     },
     {
         "name": "Hash Browns",
@@ -1111,7 +1244,15 @@
         "ingredients": [
             "frozen chicken nugget"
         ],
-        "last_used_on": "2025-11-10"
+        "last_used_on": "2026-02-16"
+    },
+    {
+        "name": "Frozen Asparagus",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
+        "ingredients": [
+            "frozen asparagus"
+        ],
+        "last_used_on": "2026-02-16"
     },
     {
         "name": "Grilled 21 Seasoning Chicken",
@@ -1137,7 +1278,7 @@
         "ingredients": [
             "silver dollar pancake"
         ],
-        "last_used_on": "2025-11-10"
+        "last_used_on": "2026-01-19"
     },
     {
         "name": "Thai Chicken Lettuce Wraps",
@@ -1158,13 +1299,14 @@
             "sesame oil",
             "brown sugar"
         ],
-        "last_used_on": "2025-11-10"
+        "last_used_on": "2026-02-09",
+        "prep_notes": "Grate ginger\nMince garlic\nMince green onion\nQuarter zucchini thin\nWash lettuce leaves\nJuice limes"
     },
     {
         "name": "Boiled Butternut Squash",
         "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
         "ingredients": [
-            "butternut squash"
+            "frozen butternut squash"
         ],
         "last_used_on": "2025-11-10"
     },
@@ -1217,7 +1359,8 @@
             "oyster sauce",
             "vermicelli noodle"
         ],
-        "last_used_on": "2025-11-10"
+        "last_used_on": "2025-11-10",
+        "prep_notes": "Thinly slice flank steak against the grain\nMince green onion\n1 inch daikon\nChop cilantro"
     },
     {
         "name": "Creamy Tuscan Garlic Chicken Pasta",
@@ -1234,7 +1377,8 @@
             "spinach",
             "sun dried tomato"
         ],
-        "last_used_on": "2025-11-10"
+        "last_used_on": "2025-11-10",
+        "prep_notes": "1 inch chicken thigh\n1 inch spinach"
     },
     {
         "name": "Shumai Dumplings (Frozen)",
@@ -1270,6 +1414,14 @@
         "last_used_on": "2025-11-17"
     },
     {
+        "name": "Fish Sticks",
+        "tags": ["Dinner", "Lunch", "Main Course", "Fish"],
+        "ingredients": [
+            "frozen fish stick"
+        ],
+        "last_used_on": "2026-02-02"
+    },
+    {
         "name": "Honey Garlic Chicken",
         "tags": ["Dinner", "Lunch", "Main Course", "Chicken", "Asian", "Rice", "Noodle"],
         "ingredients": [
@@ -1285,7 +1437,8 @@
             "garlic",
             "green onion"
         ],
-        "last_used_on": "2025-11-17"
+        "last_used_on": "2025-11-17",
+        "prep_notes": "Mince garlic\nMince green onion"
     },
     {
         "name": "Sauteed Snap Peas",
@@ -1295,7 +1448,8 @@
             "vegetable oil",
             "salt granulated"
         ],
-        "last_used_on": "2025-11-17"
+        "last_used_on": "2025-11-17",
+        "prep_notes": "Trim snap pea ends"
     },
     {
         "name": "Smoked Pork Sausages",
@@ -1303,7 +1457,7 @@
         "ingredients": [
             "smoked pork sausage"
         ],
-        "last_used_on": "2025-11-17"
+        "last_used_on": "2026-03-02"
     },
     {
         "name": "Chicken Sausages",
@@ -1311,7 +1465,7 @@
         "ingredients": [
             "chicken sausage"
         ],
-        "last_used_on": null
+        "last_used_on": "2026-03-02"
     },
     {
         "name": "Mashed Potatoes",
@@ -1319,9 +1473,10 @@
         "ingredients": [
             "russet potato",
             "milk",
-            "butter"
+            "butter unsalted"
         ],
-        "last_used_on": "2025-11-17"
+        "last_used_on": "2026-02-09",
+        "prep_notes": "1 inch peeled russet potato"
     },
     {
         "name": "Asian Shredded Pork with Slaw",
@@ -1338,19 +1493,28 @@
             "rice vinegar",
             "sesame oil",
             "broccoli slaw"
-
         ],
-        "last_used_on": "2025-11-17"
+        "last_used_on": "2025-11-17",
+        "prep_notes": "Trim garlic ends"
+    },
+    {
+        "name": "Bamba Puffs",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "bamba puffs"
+        ],
+        "last_used_on": "2026-01-26"
     },
     {
         "name": "Air Fryer Cauliflower",
         "tags": ["Dinner", "Lunch", "Side", "Vegetable"],
         "ingredients": [
             "cauliflower",
-            "parmesan grated",
+            "grated parmesan",
             "salt granulated"
         ],
-        "last_used_on": "2025-11-17"
+        "last_used_on": "2025-11-17",
+        "prep_notes": "1 inch cauliflower"
     },
     {
         "name": "Bulgogi Baos",
@@ -1359,9 +1523,29 @@
             "flour unbleached",
             "yeast",
             "sugar",
-            "salt granulated"
+            "salt granulated",
+            "thin beef",
+            "brown sugar",
+            "soy sauce",
+            "sesame oil",
+            "ground ginger",
+            "vegetable oil",
+            "garlic",
+            "green onion",
+            "white onion"
         ],
-        "last_used_on": "2025-11-17"
+        "last_used_on": "2025-11-17",
+        "prep_notes": "Mince garlic\n2 inch green onion\nThinly slice white onion"
+    },
+    {
+        "name": "Man Toh",
+        "tags": ["Breakfast", "Dinner", "Lunch", "Side", "Dough", "Ron"],
+        "ingredients": [
+            "flour unbleached",
+            "yeast",
+            "sugar"
+        ],
+        "last_used_on": "2026-01-26"
     },
     {
         "name": "Trader Joe's Granola Bars",
@@ -1379,15 +1563,55 @@
             "strawberry jelly",
             "hippo sliced bread"
         ],
-        "last_used_on": "2025-11-17"
+        "last_used_on": "2026-03-02"
     },
     {
-        "name": "Baked Cod Tacos",
+        "name": "Hippo Sliced Bread",
+        "tags": ["Breakfast", "Dinner", "Lunch", "Side"],
+        "ingredients": [
+            "hippo sliced bread"
+        ],
+        "last_used_on": "2026-01-26"
+    },
+    {
+        "name": "Hippo Bread Stick",
+        "tags": ["Breakfast", "Dinner", "Lunch", "Side"],
+        "ingredients": [
+            "hippo bread stick"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Hippo Crumble Cookie Bread",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "hippo crumble cookie bread"
+        ],
+        "last_used_on": null
+    },
+    {
+        "name": "Frozen Cauliflower Rice",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable", "Rice"],
+        "ingredients": [
+            "frozen cauliflower rice"
+        ],
+        "last_used_on": "2026-02-02"
+    },
+    {
+        "name": "Peanut Butter Crackers",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "peanut butter sandwich cracker"
+        ],
+        "last_used_on": "2026-01-26"
+    },
+    {
+        "name": "Baked Fish Tacos",
         "tags": ["Dinner", "Lunch", "Main Course", "Fish", "Vegetable"],
         "ingredients": [
-            "frozen cod",
+            "frozen breaded fish",
             "butter unsalted",
-            "lime",
+            "lime juice",
             "garlic powder",
             "salt granulated",
             "avocado",
@@ -1396,7 +1620,8 @@
             "white onion",
             "salsa"
         ],
-        "last_used_on": "2025-11-17"
+        "last_used_on": "2026-02-02",
+        "prep_notes": "1 cm roma tomato\n1 cm white onion\n1 cm cilantro"
     },
     {
         "name": "Cheese and Craker Tray",
@@ -1418,7 +1643,7 @@
         "ingredients": [
             "elmo biscuit"
         ],
-        "last_used_on": "2025-11-24"
+        "last_used_on": "2026-02-09"
     },
     {
         "name": "Roast Vegetables",
@@ -1427,10 +1652,14 @@
             "zucchini",
             "red onion",
             "mushroom",
+            "red pepper",
+            "cauliflower",
+            "snap pea",
             "vegetable oil",
             "salt granulated"
         ],
-        "last_used_on": "2025-11-24"
+        "last_used_on": "2025-11-24",
+        "prep_notes": "Half moon zucchini 1 cm thick\n1 inch red onion\nQuarter mushroom\n1 inch cauliflower\nTrim snap pea\n1 inch red pepper"
     },
     {
         "name": "Mei Fun",
@@ -1455,7 +1684,8 @@
             "sesame oil",
             "salt granulated"
         ],
-        "last_used_on": "2025-11-24"
+        "last_used_on": "2025-11-24",
+        "prep_notes": "Thinly slice chicken thigh\nJulienne ginger\n1 inch cabbage\n2 inch green onion"
     },
     {
         "name": "Scrambled Eggs",
@@ -1465,7 +1695,7 @@
             "milk",
             "salt granulated"
         ],
-        "last_used_on": "2025-11-24"
+        "last_used_on": "2026-02-02"
     },
     {
         "name": "Chinese Meat and Potatoes",
@@ -1487,9 +1717,11 @@
             "white onion",
             "corn starch",
             "green onion",
-            "salt granulated"
+            "salt granulated",
+            "frozen pea and carrot"
         ],
-        "last_used_on": "2025-11-24"
+        "last_used_on": "2025-11-24",
+        "prep_notes": "Mince shitake mushroom\n1cm russet potato peeled\nMince ginger\nMince garlic\nMince green onion\n1 cm white onion"
     },
     {
         "name": "Loo Roh",
@@ -1503,7 +1735,21 @@
             "rice wine",
             "star anise"
         ],
-        "last_used_on": "2025-12-01"
+        "last_used_on": "2025-12-01",
+        "prep_notes": "1 inch green onion\nSlice ginger thin"
+    },
+    {
+        "name": "Guacamole",
+        "tags": ["Dinner", "Lunch", "Side", "Vegetable", "Ron"],
+        "ingredients": [
+            "avocado",
+            "lime juice",
+            "salt granulated",
+            "roma tomato",
+            "white onion",
+            "cilantro"
+        ],
+        "last_used_on": "2026-02-02"
     },
     {
         "name": "Granola and Yogurt",
@@ -1528,14 +1774,14 @@
             "milk",
             "frozen corn"
         ],
-        "last_used_on": "2025-12-01"
+        "last_used_on": "2026-02-09"
     },
     {
         "name": "Chili",
         "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Sausage"],
         "ingredients": [
             "ground beef",
-            "italian sausage",
+            "italian sausage mild",
             "cheddar grated",
             "green onion",
             "white onion",
@@ -1557,16 +1803,17 @@
             "beef bouillon cube",
             "beef broth"
         ],
-        "last_used_on": "2025-12-01"
+        "last_used_on": "2026-02-09",
+        "prep_notes": "1 cm green onion\n1 cm white onion\n1 inch red pepper\n1 cm celery\nDice garlic"
     },
     {
         "name": "Beer Bratwurst",
-        "tags": ["Dinner", "Lunch", "Main Course", "Sausage", "Sandwich"],
+        "tags": ["Dinner", "Lunch", "Main Course", "Sausage", "Sandwich", "Ron"],
         "ingredients": [
             "beer bratwurst",
             "white onion",
             "pickle",
-            "mustard",
+            "mustard yellow",
             "beer",
             "hot dog bun"
         ],
@@ -1576,6 +1823,9 @@
         "name": "Yogurt Mango Smoothie",
         "tags": ["Breakfast", "Lunch", "Dinner", "Side"],
         "ingredients": [
+            "plain yogurt",
+            "frozen mango",
+            "milk"
         ],
         "last_used_on": "2025-12-01"
     },
@@ -1639,11 +1889,12 @@
             "white onion",
             "hamburger bun",
             "ketchup",
-            "mustard",
+            "mustard yellow",
             "mayo",
             "pickle"
         ],
-        "last_used_on": "2025-12-01"
+        "last_used_on": "2025-12-01",
+        "prep_notes": "Slice tomato thin\nWash lettuce\nSlice onion rings thin"
     },
     {
         "name": "Chicken Burgers",
@@ -1665,11 +1916,12 @@
             "white onion",
             "hamburger bun",
             "ketchup",
-            "mustard",
+            "mustard yellow",
             "mayo",
             "pickle"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Slice tomato thin\nWash lettuce\nSlice onion rings thin"
     },
     {
         "name": "Chicken Patties with Garlic Aoili",
@@ -1677,7 +1929,7 @@
         "ingredients": [
             "ground chicken",
             "greek yogurt",
-            "parmesan grated",
+            "grated parmesan",
             "parsley",
             "onion powder",
             "salt granulated",
@@ -1687,7 +1939,8 @@
             "lemon juice",
             "pepper"
         ],
-        "last_used_on": null
+        "last_used_on": "2026-01-26",
+        "prep_notes": "Mince garlic"
     },
     {
         "name": "Chicken Alfredo Pasta",
@@ -1698,11 +1951,11 @@
             "garlic",
             "flour unbleached",
             "half and half",
-            "parmesan grated",
+            "grated parmesan",
             "romano cheese",
             "salt granulated",
             "pepper",
-            "fettuccine pasta",
+            "fettuccini pasta",
             "parsley"
         ],
         "last_used_on": null
@@ -1718,17 +1971,18 @@
             "white onion",
             "hamburger bun",
             "ketchup",
-            "mustard",
+            "mustard yellow",
             "mayo",
             "pickle"
         ],
-        "last_used_on": "2025-12-08"
+        "last_used_on": "2025-12-08",
+        "prep_notes": "Slice tomato thin\nWash lettuce\nSlice onion rings thin"
     },
     {
         "name": "Wonton Gourmet",
         "tags": ["Lunch", "Dinner", "Main Course", "Beef", "Asian", "Noodle", "Shrimp", "Vegetable", "Takeout"],
         "ingredients": [],
-        "last_used_on": "2025-12-08"
+        "last_used_on": "2026-02-23"
     },
     {
         "name": "Hummus and Pita Chips",
@@ -1740,12 +1994,12 @@
     },
     {
         "name": "Smashed Potatoes",
-        "tags": ["Lunch", "Dinner", "Side", "Potato"],
+        "tags": ["Lunch", "Dinner", "Side", "Potato", "Ron"],
         "ingredients": [
             "yukon gold potato",
             "salt granulated"
         ],
-        "last_used_on": "2025-12-08"
+        "last_used_on": "2026-02-16"
     },
     {
         "name": "Fried Rice",
@@ -1793,7 +2047,16 @@
             "chicken thigh",
             "salt granulated"
         ],
-        "last_used_on": "2025-12-15"
+        "last_used_on": "2025-12-15",
+        "prep_notes": "Mince garlic\nTrim chicken thighs (optional)"
+    },
+    {
+        "name": "Cheese Tortellini",
+        "tags": ["Lunch", "Dinner", "Main Course", "Pasta"],
+        "ingredients": [
+            "cheese tortellini"
+        ],
+        "last_used_on": "2026-02-23"
     },
     {
         "name": "Nachos",
@@ -1844,7 +2107,7 @@
         "name": "Tensuke",
         "tags": ["Lunch", "Dinner", "Main Course", "Takeout", "Fish", "Rice", "Asian"],
         "ingredients": [],
-        "last_used_on": "2025-12-08"
+        "last_used_on": "2026-02-02"
     },
     {
         "name": "Raisins",
@@ -1882,7 +2145,8 @@
             "ginger",
             "rice wine"
         ],
-        "last_used_on": "2025-12-08"
+        "last_used_on": "2025-12-08",
+        "prep_notes": "Slice flank steak long and thin against the grain\nBite sized broccoli\nMince garlic\nMince ginger"
     },
     {
         "name": "Beef Onion Stir Fry",
@@ -1900,7 +2164,8 @@
             "sesame oil",
             "white onion"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Slice flank steak long and thin against the grain\n1 inch white onion"
     },
     {
         "name": "Santouka Ramen",
@@ -1918,7 +2183,7 @@
         "name": "Chef Ping",
         "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Noodle", "Rice", "Vegetable", "Shrimp", "Beef", "Takeout"],
         "ingredients": [],
-        "last_used_on": null
+        "last_used_on": "2026-02-23"
     },
     {
         "name": "McDonalds",
@@ -1982,7 +2247,7 @@
             "butter unsalted",
             "yellow onion",
             "beef broth",
-            "worcestershire sauce",
+            "worchestershire sauce",
             "beef bouillon cube",
             "tomato paste",
             "carrot",
@@ -1991,7 +2256,24 @@
             "frozen pea",
             "corn starch"
         ],
-        "last_used_on": null
+        "last_used_on": "2026-01-19",
+        "prep_notes": "1 cm yellow onion\nMince garlic\n1 inch carrot\n1 inch russet potato"
+    },
+    {
+        "name": "Soy Sauce Ramen",
+        "tags": ["Lunch", "Dinner", "Side", "Asian", "Noodle"],
+        "ingredients": [
+            "soy sauce ramen pack"
+        ],
+        "last_used_on": "2026-01-19"
+    },
+    {
+        "name": "Abby Sesame Street Granola Bar",
+        "tags": ["Breakfast", "Main Course"],
+        "ingredients": [
+            "abby sesame street granola bar"
+        ],
+        "last_used_on": "2026-01-19"
     },
     {
         "name": "Chicken and Broccoli with White Sauce",
@@ -2011,7 +2293,8 @@
             "garlic",
             "rice wine"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 cm chicken thigh\nMince ginger\nMince garlic\nBite size broccoli"
     },
     {
         "name": "Mexican Beef and Rice Skillet",
@@ -2035,7 +2318,8 @@
             "black bean can",
             "frozen corn"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 cm white onion\nMince garlic\n1 cm red pepper\n1 cm yellow pepper"
     },
     {
         "name": "Ginger Beef",
@@ -2053,7 +2337,8 @@
             "ginger",
             "green onion"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Slice flank steak long and thin against grain\nMince some ginger\nJulienne ginger\nMince green onion at an angle"
     },
     {
         "name": "Ginger Chicken",
@@ -2074,7 +2359,8 @@
             "oyster sauce",
             "corn starch"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "2 inch green onion and separate green from white\nTrim and halve garlic\nSlice ginger thin\n1 inch chicken thigh\nQuarter shallots"
     },
     {
         "name": "Sesame Oil Chicken (Mah Yo Gee)",
@@ -2086,9 +2372,11 @@
             "soy sauce",
             "rice wine",
             "white pepper",
-            "thin flour noodle"
+            "thin flour noodle",
+            "bok choy"
         ],
-        "last_used_on": null
+        "last_used_on": "2026-01-19",
+        "prep_notes": "Slice ginger thin\nTrim bok choy ends"
     },
     {
         "name": "Boursin Chicken and Pasta",
@@ -2118,7 +2406,8 @@
             "garlic powder",
             "white onion"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince white onion"
     },
     {
         "name": "Mini Meatloaf Muffins",
@@ -2127,8 +2416,8 @@
             "ground beef",
             "panko bread crumbs",
             "white onion",
-            "barbecue sauce",
-            "mustard",
+            "barbeque sauce",
+            "mustard yellow",
             "garlic powder",
             "chili powder",
             "salt granulated",
@@ -2139,7 +2428,8 @@
             "mustard dijon",
             "nutmeg"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince white onion"
     },
     {
         "name": "Oven-Baked Five Spice Chicken",
@@ -2156,7 +2446,8 @@
             "sesame oil",
             "chicken thigh"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 cm red onion\nMince garlic"
     },
     {
         "name": "Garlic Fried Rice",
@@ -2172,7 +2463,8 @@
             "sugar",
             "green onion"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince garlic\nMince green onion"
     },
     {
         "name": "Chinese Red-braised Spare Ribs",
@@ -2190,7 +2482,8 @@
             "star anise",
             "garlic"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 inch green onion white section\nMince green part of green onion\nMince garlic"
     },
     {
         "name": "Parmesan Chicken Bake",
@@ -2205,7 +2498,8 @@
             "grated parmesan",
             "croutons"
         ],
-        "last_used_on": "2025-10-06"
+        "last_used_on": "2025-10-06",
+        "prep_notes": "Mince garlic"
     },
     {
         "name": "Corn Fritters",
@@ -2222,7 +2516,8 @@
             "salt granulated",
             "pepper"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince red pepper\nMince parsley\nMince garlic chives"
     },
     {
         "name": "Mini Baked Canned Salmon Patties",
@@ -2237,7 +2532,8 @@
             "cumin",
             "panko bread crumbs"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince yellow onion\nMince red pepper\nMince broccoli"
     },
     {
         "name": "Minestrone Soup",
@@ -2258,9 +2554,10 @@
             "cannellini bean",
             "small shell pasta",
             "pepper",
-            "parmesan grated"
+            "grated parmesan"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 cm yellow onion\n1 cm carrot\nQuarter zucchini 1 cm thick"
     },
     {
         "name": "Sausage Hashbrown Breakfast Casserole",
@@ -2297,11 +2594,11 @@
         "ingredients": [
             "vegetable oil",
             "pork shoulder",
-            "barbecue sauce",
+            "barbeque sauce",
             "apple cider vinegar",
             "chicken broth",
             "brown sugar",
-            "mustard",
+            "mustard yellow",
             "worchestershire sauce",
             "white onion",
             "garlic",
@@ -2313,11 +2610,12 @@
             "apple cider vinegar",
             "sugar"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 inch white onion\nRough chop garlic"
     },
     {
         "name": "Chicken Tetrazzini Casserole",
-        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Pasta"],
+        "tags": ["Lunch", "Dinner", "Main Course", "Chicken", "Pasta", "Vegetable"],
         "ingredients": [
             "spaghetti pasta",
             "olive oil",
@@ -2329,11 +2627,14 @@
             "salt granulated",
             "pepper",
             "chicken can",
-            "parmesan grated",
+            "grated parmesan",
             "italian bread crumbs",
-            "butter unsalted"
+            "butter unsalted",
+            "red pepper",
+            "broccoli"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 cm mushroom\n1 cm red pepper\n1 cm broccoli"
     },
     {
         "name": "Shredded Pork Pan-Fried Noodles",
@@ -2356,7 +2657,8 @@
             "bean sprout",
             "garlic chive"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Cut pork into thin strips\nMince garlic\nJulienne celery\n2 inch garlic chive"
     },
     {
         "name": "Braised Pork Chops",
@@ -2373,7 +2675,8 @@
             "sugar",
             "dark soy sauce"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "2 inch green onion"
     },
     {
         "name": "Chinese Tomato Egg Stir Fry",
@@ -2382,14 +2685,15 @@
             "tomato",
             "green onion",
             "egg",
-            "salt",
+            "salt granulated",
             "white pepper",
             "sesame oil",
             "rice wine",
             "vegetable oil",
             "sugar"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince green onion\nSlice tomato into thin wedges"
     },
     {
         "name": "Crockpot Pork Loin",
@@ -2405,7 +2709,8 @@
             "paprika",
             "chicken broth"
         ],
-        "last_used_on": "2025-11-10"
+        "last_used_on": "2025-11-10",
+        "prep_notes": "Slice yellow onion into round circle slices"
     },
     {
         "name": "Shrimp Toast",
@@ -2423,7 +2728,8 @@
             "artisan bread",
             "vegetable oil"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Dice cilantro\nMince green onion\nGrate ginger"
     },
     {
         "name": "Asian Beef Short Ribs",
@@ -2435,7 +2741,7 @@
             "pepper",
             "soy sauce",
             "brown sugar",
-            "rice venegar",
+            "rice vinegar",
             "sesame oil",
             "carrot",
             "yellow onion",
@@ -2444,7 +2750,8 @@
             "green onion",
             "white rice"
         ],
-        "last_used_on": "2025-12-08"
+        "last_used_on": "2025-12-08",
+        "prep_notes": "1 inch carrot\n1 inch yellow onion\nMince garlic\nSlice ginger thin\nMince green onion"
     },
     {
         "name": "Chicken Curry",
@@ -2461,7 +2768,8 @@
             "sugar",
             "salt granulated"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 inch chicken thigh\n 1 inch white onion"
     },
     {
         "name": "Banana Oat Pancakes",
@@ -2474,7 +2782,7 @@
             "cinnamon",
             "vegetable oil"
         ],
-        "last_used_on": null
+        "last_used_on": "2026-01-19"
     },
     {
         "name": "Homemade English Muffins",
@@ -2526,7 +2834,8 @@
             "garlic",
             "rice wine"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Cut chicken into thin strips against the grain\nHalf moon zucchini thin\nMince garlic"
     },
     {
         "name": "Mini Garlic Monkey Bread",
@@ -2536,9 +2845,10 @@
             "garlic",
             "parsley dried",
             "biscuit dough",
-            "parmesan grated"
+            "grated parmesan"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince garlic"
     },
     {
         "name": "Homemade Beefaroni",
@@ -2559,7 +2869,8 @@
             "elbow pasta",
             "cheddar grated"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 cm yellow onion\n1 cm red pepper\n1 cm mushrooms"
     },
     {
         "name": "Banana Scones",
@@ -2579,7 +2890,7 @@
         "last_used_on": null
     },
     {
-        "name": "Garlic Tumeric Rice",
+        "name": "Garlic Turmeric Rice",
         "tags": ["Lunch", "Dinner", "Side", "Rice"],
         "ingredients": [
             "butter unsalted",
@@ -2588,7 +2899,8 @@
             "turmeric",
             "chicken broth"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince garlic"
     },
     {
         "name": "Italian Meatball Sub Sandwiches",
@@ -2602,7 +2914,7 @@
             "salt granulated",
             "pepper",
             "egg",
-            "parmesan grated",
+            "grated parmesan",
             "panko bread crumbs",
             "olive oil",
             "garlic",
@@ -2612,7 +2924,8 @@
             "hoagie roll",
             "provolone slice"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince garlic\nTear basil"
     },
     {
         "name": "Blueberry Yogurt Cake",
@@ -2733,9 +3046,10 @@
             "thyme",
             "basil dried",
             "half and half",
-            "parmesan grated"
+            "grated parmesan"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 cm red pepper\nQuarter mushrooms\n1 inch spinach\nHalve small potatoes\n1 cm parsley\nMince garlic"
     },
     {
         "name": "Snickerdoodle Puppy Chow",
@@ -2769,7 +3083,8 @@
             "dark soy sauce",
             "sugar"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince shallots\nMince garlic\nMince green onion"
     },
     {
         "name": "Bang Bang Shrimp",
@@ -2800,7 +3115,7 @@
         "ingredients": [
             "chuck roast",
             "garlic",
-            "adobo sauce",
+            "chipotle in adobo sauce",
             "green chile",
             "white onion",
             "lime juice",
@@ -2811,7 +3126,8 @@
             "cloves",
             "beef broth"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince garlic\nTrim fat from chuck roast\nRough chop chiptotle\nRough chop green chile\n1 cm white onion"
     },
     {
         "name": "Korean Beef Bowl",
@@ -2819,7 +3135,7 @@
         "ingredients": [
             "brown sugar",
             "soy sauce",
-            "sessame oil",
+            "sesame oil",
             "ground ginger",
             "vegetable oil",
             "garlic",
@@ -2827,7 +3143,8 @@
             "green onion",
             "white rice"
         ],
-        "last_used_on": null
+        "last_used_on": "2026-02-23",
+        "prep_notes": "Mince garlic\nMince green onion"
     },
     {
         "name": "Beef Stroganoff",
@@ -2843,7 +3160,8 @@
             "green onion",
             "egg noodle short"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince parsley\nMince green onion"
     },
     {
         "name": "Red Braised Chicken",
@@ -2859,7 +3177,8 @@
             "dark soy sauce",
             "green onion"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 inch chicken thigh\nSlice ginger thin\n2 inch green onion"
     },
     {
         "name": "Beef Curry Puffs",
@@ -2870,7 +3189,7 @@
             "garlic",
             "ground beef",
             "curry powder",
-            "tumeric",
+            "turmeric",
             "cumin",
             "sugar",
             "pepper",
@@ -2881,7 +3200,8 @@
             "egg",
             "frozen pea"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince white onion\nMince garlic"
     },
     {
         "name": "Japchae",
@@ -2905,7 +3225,8 @@
             "egg",
             "vegetable oil"
         ],
-        "last_used_on": null
+        "last_used_on": "2026-03-02",
+        "prep_notes": "Julienne red pepper\nThinly slice yellow onion\nThinly slice shitake mushrooms"
     },
     {
         "name": "Chinese Beef on a Stick",
@@ -2924,7 +3245,8 @@
             "soy sauce",
             "sesame oil"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Slice flank steak long and thin against the grain"
     },
     {
         "name": "Marry Me Chicken Soup",
@@ -2943,7 +3265,8 @@
             "sun dried tomato",
             "ditalini pasta"
         ],
-        "last_used_on": "2026-02-28"
+        "last_used_on": "2026-02-28",
+        "prep_notes": "1 cm yellow onion\nBreak down chicken and chop to 1 inch"
     },
     {
         "name": "Bread in a Bag",
@@ -2962,7 +3285,7 @@
         "tags": ["Lunch", "Dinner", "Main Course", "Asian", "Fish", "Rice"],
         "ingredients": [
             "white rice",
-            "cod",
+            "frozen cod",
             "salt granulated",
             "white pepper",
             "oyster sauce",
@@ -2974,7 +3297,8 @@
             "green onion",
             "cilantro"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Grate ginger\n1 inch  romain lettuce\nThinly slice ginger\n1 cm green onion\nChop cilantro"
     },
     {
         "name": "Taiwanese Popcorn Chicken",
@@ -2993,7 +3317,8 @@
             "coarse potato starch",
             "basil fresh"
         ],
-        "last_used_on": null
+        "last_used_on": "2026-01-26",
+        "prep_notes": "1 inch chicken thigh\nMince garlic\nGrate ginger\nWash basil"
     },
     {
         "name": "Baked Ziti",
@@ -3001,10 +3326,10 @@
         "ingredients": [
             "ziti pasta",
             "cottage cheese",
-            "parmesan grated",
+            "grated parmesan",
             "egg",
             "mozzarella grated",
-            "italian sausage",
+            "italian sausage mild",
             "yellow onion",
             "garlic",
             "salt granulated",
@@ -3015,7 +3340,7 @@
             "parsley dried"
 
         ],
-        "last_used_on": null
+        "last_used_on": "2026-01-19"
     },
     {
         "name": "String Bean Chicken",
@@ -3034,7 +3359,8 @@
             "garlic",
             "rice wine"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 inch chicken thigh\nMince garlic\nTrim ends of string bean and cut in half"
     },
     {
         "name": "Chicken Caprese Burgers",
@@ -3053,7 +3379,8 @@
             "mozzarella slice",
             "tomato"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Slice tomato thin\nMince basil"
     },
     {
         "name": "Oven Cheeseburgers",
@@ -3069,18 +3396,19 @@
             "white onion",
             "hamburger bun",
             "ketchup",
-            "mustard",
+            "mustard yellow",
             "mayo",
             "pickle"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Slice tomato thin\nWash lettuce\nSlice onion rings thin"
     },
     {
         "name": "Split Pea Soup",
         "tags": ["Lunch", "Dinner", "Main Course", "Pork", "Vegetable"],
         "ingredients": [
             "olive oil",
-            "ham",
+            "canadian bacon",
             "white onion",
             "celery",
             "chicken broth",
@@ -3095,7 +3423,8 @@
             "dill",
             "parsley"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "1 cm canadian bacon\n1 cm onion\n1 cm celery\nRinse split peas, 1 inch peeled potato\nHalf moon carrots 1cm thick\nMince garlic\nChop parsley"
     },
     {
         "name": "Peanut Noodles",
@@ -3111,7 +3440,8 @@
             "sesame oil",
             "lime juice"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Mince garlic\nGrate ginger"
     },
     {
         "name": "Ribs and Rice",
@@ -3131,6 +3461,25 @@
             "white rice",
             "frozen pea"
         ],
-        "last_used_on": null
+        "last_used_on": null,
+        "prep_notes": "Wash, soak, drain, mince shitake mushrooms\nSlice ginger thin\nMince garlic\n1 cm carrot"
     },
+    {
+        "name": "Grilled Ribeye",
+        "tags": ["Dinner", "Lunch", "Main Course", "Beef", "Grill", "Ron"],
+        "ingredients": [
+            "ribeye",
+            "salt kosher",
+            "olive oil"
+        ],
+        "last_used_on": "2026-03-02"
+    },
+    {
+        "name": "Sourdough Bread",
+        "tags": ["Dinner", "Lunch", "Side", "Bread"],
+        "ingredients": [
+            "sourdough bread"
+        ],
+        "last_used_on": "2026-03-02"
+    }
 ]

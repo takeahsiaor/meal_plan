@@ -89,3 +89,15 @@ class Store(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# class PlanShoppingListOverride(models.Model):
+#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, db_column="plan_id")
+#     list_data = models.JSONField()
+
+
+# class PlanPrepNotesOverride(models.Model):
+#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, db_column="plan_id")
+#     notes = models.TextField()

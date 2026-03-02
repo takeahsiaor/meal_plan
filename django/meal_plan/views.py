@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib.parse import urlencode
 
 from django.contrib import messages
@@ -19,7 +19,21 @@ class PlanListView(ListView):
     template_name = "meal_plan/plan_list.html"
 
     def get_queryset(self):
-        return Plan.objects.prefetch_related("recipes").order_by("-plan_date")
+        qs = Plan.objects.prefetch_related("recipes").order_by("-plan_date")
+        tab = self.request.GET.get("tab", "upcoming")
+        today = timezone.localdate()
+        if tab == "upcoming":
+            qs = qs.filter(plan_date__gte=today)
+        elif tab == "recent":
+            cutoff = today - timedelta(days=90)
+            qs = qs.filter(plan_date__lt=today, plan_date__gte=cutoff)
+        # "all" = no extra filter
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_tab"] = self.request.GET.get("tab", "upcoming")
+        return context
 
 
 def _build_plan_shopping_list(plan):
