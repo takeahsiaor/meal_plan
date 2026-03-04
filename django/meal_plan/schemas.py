@@ -6,6 +6,7 @@ Structure:
         "<store uuid>": {
             "ingredients": [{"name": str, "recipes": [...], "is_staple": bool, "ingredient_id": "<uuid>"}, ...],
             "is_manual": bool,  # True if store was added by user (e.g. "Add store" button)
+            "trip_date": str,   # "YYYY-MM-DD" for when to visit the store
         },
         ...
     }
@@ -44,8 +45,8 @@ def serialize_list_items(
 ) -> dict[str, dict[str, Any]]:
     """
     Convert typed structure to JSON-serializable dict for storage.
-    store_to_data: { store_key: {"ingredients": list[ShoppingListItem], "is_manual": bool} }
-    Returns: { store_key: {"ingredients": [item.to_dict(), ...], "is_manual": bool} }
+    store_to_data: { store_key: {"ingredients": list[ShoppingListItem], "is_manual": bool, "trip_date": str} }
+    Returns: { store_key: {"ingredients": [...], "is_manual": bool, "trip_date": str} }
     """
     result: dict[str, dict[str, Any]] = {}
     for store_key, data in store_to_data.items():
@@ -53,5 +54,6 @@ def serialize_list_items(
         result[store_key] = {
             "ingredients": [item.to_dict() for item in ingredients],
             "is_manual": bool(data.get("is_manual", False)),
+            "trip_date": data.get("trip_date") if isinstance(data.get("trip_date"), str) else None,
         }
     return result

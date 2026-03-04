@@ -3,12 +3,19 @@ from .models import (
     Recipe,
     Tag,
     Plan,
+    PlanRecipe,
     PlanShoppingList,
     Ingredient,
     RecipeIngredient,
     Store,
     StoreIngredient,
 )
+
+
+class PlanRecipeInline(admin.TabularInline):
+    model = PlanRecipe
+    extra = 1
+    autocomplete_fields = ["recipe"]
 
 
 @admin.register(Tag)
@@ -48,10 +55,20 @@ class RecipeAdmin(admin.ModelAdmin):
 @admin.register(Plan)
 class PlanAdmin(admin.ModelAdmin):
     list_display = ["plan_date"]
-    filter_horizontal = ["recipes"]
     readonly_fields = ["id"]
     date_hierarchy = "plan_date"
     ordering = ["-plan_date"]
+    inlines = [PlanRecipeInline]
+    search_fields = ["plan_date"]
+
+
+@admin.register(PlanRecipe)
+class PlanRecipeAdmin(admin.ModelAdmin):
+    list_display = ["plan", "recipe", "notes"]
+    list_filter = ["plan__plan_date"]
+    search_fields = ["plan__plan_date", "recipe__name"]
+    autocomplete_fields = ["plan", "recipe"]
+    ordering = ["-plan__plan_date", "recipe__name"]
 
 
 @admin.register(PlanShoppingList)

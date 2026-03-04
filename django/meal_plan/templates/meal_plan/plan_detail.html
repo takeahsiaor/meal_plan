@@ -26,17 +26,17 @@
 <section class="mb-4">
     <h2 class="h5 mb-2">Recipes</h2>
     <p class="mb-2">
-        {% for recipe in recipes %}
+        {% for plan_recipe in plan_recipes %}
         <span class="badge bg-secondary d-inline-flex align-items-center">
-            {{ recipe.name }}
-            <button type="button" class="btn btn-link text-white p-0 border-0 remove-recipe-btn ms-1 align-baseline" style="font-size: 1.25em; line-height: 1; font-weight: bold;" aria-label="Remove {{ recipe.name }} from plan" data-recipe-name="{{ recipe.name }}" data-form-id="remove-recipe-form-{{ recipe.id }}">×</button>
+            {{ plan_recipe.recipe.name }}
+            <button type="button" class="btn btn-link text-white p-0 border-0 remove-recipe-btn ms-1 align-baseline" style="font-size: 1.25em; line-height: 1; font-weight: bold;" aria-label="Remove {{ plan_recipe.recipe.name }} from plan" data-recipe-name="{{ plan_recipe.recipe.name }}" data-form-id="remove-recipe-form-{{ plan_recipe.recipe.id }}">×</button>
         </span>
         {% empty %}
         <span class="text-muted">None</span>
         {% endfor %}
     </p>
-    {% for recipe in recipes %}
-    <form method="post" action="{% url 'meal_plan:plan_remove_recipe' plan.id recipe.id %}" id="remove-recipe-form-{{ recipe.id }}" class="d-none">
+    {% for plan_recipe in plan_recipes %}
+    <form method="post" action="{% url 'meal_plan:plan_remove_recipe' plan.id plan_recipe.recipe.id %}" id="remove-recipe-form-{{ plan_recipe.recipe.id }}" class="d-none">
         {% csrf_token %}
     </form>
     {% endfor %}
@@ -56,7 +56,7 @@
                 </select>
                 <button type="submit" class="btn btn-sm btn-outline-primary" {% if not available_recipes %}disabled{% endif %}>Add</button>
             </form>
-            {% if not available_recipes and recipes %}
+            {% if not available_recipes and plan_recipes %}
             <span class="small text-muted">All recipes are already in this plan.</span>
             {% endif %}
         </div>
@@ -73,7 +73,7 @@
 </ul>
 
 <div class="tab-content" id="planDetailTabContent">
-    <div class="tab-pane fade {% if active_tab == 'shopping' %}show active{% endif %}" id="shopping-pane" role="tabpanel" aria-labelledby="shopping-tab" data-plan-id="{{ plan.id }}" data-update-url="{{ plan_update_shopping_list_url }}" data-validate-url="{{ validate_ingredient_store_url }}" data-plan-date="{{ plan.plan_date|date:'l m/d/Y' }}">
+    <div class="tab-pane fade {% if active_tab == 'shopping' %}show active{% endif %}" id="shopping-pane" role="tabpanel" aria-labelledby="shopping-tab" data-plan-id="{{ plan.id }}" data-update-url="{{ plan_update_shopping_list_url }}" data-validate-url="{{ validate_ingredient_store_url }}" data-plan-date="{{ plan.plan_date|date:'l m/d/Y' }}" data-plan-date-iso="{{ plan.plan_date.isoformat }}">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
             <p class="text-muted small mb-0">Ingredients grouped by store (staples: check current stock). Drag ingredients between stores to override.</p>
             <div class="d-flex gap-2">
@@ -91,13 +91,16 @@
     <div id="shopping-list-container">
     {% if shopping_list_display %}
     <div class="row row-cols-1 row-cols-md-2 g-3" id="shopping-list-grid">
-        {% for store_key, store_display_name, items, is_manual in shopping_list_display %}
+        {% for store_key, store_display_name, items, is_manual, trip_date_iso, trip_date_display in shopping_list_display %}
         {% if store_key != "Other" %}
         <div class="col">
-            <div class="card h-100 store-card" data-store-key="{{ store_key }}" data-is-manual="{% if is_manual %}true{% else %}false{% endif %}">
+            <div class="card h-100 store-card" data-store-key="{{ store_key }}" data-is-manual="{% if is_manual %}true{% else %}false{% endif %}" data-trip-date="{{ trip_date_iso }}">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>{{ store_display_name }}{% if is_manual %} <span class="text-muted">(manually added)</span>{% endif %}</span>
-                    <button type="button" class="btn btn-link btn-sm text-muted p-0 store-remove-btn {% if items %}d-none{% endif %}" aria-label="Remove store from list" title="Remove store">×</button>
+                    <span>{{ store_display_name }}{% if is_manual %} <span class="text-muted">(manually added)</span>{% endif %} — <span class="store-trip-date-display">{{ trip_date_display }}</span></span>
+                    <div class="d-flex align-items-center gap-1">
+                        <button type="button" class="btn btn-link btn-sm text-muted p-0 trip-date-btn" data-store-key="{{ store_key }}" aria-label="Set visit date" title="Set visit date"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16"><path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/><path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-7 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-7 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></button>
+                        <button type="button" class="btn btn-link btn-sm text-muted p-0 store-remove-btn {% if items %}d-none{% endif %}" aria-label="Remove store from list" title="Remove store">×</button>
+                    </div>
                 </div>
                 <div class="card-body store-drop-zone">
                     <ul class="list-group list-group-flush store-ingredient-list">
@@ -145,18 +148,18 @@
 
 <div class="tab-pane fade {% if active_tab == 'recipes' %}show active{% endif %}" id="recipes-pane" role="tabpanel" aria-labelledby="recipes-tab">
         <p class="text-muted small mb-3">Ingredients and prep notes per recipe.</p>
-        {% for recipe in recipes %}
+        {% for plan_recipe in plan_recipes %}
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span class="badge bg-secondary">{{ recipe.name }}</span>
+                <span class="badge bg-secondary">{{ plan_recipe.recipe.name }}</span>
             </div>
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <h3 class="h6 mb-2">Ingredients</h3>
-                        {% if recipe.ingredients.all %}
+                        {% if plan_recipe.recipe.ingredients.all %}
                         <ul class="list-unstyled mb-0">
-                            {% for ing in recipe.ingredients.all %}
+                            {% for ing in plan_recipe.recipe.ingredients.all %}
                             <li>{{ ing.name }}</li>
                             {% endfor %}
                         </ul>
@@ -165,13 +168,73 @@
                         {% endif %}
                     </div>
                     <div class="col-md-6">
-                        <h3 class="h6 mb-2">Prep notes</h3>
-                        {% if recipe.prep_notes %}
-                        <div class="prep-notes text-muted small">{{ recipe.prep_notes|linebreaks }}</div>
+                        <h3 class="h6 mb-2 d-flex align-items-center gap-1">
+                            Prep notes
+                            <button type="button" class="btn btn-link p-0 border-0 align-baseline text-secondary" data-bs-toggle="modal" data-bs-target="#plan-prep-notes-modal-{{ plan_recipe.recipe.id }}" aria-label="Edit prep notes for {{ plan_recipe.recipe.name }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg>
+                            </button>
+                        </h3>
+                        {% if plan_recipe.prep_notes_override %}
+                        <div class="prep-notes text-muted small">{{ plan_recipe.prep_notes_override|linebreaks }}</div>
+                        {% elif plan_recipe.recipe.prep_notes %}
+                        <div class="prep-notes text-muted small">{{ plan_recipe.recipe.prep_notes|linebreaks }}</div>
+                        {% else %}
+                        <p class="text-muted mb-0 small">—</p>
+                        {% endif %}
+                        <h3 class="h6 mb-2 mt-3 d-flex align-items-center gap-1">
+                            Notes
+                            <button type="button" class="btn btn-link p-0 border-0 align-baseline text-secondary edit-plan-notes-btn" data-bs-toggle="modal" data-bs-target="#plan-notes-modal-{{ plan_recipe.recipe.id }}" aria-label="Edit notes for {{ plan_recipe.recipe.name }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg>
+                            </button>
+                        </h3>
+                        {% if plan_recipe.notes %}
+                        <div class="plan-recipe-notes text-muted small">{{ plan_recipe.notes|linebreaks }}</div>
                         {% else %}
                         <p class="text-muted mb-0 small">—</p>
                         {% endif %}
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="plan-notes-modal-{{ plan_recipe.recipe.id }}" tabindex="-1" aria-labelledby="plan-notes-modal-label-{{ plan_recipe.recipe.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="plan-notes-modal-label-{{ plan_recipe.recipe.id }}">Edit notes — {{ plan_recipe.recipe.name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" action="{% url 'meal_plan:plan_update_recipe_notes' plan.id plan_recipe.recipe.id %}">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <label for="plan-notes-textarea-{{ plan_recipe.recipe.id }}" class="form-label">Notes</label>
+                            <textarea class="form-control" name="notes" id="plan-notes-textarea-{{ plan_recipe.recipe.id }}" rows="5" placeholder="Plan-specific notes...">{{ plan_recipe.notes }}</textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="plan-prep-notes-modal-{{ plan_recipe.recipe.id }}" tabindex="-1" aria-labelledby="plan-prep-notes-modal-label-{{ plan_recipe.recipe.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="plan-prep-notes-modal-label-{{ plan_recipe.recipe.id }}">Edit prep notes — {{ plan_recipe.recipe.name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" action="{% url 'meal_plan:plan_update_recipe_prep_notes' plan.id plan_recipe.recipe.id %}">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <label for="plan-prep-notes-textarea-{{ plan_recipe.recipe.id }}" class="form-label">Prep notes</label>
+                            <textarea class="form-control" name="prep_notes_override" id="plan-prep-notes-textarea-{{ plan_recipe.recipe.id }}" rows="5" placeholder="Override prep notes for this plan...">{% if plan_recipe.prep_notes_override %}{{ plan_recipe.prep_notes_override }}{% else %}{{ plan_recipe.recipe.prep_notes }}{% endif %}</textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -275,6 +338,26 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" id="reset-shopping-list-confirm">Reset</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="tripDateModal" tabindex="-1" aria-labelledby="tripDateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tripDateModalLabel">Set visit date</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="trip-date-input" class="form-label">Date to visit this store</label>
+                <input type="date" class="form-control" id="trip-date-input" aria-describedby="trip-date-help">
+                <div id="trip-date-help" class="form-text">Choose the day you plan to shop at this store.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="trip-date-save">Save</button>
             </div>
         </div>
     </div>
@@ -390,9 +473,21 @@
                 items.push(payload);
             });
             var isManual = card.getAttribute('data-is-manual') === 'true';
-            listItems[storeKey] = { ingredients: items, is_manual: isManual };
+            var tripDate = card.getAttribute('data-trip-date') || '';
+            listItems[storeKey] = { ingredients: items, is_manual: isManual, trip_date: tripDate || null };
         });
         return listItems;
+    }
+
+    function formatTripDateDisplay(isoStr) {
+        if (!isoStr) return '';
+        var d = new Date(isoStr + 'T12:00:00');
+        if (isNaN(d.getTime())) return isoStr;
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var m = (d.getMonth() + 1).toString().padStart(2, '0');
+        var day = d.getDate().toString().padStart(2, '0');
+        var y = d.getFullYear();
+        return days[d.getDay()] + ' ' + m + '/' + day + '/' + y;
     }
 
     function validateIngredientStore(storeKey, ingredientName, ingredientId, callback) {
@@ -609,15 +704,20 @@
         });
     }
 
-    function createStoreCardHtml(storeId, storeDisplayName, isManual) {
+    function createStoreCardHtml(storeId, storeDisplayName, isManual, tripDateIso) {
         var displayName = storeDisplayName && storeDisplayName.trim() ? storeDisplayName.trim() : 'New store';
         var key = storeId;
         var manualSuffix = (isManual === true) ? ' <span class="text-muted">(manually added)</span>' : '';
         var dataIsManual = (isManual === true) ? ' data-is-manual="true"' : ' data-is-manual="false"';
-        return '<div class="col"><div class="card h-100 store-card" data-store-key="' + escapeHtml(key) + '"' + dataIsManual + '>' +
+        var iso = (tripDateIso && tripDateIso.trim()) ? tripDateIso.trim() : '';
+        var dataTripDate = iso ? ' data-trip-date="' + escapeHtml(iso) + '"' : '';
+        var dateDisplay = iso ? formatTripDateDisplay(iso) : '—';
+        return '<div class="col"><div class="card h-100 store-card" data-store-key="' + escapeHtml(key) + '"' + dataIsManual + dataTripDate + '>' +
             '<div class="card-header d-flex justify-content-between align-items-center">' +
-            '<span>' + escapeHtml(displayName) + manualSuffix + '</span>' +
-            '<button type="button" class="btn btn-link btn-sm text-muted p-0 store-remove-btn" aria-label="Remove store from list" title="Remove store">×</button></div>' +
+            '<span>' + escapeHtml(displayName) + manualSuffix + ' — <span class="store-trip-date-display">' + escapeHtml(dateDisplay) + '</span></span>' +
+            '<div class="d-flex align-items-center gap-1">' +
+            '<button type="button" class="btn btn-link btn-sm text-muted p-0 trip-date-btn" data-store-key="' + escapeHtml(key) + '" aria-label="Set visit date" title="Set visit date"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16"><path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 2h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/><path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-7 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-7 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></button>' +
+            '<button type="button" class="btn btn-link btn-sm text-muted p-0 store-remove-btn" aria-label="Remove store from list" title="Remove store">×</button></div></div>' +
             '<div class="card-body store-drop-zone">' +
             '<ul class="list-group list-group-flush store-ingredient-list">' +
             '<li class="list-group-item text-muted store-empty-placeholder">No ingredients</li></ul>' +
@@ -625,6 +725,37 @@
             '<select class="form-select form-select-sm add-ingredient-select" aria-label="Add ingredient">' + getAddIngredientOptionsHtml() + '</select>' +
             '<button type="button" class="btn btn-sm btn-outline-secondary add-ingredient-btn" aria-label="Add selected ingredient">Add</button></div>' +
             '</div></div></div>';
+    }
+
+    // Trip date picker: calendar icon opens modal; Save updates card and persists
+    var tripDateModalEl = document.getElementById('tripDateModal');
+    var tripDateInput = document.getElementById('trip-date-input');
+    var tripDateSaveBtn = document.getElementById('trip-date-save');
+    var currentTripDateCard = null;
+    var bsTripDateModal = tripDateModalEl ? new bootstrap.Modal(tripDateModalEl) : null;
+    if (tripDateSaveBtn) {
+        tripDateSaveBtn.addEventListener('click', function() {
+            if (!currentTripDateCard) return;
+            var val = (tripDateInput.value || '').trim();
+            currentTripDateCard.setAttribute('data-trip-date', val);
+            var displaySpan = currentTripDateCard.querySelector('.store-trip-date-display');
+            if (displaySpan) displaySpan.textContent = formatTripDateDisplay(val) || '—';
+            persistShoppingList();
+            if (bsTripDateModal) bsTripDateModal.hide();
+            currentTripDateCard = null;
+        });
+    }
+    var shoppingListContainer = document.getElementById('shopping-list-container');
+    if (shoppingListContainer) {
+        shoppingListContainer.addEventListener('click', function(e) {
+            var tripBtn = e.target.closest('.trip-date-btn');
+            if (!tripBtn) return;
+            var card = tripBtn.closest('.store-card');
+            if (!card || !tripDateInput) return;
+            currentTripDateCard = card;
+            tripDateInput.value = card.getAttribute('data-trip-date') || '';
+            if (bsTripDateModal) bsTripDateModal.show();
+        });
     }
 
     var addStoreBtn = document.getElementById('add-store-btn');
@@ -650,15 +781,17 @@
             var grid = document.getElementById('shopping-list-grid');
             var emptyMsg = document.getElementById('shopping-list-empty-msg');
             if (!container) return;
+            var pane = document.getElementById('shopping-pane');
+            var planDateIso = (pane && pane.getAttribute('data-plan-date-iso')) ? pane.getAttribute('data-plan-date-iso') : '';
             if (!grid) {
                 var newGrid = document.createElement('div');
                 newGrid.className = 'row row-cols-1 row-cols-md-2 g-3';
                 newGrid.id = 'shopping-list-grid';
-                newGrid.innerHTML = createStoreCardHtml(storeId, storeName, true);
+                newGrid.innerHTML = createStoreCardHtml(storeId, storeName, true, planDateIso);
                 if (emptyMsg) emptyMsg.remove();
                 container.appendChild(newGrid);
             } else {
-                grid.insertAdjacentHTML('beforeend', createStoreCardHtml(storeId, storeName, true));
+                grid.insertAdjacentHTML('beforeend', createStoreCardHtml(storeId, storeName, true, planDateIso));
             }
             var opts = addStoreSelect.querySelectorAll('option[value]');
             for (var i = 0; i < opts.length; i++) { if (opts[i].value === storeId) { opts[i].remove(); break; } }
@@ -675,14 +808,14 @@
     var printAllBtn = document.getElementById('print-all-shopping-list-btn');
     if (printAllBtn) {
         printAllBtn.addEventListener('click', function() {
-            var pane = document.getElementById('shopping-pane');
-            var planDate = pane && pane.getAttribute('data-plan-date') ? pane.getAttribute('data-plan-date') : '';
-            var dateSuffix = planDate ? ' - ' + planDate : '';
             var cards = document.querySelectorAll('.store-card');
             var quadrants = [];
             cards.forEach(function(card) {
                 var headerSpan = card.querySelector('.card-header > span');
-                var storeName = (headerSpan ? headerSpan.textContent.trim() : 'Store') + dateSuffix;
+                var storeNameRaw = headerSpan ? headerSpan.textContent.trim() : 'Store';
+                var tripDateIso = card.getAttribute('data-trip-date') || '';
+                var dateSuffix = tripDateIso ? ' - ' + formatTripDateDisplay(tripDateIso) : '';
+                var storeName = storeNameRaw.replace(/\s*—\s*[^\s].*$/, '').trim().replace(/\s*\(manually added\)\s*$/i, '').trim() + dateSuffix;
                 var list = card.querySelector('.store-ingredient-list');
                 var items = [];
                 if (list) {
@@ -695,17 +828,32 @@
                     });
                 }
                 var listHtml = items.map(function(item) {
-                    var stapleHtml = item.staple ? ' <span class="print-staple">check current stock</span>' : '';
-                    return '<li class="print-item"><label class="print-label"><input type="checkbox" class="print-checkbox"> <span>' + escapeHtml(item.text) + stapleHtml + '</span></label></li>';
+                    return '<li class="print-item"><label class="print-label"><input type="checkbox" class="print-checkbox"> <span>' + escapeHtml(item.text) + '</span></label></li>';
                 }).join('');
                 quadrants.push('<div class="print-quadrant"><h2 class="print-store-title">' + escapeHtml(storeName) + '</h2>' + (listHtml ? '<ul class="print-list">' + listHtml + '</ul>' : '<p class="print-empty">No items.</p>') + '</div>');
             });
             var gridHtml = quadrants.length ? quadrants.join('') : '<p>No stores in this list.</p>';
+            var useEqualRows = quadrants.length >= 3;
+            var firstPageQuadrants = quadrants.length >= 5 ? quadrants.slice(0, 4) : quadrants;
+            var firstPageHtml = firstPageQuadrants.length ? firstPageQuadrants.join('') : '';
+            var firstGridClass = 'print-grid' + (useEqualRows ? ' print-grid-equal-rows' : '');
+            var restQuadrants = quadrants.length >= 5 ? quadrants.slice(4) : [];
+            var bodyContent = '';
+            if (firstPageHtml) {
+                bodyContent = '<div class="' + firstGridClass + '">' + firstPageHtml + '</div>';
+            }
+            if (restQuadrants.length) {
+                bodyContent += '<div class="print-page-break"></div><div class="print-grid">' + restQuadrants.join('') + '</div>';
+            }
+            if (!bodyContent) bodyContent = '<p>No stores in this list.</p>';
             var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Shopping list</title><style>' +
                 '@page { size: 8.5in 11in; margin: 0.5in; }' +
                 'body { font-family: system-ui, sans-serif; margin: 0; padding: 0.5in; font-size: 11pt; box-sizing: border-box; max-width: 8.5in; min-height: 11in; }' +
                 '.print-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; width: 100%; box-sizing: border-box; }' +
-                '.print-quadrant { break-inside: avoid; padding: 0.4rem; border: 1px solid #ddd; border-radius: 4px; min-height: 0; box-sizing: border-box; }' +
+                '.print-grid.print-grid-equal-rows { grid-template-rows: 1fr 1fr; height: 10in; }' +
+                '.print-grid.print-grid-equal-rows .print-quadrant { min-height: 0; }' +
+                '.print-quadrant { break-inside: avoid; padding: 0.4rem; min-height: 0; box-sizing: border-box; }' +
+                '.print-page-break { page-break-before: always; }' +
                 '.print-store-title { font-size: 12pt; margin: 0 0 0.4rem 0; padding-bottom: 0.2rem; border-bottom: 2px solid #333; }' +
                 '.print-list { list-style: none; padding: 0; margin: 0; font-size: 10pt; }' +
                 '.print-item { margin: 0.15rem 0; }' +
@@ -713,9 +861,9 @@
                 '.print-checkbox { margin-right: 0.5em; flex-shrink: 0; }' +
                 '.print-staple { font-size: 0.85em; font-weight: bold; }' +
                 '.print-empty { margin: 0; color: #666; font-size: 0.9em; }' +
-                '@media print { body { padding: 0; margin: 0; } .print-grid { max-height: none; overflow: visible; } }' +
+                '@media print { body { padding: 0; margin: 0; } .print-grid { max-height: none; overflow: visible; } .print-grid.print-grid-equal-rows { height: 10in; } }' +
                 '</style></head><body>' +
-                '<div class="print-grid">' + gridHtml + '</div>' +
+                bodyContent +
                 '</body></html>';
             var w = window.open('', '_blank');
             w.document.write(html);

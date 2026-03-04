@@ -11,7 +11,7 @@ from datetime import date
 import pytest
 from django.urls import reverse
 
-from meal_plan.models import Plan, PlanShoppingList
+from meal_plan.models import Plan, PlanRecipe, PlanShoppingList
 from meal_plan.views import _build_plan_shopping_list
 
 from .factories import (
@@ -44,7 +44,7 @@ def test_empty_plan_returns_empty_list():
 def test_plan_with_recipes_no_ingredients_returns_empty_list():
     plan = PlanFactory()
     recipe = RecipeFactory()
-    plan.recipes.add(recipe)
+    PlanRecipe.objects.create(plan=plan, recipe=recipe)
     assert _build_plan_shopping_list(plan) == []
 
 
@@ -56,7 +56,7 @@ def test_single_ingredient_single_store_assigned_to_that_store():
     recipe = RecipeFactory(name="Soup")
     RecipeIngredientFactory(recipe=recipe, ingredient=ing)
     plan = PlanFactory()
-    plan.recipes.add(recipe)
+    PlanRecipe.objects.create(plan=plan, recipe=recipe)
 
     result = _build_plan_shopping_list(plan)
     by_store = _ingredients_by_store(result)
@@ -74,7 +74,7 @@ def test_store_priority_drives_assignment_when_ingredient_at_multiple_stores():
     recipe = RecipeFactory(name="Stir Fry")
     RecipeIngredientFactory(recipe=recipe, ingredient=ing)
     plan = PlanFactory()
-    plan.recipes.add(recipe)
+    PlanRecipe.objects.create(plan=plan, recipe=recipe)
 
     result = _build_plan_shopping_list(plan)
     by_store = _ingredients_by_store(result)
@@ -103,8 +103,8 @@ def test_forced_lower_priority_store_then_is_preferred_assigns_multi_store_ingre
     recipe2 = RecipeFactory(name="Apple Pie")
     RecipeIngredientFactory(recipe=recipe2, ingredient=apple)
     plan = PlanFactory()
-    plan.recipes.add(recipe)
-    plan.recipes.add(recipe2)
+    PlanRecipe.objects.create(plan=plan, recipe=recipe)
+    PlanRecipe.objects.create(plan=plan, recipe=recipe2)
 
     result = _build_plan_shopping_list(plan)
     by_store = _ingredients_by_store(result)
@@ -128,7 +128,7 @@ def test_multi_store_ingredient_no_preferred_uses_store_already_used():
     RecipeIngredientFactory(recipe=recipe, ingredient=only_at_international)
     RecipeIngredientFactory(recipe=recipe, ingredient=at_both)
     plan = PlanFactory()
-    plan.recipes.add(recipe)
+    PlanRecipe.objects.create(plan=plan, recipe=recipe)
 
     result = _build_plan_shopping_list(plan)
     by_store = _ingredients_by_store(result)
@@ -147,7 +147,7 @@ def test_ingredient_in_no_store_appears_under_other():
     RecipeIngredientFactory(recipe=recipe, ingredient=ing_in_store)
     RecipeIngredientFactory(recipe=recipe, ingredient=ing_no_store)
     plan = PlanFactory()
-    plan.recipes.add(recipe)
+    PlanRecipe.objects.create(plan=plan, recipe=recipe)
 
     result = _build_plan_shopping_list(plan)
     by_store = _ingredients_by_store(result)
@@ -168,7 +168,7 @@ def test_is_preferred_ignored_when_preferred_store_not_used_otherwise():
     recipe = RecipeFactory(name="Stir Fry")
     RecipeIngredientFactory(recipe=recipe, ingredient=bok_choy)
     plan = PlanFactory()
-    plan.recipes.add(recipe)
+    PlanRecipe.objects.create(plan=plan, recipe=recipe)
 
     result = _build_plan_shopping_list(plan)
     by_store = _ingredients_by_store(result)
@@ -203,7 +203,7 @@ def test_plan_delete_get_redirects_without_deleting(client):
 def test_plan_delete_sets_last_used_on_to_none_when_recipe_only_in_deleted_plan(client):
     recipe = RecipeFactory()
     plan = PlanFactory(plan_date=date(2024, 6, 1))
-    plan.recipes.add(recipe)
+    PlanRecipe.objects.create(plan=plan, recipe=recipe)
     recipe.last_used_on = plan.plan_date
     recipe.save(update_fields=["last_used_on"])
 
@@ -218,8 +218,8 @@ def test_plan_delete_updates_last_used_on_to_latest_remaining_plan(client):
     recipe = RecipeFactory()
     older = PlanFactory(plan_date=date(2024, 1, 15))
     newer = PlanFactory(plan_date=date(2024, 6, 1))
-    older.recipes.add(recipe)
-    newer.recipes.add(recipe)
+    PlanRecipe.objects.create(plan=older, recipe=recipe)
+    PlanRecipe.objects.create(plan=newer, recipe=recipe)
     recipe.last_used_on = newer.plan_date
     recipe.save(update_fields=["last_used_on"])
 
@@ -236,8 +236,9 @@ def test_plan_delete_updates_each_recipe_by_latest_remaining_plan(client):
     recipe_b = RecipeFactory()
     older = PlanFactory(plan_date=date(2024, 2, 1))
     deleted = PlanFactory(plan_date=date(2024, 5, 1))
-    older.recipes.add(recipe_b)
-    deleted.recipes.add(recipe_a, recipe_b)
+    PlanRecipe.objects.create(plan=older, recipe=recipe_b)
+    PlanRecipe.objects.create(plan=deleted, recipe=recipe_a)
+    PlanRecipe.objects.create(plan=deleted, recipe=recipe_b)
     recipe_a.last_used_on = deleted.plan_date
     recipe_b.last_used_on = deleted.plan_date
     recipe_a.save(update_fields=["last_used_on"])

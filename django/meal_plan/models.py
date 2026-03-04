@@ -28,10 +28,24 @@ class Tag(models.Model):
 class Plan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     plan_date = models.DateField()
-    recipes = models.ManyToManyField(Recipe, blank=True)
+    recipes = models.ManyToManyField(Recipe, blank=True, through="PlanRecipe")
 
     def __str__(self):
         return str(self.plan_date)
+
+
+class PlanRecipe(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, db_column="plan_id")
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, db_column="recipe_id")
+    prep_notes_override = models.TextField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        unique_together = [["plan", "recipe"]]
+
+    def __str__(self):
+        return f"{self.plan.plan_date} — {self.recipe.name}"
 
 
 class Ingredient(models.Model):
