@@ -4,12 +4,14 @@ Tests for shopping list logic in _build_plan_shopping_list and plan_delete.
 Uses store priority as the main driver; is_preferred breaks ties when
 we're already forced to use a lower-priority store for another ingredient.
 """
+import json
+import uuid
 from datetime import date
 
 import pytest
 from django.urls import reverse
 
-from meal_plan.models import Plan
+from meal_plan.models import Plan, PlanShoppingList
 from meal_plan.views import _build_plan_shopping_list
 
 from .factories import (
@@ -247,3 +249,308 @@ def test_plan_delete_updates_each_recipe_by_latest_remaining_plan(client):
     recipe_b.refresh_from_db()
     assert recipe_a.last_used_on is None
     assert recipe_b.last_used_on == date(2024, 2, 1)
+
+
+# --- validate_ingredient_store tests ---
+
+@pytest.mark.django_db
+def test_validate_ingredient_store_ingredient_id_and_store_match_returns_valid_true(client):
+    """When StoreIngredient exists for store/ingredient, returns valid true."""
+    store = StoreFactory(name="meijer")
+    ing = IngredientFactory(name="carrot")
+    StoreIngredientFactory(store=store, ingredient=ing, is_preferred=False)
+    response = client.post(
+        reverse("meal_plan:validate_ingredient_store"),
+        data='{"store_id": "' + str(store.id) + '", "ingredient_id": "' + str(ing.id) + '"}',
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json()["valid"] is True
+
+
+@pytest.mark.django_db
+def test_validate_ingredient_store_ingredient_id_and_store_no_match_returns_valid_false(client):
+    """When StoreIngredient does not exist for store/ingredient, returns valid false."""
+    store = StoreFactory(name="meijer")
+    ing = IngredientFactory(name="carrot")
+    # No StoreIngredient linking them
+    response = client.post(
+        reverse("meal_plan:validate_ingredient_store"),
+        data='{"store_id": "' + str(store.id) + '", "ingredient_id": "' + str(ing.id) + '"}',
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json()["valid"] is False
+
+
+@pytest.mark.django_db
+def test_validate_ingredient_store_ingredient_name_and_store_match_returns_valid_true(client):
+    """When using ingredient_name and StoreIngredient exists, returns valid true."""
+    store = StoreFactory(name="kroger")
+    ing = IngredientFactory(name="bok choy")
+    StoreIngredientFactory(store=store, ingredient=ing, is_preferred=False)
+    response = client.post(
+        reverse("meal_plan:validate_ingredient_store"),
+        data='{"store_id": "' + str(store.id) + '", "ingredient_name": "bok choy"}',
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json()["valid"] is True
+
+
+@pytest.mark.django_db
+def test_validate_ingredient_store_ingredient_name_not_found_returns_valid_false(client):
+    """When ingredient_name does not match any Ingredient, returns valid false."""
+    store = StoreFactory(name="meijer")
+    response = client.post(
+        reverse("meal_plan:validate_ingredient_store"),
+        data='{"store_id": "' + str(store.id) + '", "ingredient_name": "nonexistent"}',
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json()["valid"] is False
+
+
+@pytest.mark.django_db
+def test_validate_ingredient_store_invalid_ingredient_id_returns_valid_false(client):
+    """When ingredient_id is not a valid/existing Ingredient, returns valid false."""
+    store = StoreFactory(name="meijer")
+    response = client.post(
+        reverse("meal_plan:validate_ingredient_store"),
+        data='{"store_id": "' + str(store.id) + '", "ingredient_id": "00000000-0000-0000-0000-000000000000"}',
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json()["valid"] is False
+
+
+@pytest.mark.django_db
+def test_validate_ingredient_store_invalid_store_id_returns_valid_false(client):
+    """When store_id does not exist, returns valid false."""
+    ing = IngredientFactory(name="carrot")
+    response = client.post(
+        reverse("meal_plan:validate_ingredient_store"),
+        data='{"store_id": "00000000-0000-0000-0000-000000000000", "ingredient_id": "' + str(ing.id) + '"}',
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json()["valid"] is False
+
+
+@pytest.mark.django_db
+def test_validate_ingredient_store_no_ingredient_returns_400(client):
+    """When neither ingredient_id nor ingredient_name provided (and store is not Other), returns 400."""
+    store = StoreFactory(name="meijer")
+    response = client.post(
+        reverse("meal_plan:validate_ingredient_store"),
+        data='{"store_id": "' + str(store.id) + '"}',
+        content_type="application/json",
+    )
+    assert response.status_code == 400
+    assert response.json()["valid"] is False
+
+
+@pytest.mark.django_db
+def test_validate_ingredient_store_invalid_json_returns_400(client):
+    """POST with invalid JSON body returns 400."""
+    response = client.post(
+        reverse("meal_plan:validate_ingredient_store"),
+        data="not json",
+        content_type="application/json",
+    )
+    assert response.status_code == 400
+    assert response.json()["valid"] is False
+
+
+@pytest.mark.django_db
+def test_validate_ingredient_store_ingredient_id_preferred_over_name(client):
+    """When both ingredient_id and ingredient_name are sent, ingredient_id is used."""
+    store = StoreFactory(name="meijer")
+    ing = IngredientFactory(name="carrot")
+    StoreIngredientFactory(store=store, ingredient=ing, is_preferred=False)
+    other_ing = IngredientFactory(name="other")
+    # ingredient_id points to ing (in store), ingredient_name would match "other" - id wins
+    response = client.post(
+        reverse("meal_plan:validate_ingredient_store"),
+        data='{"store_id": "' + str(store.id) + '", "ingredient_id": "' + str(ing.id) + '", "ingredient_name": "other"}',
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json()["valid"] is True
+
+
+# --- plan_update_shopping_list tests ---
+
+
+@pytest.mark.django_db
+def test_plan_update_shopping_list_post_creates_and_persists_list(client):
+    """POST with valid list_items creates PlanShoppingList and returns ok."""
+    plan = PlanFactory()
+    store = StoreFactory()
+    ing = IngredientFactory(name="carrot")
+    payload = {
+        "list_items": {
+            str(store.id): {
+                "ingredients": [
+                    {"name": "carrot", "recipes": ["Soup"], "is_staple": False, "ingredient_id": str(ing.id)},
+                ],
+                "is_manual": False,
+            },
+        }
+    }
+    response = client.post(
+        reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
+        data=json.dumps(payload),
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json() == {"ok": True}
+    plan.refresh_from_db()
+    shopping_list = plan.shopping_list
+    assert list(shopping_list.list_items.keys()) == [str(store.id)]
+    store_data = shopping_list.list_items[str(store.id)]
+    assert store_data["is_manual"] is False
+    assert len(store_data["ingredients"]) == 1
+    item = store_data["ingredients"][0]
+    assert item["name"] == "carrot"
+    assert item["recipes"] == ["Soup"]
+    assert item["is_staple"] is False
+    assert item["ingredient_id"] == str(ing.id)
+
+
+@pytest.mark.django_db
+def test_plan_update_shopping_list_post_updates_existing_list(client):
+    """POST updates existing PlanShoppingList list_items."""
+    plan = PlanFactory()
+    store = StoreFactory()
+    PlanShoppingList.objects.create(plan=plan, list_items={"old-store": {"ingredients": [{"name": "old", "recipes": [], "is_staple": False}], "is_manual": False}})
+    payload = {
+        "list_items": {
+            str(store.id): {"ingredients": [{"name": "carrot", "recipes": [], "is_staple": False}], "is_manual": False},
+        }
+    }
+    response = client.post(
+        reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
+        data=json.dumps(payload),
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    plan.refresh_from_db()
+    assert plan.shopping_list.list_items == {str(store.id): {"ingredients": [{"name": "carrot", "recipes": [], "is_staple": False}], "is_manual": False}}
+
+
+@pytest.mark.django_db
+def test_plan_update_shopping_list_get_returns_405(client):
+    """GET returns 405 Method not allowed."""
+    plan = PlanFactory()
+    response = client.get(reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}))
+    assert response.status_code == 405
+    assert response.json()["error"] == "Method not allowed"
+
+
+@pytest.mark.django_db
+def test_plan_update_shopping_list_invalid_json_returns_400(client):
+    """POST with invalid JSON body returns 400."""
+    plan = PlanFactory()
+    response = client.post(
+        reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
+        data="not json",
+        content_type="application/json",
+    )
+    assert response.status_code == 400
+    assert response.json()["error"] == "Invalid JSON"
+
+
+@pytest.mark.django_db
+def test_plan_update_shopping_list_missing_list_items_returns_400(client):
+    """POST without list_items returns 400."""
+    plan = PlanFactory()
+    response = client.post(
+        reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
+        data="{}",
+        content_type="application/json",
+    )
+    assert response.status_code == 400
+    assert response.json()["error"] == "list_items must be an object"
+
+
+@pytest.mark.django_db
+def test_plan_update_shopping_list_list_items_not_object_returns_400(client):
+    """POST with list_items as non-object returns 400."""
+    plan = PlanFactory()
+    response = client.post(
+        reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
+        data='{"list_items": []}',
+        content_type="application/json",
+    )
+    assert response.status_code == 400
+    assert response.json()["error"] == "list_items must be an object"
+
+
+@pytest.mark.django_db
+def test_plan_update_shopping_list_plan_not_found_returns_404(client):
+    """POST with nonexistent plan_id returns 404."""
+    response = client.post(
+        reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": uuid.uuid4()}),
+        data='{"list_items": {}}',
+        content_type="application/json",
+    )
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_plan_update_shopping_list_normalizes_recipes_and_is_staple(client):
+    """Recipes default to [], is_staple to False; invalid recipe entries filtered out."""
+    plan = PlanFactory()
+    store = StoreFactory()
+    payload = {
+        "list_items": {
+            str(store.id): {
+                "ingredients": [{"name": "carrot", "recipes": ["A", 1, "B"], "is_staple": True}],
+                "is_manual": False,
+            },
+        }
+    }
+    response = client.post(
+        reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
+        data=json.dumps(payload),
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    plan.refresh_from_db()
+    item = plan.shopping_list.list_items[str(store.id)]["ingredients"][0]
+    assert item["recipes"] == ["A", "B"]
+    assert item["is_staple"] is True
+
+
+@pytest.mark.django_db
+def test_plan_update_shopping_list_skips_invalid_entries(client):
+    """Skips store keys whose value is not dict with ingredients or list; skips items without string name."""
+    plan = PlanFactory()
+    store = StoreFactory()
+    payload = {
+        "list_items": {
+            str(store.id): {
+                "ingredients": [
+                    {"name": "carrot", "recipes": [], "is_staple": False},
+                    {"recipes": ["Soup"]},  # no name - skipped
+                    {"name": "broccoli", "recipes": [], "is_staple": False},
+                ],
+                "is_manual": True,
+            },
+            "another_key": "not a list",  # skipped (value not a list or dict with ingredients)
+        }
+    }
+    response = client.post(
+        reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
+        data=json.dumps(payload),
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    plan.refresh_from_db()
+    assert set(plan.shopping_list.list_items.keys()) == {str(store.id)}
+    store_data = plan.shopping_list.list_items[str(store.id)]
+    assert store_data["is_manual"] is True
+    assert len(store_data["ingredients"]) == 2
+    names = [it["name"] for it in store_data["ingredients"]]
+    assert names == ["carrot", "broccoli"]

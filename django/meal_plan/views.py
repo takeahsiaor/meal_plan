@@ -1,4 +1,5 @@
 import json
+import uuid
 from datetime import datetime, timedelta
 from urllib.parse import urlencode
 
@@ -46,31 +47,49 @@ class PlanListView(ListView):
         return context
 
 
-def _build_plan_shopping_list(plan):
-    """
-    Build shopping list for a plan: ingredients grouped by store.
-    Returns list of (store, items) where items is list of (ingredient, recipe_names, is_staple).
-    Uses store priority and minimizes number of stores; staples marked optional.
-    """
-    recipes = list(plan.recipes.prefetch_related("ingredients").order_by("name"))
-    if not recipes:
-        return []
+def _normalize_ingredient_ids(ingredient_ids_or_objects):
+    """Convert mix of UUIDs, strings, and Ingredient instances to set of UUIDs and fetch Ingredient instances."""
+    ids = set()
+    for x in ingredient_ids_or_objects:
+        if hasattr(x, "id"):
+            ids.add(x.id)
+        else:
+            try:
+                ids.add(uuid.UUID(str(x)))
+            except (TypeError, ValueError):
+                continue
+    if not ids:
+        return ids, {}
+    ingredients = {ing.id: ing for ing in Ingredient.objects.filter(id__in=ids)}
+    return ids, ingredients
 
-    # Collect (ingredient, list of recipe names) for all ingredients in the plan
-    ing_to_recipes = {}  # ingredient_id -> (Ingredient, set of recipe names)
-    for recipe in recipes:
-        for ing in recipe.ingredients.all():
-            if ing.id not in ing_to_recipes:
-                ing_to_recipes[ing.id] = [ing, set()]
-            ing_to_recipes[ing.id][1].add(recipe.name)
 
-    our_ingredient_ids = set(ing_to_recipes.keys())
+def _build_shopping_list(ingredient_ids_or_objects, extra=None, must_visit_store_ids=None):
+    """
+    Build shopping list from a set of ingredients, grouped by store (minimize stores).
+
+    ingredient_ids_or_objects: iterable of ingredient UUIDs or Ingredient model instances.
+    extra: optional dict mapping ingredient_id (UUID) -> {"recipe_names": list[str], "is_staple": bool}.
+          If missing for an ingredient, recipe_names=[], is_staple=ingredient.is_staple.
+    must_visit_store_ids: optional set of store UUIDs that must appear in the result and be treated as
+          already-used (ingredients will be assigned to them when possible, e.g. for manually added stores).
+
+    Returns list of (store, items) where items is list of (ingredient, recipe_names, is_staple, color_class).
+    """
+    extra = extra or {}
+    our_ingredient_ids, ingredients_by_id = _normalize_ingredient_ids(ingredient_ids_or_objects)
     if not our_ingredient_ids:
         return []
 
     # All stores by priority (lower priority value = higher priority)
     stores = list(Store.objects.prefetch_related("ingredients").order_by("priority"))
+    store_ids_set = {s.id for s in stores}
     store_ingredient_ids = {s.id: set(s.ingredients.values_list("id", flat=True)) for s in stores}
+
+    # Must-visit stores (e.g. manually added) are treated as already used so assignment prefers them
+    used_stores = set()
+    if must_visit_store_ids:
+        used_stores = {sid for sid in must_visit_store_ids if sid in store_ids_set}
 
     # (ingredient_id, store_id) pairs where this store is the preferred source for this ingredient
     store_ids = [s.id for s in stores]
@@ -86,9 +105,9 @@ def _build_plan_shopping_list(plan):
     def our_count(store_id):
         return len(our_ingredient_ids & store_ingredient_ids.get(store_id, set()))
 
-    # For each ingredient, get list of (Store, our_count, is_preferred) that have it, sorted by (priority, -preferred, -our_count)
+    # For each ingredient, get list of (Store, our_count, is_preferred) that have it
     ing_to_stores = {}  # ingredient_id -> list of (Store, our_count, is_preferred)
-    for ing_id, (ing, _) in ing_to_recipes.items():
+    for ing_id in our_ingredient_ids:
         options = [
             (s, our_count(s.id), (ing_id, s.id) in preferred_pairs)
             for s in stores
@@ -99,7 +118,6 @@ def _build_plan_shopping_list(plan):
 
     # Assign each ingredient to one store: single-store forces that store; else prefer store we're already using
     assigned = {}  # ingredient_id -> Store
-    used_stores = set()
 
     # First pass: ingredients with only one store
     for ing_id, options in ing_to_stores.items():
@@ -114,13 +132,11 @@ def _build_plan_shopping_list(plan):
             continue
         if not options:
             continue
-        # Prefer a store we're already using that has is_preferred for this ingredient
         for s, _, is_preferred in options:
             if s.id in used_stores and is_preferred:
                 assigned[ing_id] = s
                 break
         else:
-            # Else prefer any store we're already using
             for s, _, _ in options:
                 if s.id in used_stores:
                     assigned[ing_id] = s
@@ -130,20 +146,12 @@ def _build_plan_shopping_list(plan):
                 assigned[ing_id] = s
                 used_stores.add(s.id)
 
-    # Ingredients in no store: assign to None (display as "Other" or similar)
+    # Ingredients in no store: assign to None (Other)
     for ing_id in our_ingredient_ids:
         if ing_id not in assigned:
             assigned[ing_id] = None
 
     # Build output by store: (store, [(ingredient, recipe_names, is_staple, color_class), ...])
-    recipe_colors = [
-        "primary", "success", "info", "warning", "danger", "secondary", "dark",
-    ]
-    recipe_to_color = {
-        r.name: recipe_colors[i % len(recipe_colors)]
-        for i, r in enumerate(sorted(recipes, key=lambda x: x.name))
-    }
-
     store_to_items = {}  # store_id or "other" -> (Store or None, list)
     for store in stores:
         if store.id in used_stores:
@@ -151,55 +159,84 @@ def _build_plan_shopping_list(plan):
     store_to_items["other"] = (None, [])
 
     for ing_id in our_ingredient_ids:
-        ing, recipe_names = ing_to_recipes[ing_id]
+        ing = ingredients_by_id.get(ing_id)
+        if not ing:
+            continue
+        meta = extra.get(ing_id, {})
+        recipe_names = sorted(meta.get("recipe_names", []))
+        is_staple = meta.get("is_staple", ing.is_staple)
+        color = "secondary"
+        entry = (ing, recipe_names, is_staple, color)
         store = assigned[ing_id]
-        names_sorted = sorted(recipe_names)
-        color = recipe_to_color.get(names_sorted[0], "secondary") if names_sorted else "secondary"
-        entry = (ing, names_sorted, ing.is_staple, color)
         if store is None:
             store_to_items["other"][1].append(entry)
         else:
             store_to_items[store.id][1].append(entry)
 
-    # Order: required stores first (by priority), then "other" if any
     result = []
     for store in stores:
         if store.id in store_to_items:
             items = store_to_items[store.id][1]
-            if items:
-                result.append(
-                    (store_to_items[store.id][0], sorted(items, key=lambda x: ((x[1][0] if x[1] else "", x[2], x[0].name))))
-                )
+            result.append(
+                (store_to_items[store.id][0], sorted(items, key=lambda x: ((x[1][0] if x[1] else ""), x[2], x[0].name)))
+            )
     if store_to_items["other"][1]:
         result.append(
-            (None, sorted(store_to_items["other"][1], key=lambda x: ((x[1][0] if x[1] else "", x[2], x[0].name))))
+            (None, sorted(store_to_items["other"][1], key=lambda x: ((x[1][0] if x[1] else ""), x[2], x[0].name)))
         )
     return result
+
+
+def _build_plan_shopping_list(plan):
+    """
+    Build shopping list for a plan: ingredients from plan recipes, grouped by store.
+    Returns list of (store, items) where items is list of (ingredient, recipe_names, is_staple, color_class).
+    """
+    recipes = list(plan.recipes.prefetch_related("ingredients").order_by("name"))
+    if not recipes:
+        return []
+
+    ing_to_recipes = {}  # ingredient_id -> (Ingredient, set of recipe names)
+    for recipe in recipes:
+        for ing in recipe.ingredients.all():
+            if ing.id not in ing_to_recipes:
+                ing_to_recipes[ing.id] = [ing, set()]
+            ing_to_recipes[ing.id][1].add(recipe.name)
+
+    ingredient_ids = list(ing_to_recipes.keys())
+    extra = {
+        ing_id: {"recipe_names": list(names), "is_staple": ing.is_staple}
+        for ing_id, (ing, names) in ing_to_recipes.items()
+    }
+    return _build_shopping_list(ingredient_ids, extra=extra)
 
 
 def _initialize_plan_shopping_list(plan):
     """
     Build the shopping list from plan recipes and persist it as PlanShoppingList.list_items JSON.
     Idempotent per plan: replaces any existing list.
-    Top-level keys are store UUID (str) or "Other".
+    Top-level keys are store UUID (str) or "Other". Value is {"ingredients": [...], "is_manual": False}.
     """
     shopping_by_store = _build_plan_shopping_list(plan)
-    store_to_items = {}
+    store_to_data = {}
     for store, items in shopping_by_store:
         store_key = str(store.id) if store is not None else "Other"
-        store_to_items[store_key] = [
-            ShoppingListItem(
-                name=ing.name,
-                recipes=tuple(sorted(recipe_names)),
-                is_staple=is_staple,
-                ingredient_id=str(ing.id),
-            )
-            for ing, recipe_names, is_staple, _color in items
-        ]
+        store_to_data[store_key] = {
+            "ingredients": [
+                ShoppingListItem(
+                    name=ing.name,
+                    recipes=tuple(sorted(recipe_names)),
+                    is_staple=is_staple,
+                    ingredient_id=str(ing.id),
+                )
+                for ing, recipe_names, is_staple, _color in items
+            ],
+            "is_manual": False,
+        }
     shopping_list, _ = PlanShoppingList.objects.update_or_create(
         plan=plan, defaults={}
     )
-    shopping_list.list_items = serialize_list_items(store_to_items)
+    shopping_list.list_items = serialize_list_items(store_to_data)
     shopping_list.save(update_fields=["list_items"])
 
 
@@ -223,13 +260,19 @@ def plan_detail(request, plan_id):
     available_stores = Store.objects.exclude(id__in=store_ids_in_list).order_by("priority")
     stores_by_id = {str(s.id): s for s in Store.objects.filter(id__in=store_ids_in_list)}
     shopping_list_display = []
-    for store_key, items in list_items.items():
+    for store_key, value in list_items.items():
         if store_key == "Other":
-            display_name = "Other / Unassigned"
+            continue
+        if isinstance(value, dict) and "ingredients" in value:
+            items = value["ingredients"]
+            is_manual = value.get("is_manual", False)
         else:
-            store = stores_by_id.get(store_key)
-            display_name = store.name if store else store_key
-        shopping_list_display.append((store_key, display_name, items))
+            items = value if isinstance(value, list) else []
+            is_manual = False
+        store = stores_by_id.get(store_key)
+        display_name = store.name if store else store_key
+        shopping_list_display.append((store_key, display_name, items, is_manual))
+    all_ingredients = [{"id": str(i.id), "name": i.name} for i in Ingredient.objects.order_by("name")]
     tab_param = request.GET.get("tab", "shopping")
     active_tab = "recipes" if tab_param == "recipes" else "shopping"
     return render(
@@ -242,6 +285,7 @@ def plan_detail(request, plan_id):
             "active_tab": active_tab,
             "available_recipes": available_recipes,
             "available_stores": available_stores,
+            "all_ingredients": all_ingredients,
             "plan_update_shopping_list_url": reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
             "validate_ingredient_store_url": reverse("meal_plan:validate_ingredient_store"),
         },
@@ -251,7 +295,7 @@ def plan_detail(request, plan_id):
 def validate_ingredient_store(request):
     """
     GET or POST with store_id and ingredient_id (preferred) or ingredient_name.
-    Returns JSON { "valid": true } if store_id is "Other" or StoreIngredient exists for that store/ingredient; else { "valid": false }.
+    Returns JSON { "valid": true } if StoreIngredient exists for that store/ingredient; else { "valid": false }.
     """
     if request.method == "GET":
         store_id = request.GET.get("store_id")
@@ -265,8 +309,6 @@ def validate_ingredient_store(request):
         store_id = data.get("store_id")
         ingredient_id = data.get("ingredient_id")
         ingredient_name = data.get("ingredient_name")
-    if store_id == "Other" or store_id is None:
-        return JsonResponse({"valid": True})
     if ingredient_id:
         try:
             ingredient = Ingredient.objects.get(id=ingredient_id)
@@ -287,7 +329,7 @@ def validate_ingredient_store(request):
 
 
 def plan_update_shopping_list(request, plan_id):
-    """POST with JSON body { list_items: { "<store_id or Other>": [{ name, recipes, is_staple }, ...], ... } } to persist list."""
+    """POST with JSON body { list_items: { "<store_id>": { "ingredients": [...], "is_manual": bool }, ... } } to persist list."""
     if request.method != "POST":
         return JsonResponse({"error": "Method not allowed"}, status=405)
     plan = get_object_or_404(Plan, id=plan_id)
@@ -299,10 +341,18 @@ def plan_update_shopping_list(request, plan_id):
     if not isinstance(list_items, dict):
         return JsonResponse({"error": "list_items must be an object"}, status=400)
     normalized = {}
-    for store_name, items in list_items.items():
-        if not isinstance(store_name, str) or not isinstance(items, list):
+    for store_name, value in list_items.items():
+        if not isinstance(store_name, str):
             continue
-        normalized[store_name] = []
+        if isinstance(value, dict) and "ingredients" in value:
+            items = value.get("ingredients", [])
+            is_manual = bool(value.get("is_manual", False))
+        elif isinstance(value, list):
+            items = value
+            is_manual = False
+        else:
+            continue
+        ingredient_rows = []
         for item in items:
             if not isinstance(item, dict):
                 continue
@@ -317,11 +367,127 @@ def plan_update_shopping_list(request, plan_id):
             row = {"name": name, "recipes": recipes, "is_staple": is_staple}
             if item.get("ingredient_id") and isinstance(item.get("ingredient_id"), str):
                 row["ingredient_id"] = item["ingredient_id"]
-            normalized[store_name].append(row)
+            ingredient_rows.append(row)
+        normalized[store_name] = {"ingredients": ingredient_rows, "is_manual": is_manual}
     shopping_list, _ = PlanShoppingList.objects.get_or_create(plan=plan, defaults={})
     shopping_list.list_items = normalized
     shopping_list.save(update_fields=["list_items"])
     return JsonResponse({"ok": True})
+
+
+def plan_recalculate_stores(request, plan_id):
+    """
+    Recalculate minimum stores from current shopping list items (e.g. after user removes staples).
+    POST only. Redirects back to plan detail.
+    """
+    if request.method != "POST":
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    plan = get_object_or_404(Plan, id=plan_id)
+    try:
+        shopping_list = plan.shopping_list
+    except PlanShoppingList.DoesNotExist:
+        messages.info(request, "No shopping list to recalculate.")
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+
+    list_items = shopping_list.list_items or {}
+    # Flatten: collect items with valid ingredient_id; collect manually added store IDs (must-visit)
+    ingredient_ids = []
+    extra = {}
+    manual_store_keys = set()  # string keys for preserving is_manual in output
+
+    for store_key, value in list_items.items():
+        if store_key == "Other":
+            continue
+        if isinstance(value, dict) and "ingredients" in value:
+            items = value["ingredients"]
+            if value.get("is_manual"):
+                manual_store_keys.add(store_key)
+        elif isinstance(value, list):
+            items = value
+        else:
+            continue
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            name = item.get("name")
+            if not name or not isinstance(name, str):
+                continue
+            ing_id = item.get("ingredient_id") if isinstance(item.get("ingredient_id"), str) else None
+            if not ing_id:
+                continue
+            try:
+                parsed_id = uuid.UUID(ing_id)
+            except (ValueError, TypeError):
+                continue
+            recipes = item.get("recipes")
+            if not isinstance(recipes, list):
+                recipes = []
+            recipes = [r for r in recipes if isinstance(r, str)]
+            is_staple = bool(item.get("is_staple", False))
+            ingredient_ids.append(parsed_id)
+            extra[parsed_id] = {"recipe_names": recipes, "is_staple": is_staple}
+
+    # Resolve manual store keys to valid store UUIDs (must-visit stores)
+    must_visit_store_ids = set()
+    if manual_store_keys:
+        try:
+            parsed_manual = [uuid.UUID(k) for k in manual_store_keys]
+            must_visit_store_ids = set(
+                Store.objects.filter(id__in=parsed_manual).values_list("id", flat=True)
+            )
+        except (ValueError, TypeError):
+            pass
+
+    # Rebuild store assignment; manually added stores are must-visit and keep is_manual in output
+    store_to_items = {}
+    if ingredient_ids or must_visit_store_ids:
+        shopping_by_store = _build_shopping_list(
+            ingredient_ids, extra=extra, must_visit_store_ids=must_visit_store_ids
+        )
+        for store, items in shopping_by_store:
+            if store is None:
+                continue  # skip Other
+            store_key = str(store.id)
+            is_manual = store_key in manual_store_keys
+            store_to_items[store_key] = {
+                "ingredients": [
+                    {
+                        "name": ing.name,
+                        "recipes": sorted(recipe_names),
+                        "is_staple": is_staple,
+                        "ingredient_id": str(ing.id),
+                    }
+                    for ing, recipe_names, is_staple, _ in items
+                ],
+                "is_manual": is_manual,
+            }
+        # When there are no ingredients, _build_shopping_list returns []; preserve manual stores with empty ingredients
+        if not ingredient_ids and must_visit_store_ids:
+            for store in Store.objects.filter(id__in=must_visit_store_ids):
+                store_key = str(store.id)
+                if store_key not in store_to_items:
+                    store_to_items[store_key] = {"ingredients": [], "is_manual": True}
+
+    shopping_list.list_items = store_to_items
+    shopping_list.save(update_fields=["list_items"])
+    messages.success(request, "Shopping list stores recalculated.")
+    return redirect("meal_plan:plan_detail", plan_id=plan_id)
+
+
+def plan_reset_shopping_list(request, plan_id):
+    """
+    Delete the plan's PlanShoppingList. On redirect to plan detail, initialization will run and recreate it from plan recipes.
+    POST only. Redirects back to plan detail.
+    """
+    if request.method != "POST":
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    plan = get_object_or_404(Plan, id=plan_id)
+    try:
+        plan.shopping_list.delete()
+        messages.success(request, "Shopping list reset to default.")
+    except PlanShoppingList.DoesNotExist:
+        messages.info(request, "Shopping list was already at default.")
+    return redirect("meal_plan:plan_detail", plan_id=plan_id)
 
 
 def plan_delete(request, plan_id):
@@ -364,6 +530,10 @@ def plan_remove_recipe(request, plan_id, recipe_id):
     )
     recipe.last_used_on = last_plan.plan_date if last_plan else None
     recipe.save(update_fields=["last_used_on"])
+    try:
+        plan.shopping_list.delete()
+    except PlanShoppingList.DoesNotExist:
+        pass
     _initialize_plan_shopping_list(plan)
     messages.success(request, f"Removed {recipe.name} from the plan.")
     return redirect("meal_plan:plan_detail", plan_id=plan_id)
@@ -386,6 +556,10 @@ def plan_add_recipe(request, plan_id):
     if recipe.last_used_on is None or plan.plan_date > recipe.last_used_on:
         recipe.last_used_on = plan.plan_date
         recipe.save(update_fields=["last_used_on"])
+    try:
+        plan.shopping_list.delete()
+    except PlanShoppingList.DoesNotExist:
+        pass
     _initialize_plan_shopping_list(plan)
     messages.success(request, f"Added {recipe.name} to the plan.")
     return redirect("meal_plan:plan_detail", plan_id=plan_id)

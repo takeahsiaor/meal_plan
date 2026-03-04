@@ -12,6 +12,17 @@
 
 <h1 class="mb-4">Plan: {{ plan.plan_date|date:"M j, Y" }}</h1>
 
+{% if messages %}
+<div class="mb-3">
+    {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <section class="mb-4">
     <h2 class="h5 mb-2">Recipes</h2>
     <p class="mb-2">
@@ -67,6 +78,10 @@
             <p class="text-muted small mb-0">Ingredients grouped by store (staples: check current stock). Drag ingredients between stores to override.</p>
             <div class="d-flex gap-2">
                 <button type="button" class="btn btn-sm btn-outline-secondary" id="add-store-btn" aria-label="Add store" title="Add ad hoc store">Add store</button>
+                <form method="post" action="{% url 'meal_plan:plan_recalculate_stores' plan.id %}" id="recalculate-stores-form" class="d-inline" aria-label="Recalculate minimum stores">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="recalculate-stores-btn" title="Recalculate minimum stores from current list (e.g. after removing staples)">Recalculate stores</button>
+                </form>
                 <button type="button" class="btn btn-sm btn-outline-secondary" id="print-all-shopping-list-btn" aria-label="Print shopping list" title="Print all stores">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" class="me-1"><path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/><path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/></svg>Print list
                 </button>
@@ -76,11 +91,12 @@
     <div id="shopping-list-container">
     {% if shopping_list_display %}
     <div class="row row-cols-1 row-cols-md-2 g-3" id="shopping-list-grid">
-        {% for store_key, store_display_name, items in shopping_list_display %}
+        {% for store_key, store_display_name, items, is_manual in shopping_list_display %}
+        {% if store_key != "Other" %}
         <div class="col">
-            <div class="card h-100 store-card" data-store-key="{{ store_key }}">
+            <div class="card h-100 store-card" data-store-key="{{ store_key }}" data-is-manual="{% if is_manual %}true{% else %}false{% endif %}">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>{{ store_display_name }}</span>
+                    <span>{{ store_display_name }}{% if is_manual %} <span class="text-muted">(manually added)</span>{% endif %}</span>
                     <button type="button" class="btn btn-link btn-sm text-muted p-0 store-remove-btn {% if items %}d-none{% endif %}" aria-label="Remove store from list" title="Remove store">×</button>
                 </div>
                 <div class="card-body store-drop-zone">
@@ -89,7 +105,7 @@
                         <li class="list-group-item d-flex align-items-center px-3 draggable-ingredient" draggable="true" data-name="{{ item.name|escapejs }}" data-recipes="{{ item.recipes|join:'|||' }}" data-is-staple="{% if item.is_staple %}true{% else %}false{% endif %}" {% if item.ingredient_id %}data-ingredient-id="{{ item.ingredient_id }}"{% endif %}>
                             <span class="drag-handle me-2 text-muted" aria-hidden="true">⋮⋮</span>
                             <span class="flex-grow-1">
-                                <span class="border-bottom border-2 border-secondary">{{ item.name }} <span class="text-muted">({{ item.recipes|join:", " }})</span></span>
+                                <span class="border-bottom border-2 border-secondary">{{ item.name }} {% if item.recipes %}<span class="text-muted">({{ item.recipes|join:", " }})</span>{% endif %}</span>
                                 {% if item.is_staple %}<span class="badge bg-light text-dark ms-1 small fw-bold">check current stock</span>{% endif %}
                             </span>
                             <button type="button" class="btn btn-link btn-sm text-muted p-0 ms-1 store-item-remove text-decoration-none" aria-label="Remove from list" title="Remove from list">×</button>
@@ -98,23 +114,41 @@
                         <li class="list-group-item text-muted store-empty-placeholder">No ingredients</li>
                         {% endfor %}
                     </ul>
+                    <div class="mt-2 add-ingredient-row d-flex gap-1 align-items-center">
+                        <select class="form-select form-select-sm add-ingredient-select" aria-label="Add ingredient">
+                            <option value="">-- Add ingredient --</option>
+                            {% for ing in all_ingredients %}
+                            <option value="{{ ing.id }}">{{ ing.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="button" class="btn btn-sm btn-outline-secondary add-ingredient-btn" aria-label="Add selected ingredient">Add</button>
+                    </div>
                 </div>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
     {% else %}
     <p class="text-muted" id="shopping-list-empty-msg">No ingredients in this plan.</p>
     {% endif %}
     </div>
+    <hr>
+    <div class="d-flex justify-content-end mt-3">
+        <form method="post" action="{% url 'meal_plan:plan_reset_shopping_list' plan.id %}" id="reset-shopping-list-form" class="d-inline" aria-label="Reset shopping list to default">
+            {% csrf_token %}
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="reset-shopping-list-btn" title="Reset shopping list to default (all plan recipe ingredients)">Reset</button>
+        </form>
+    </div>
+    {{ all_ingredients|json_script:"all-ingredients-data" }}
+</div>
 
-    <div class="tab-pane fade {% if active_tab == 'recipes' %}show active{% endif %}" id="recipes-pane" role="tabpanel" aria-labelledby="recipes-tab">
+<div class="tab-pane fade {% if active_tab == 'recipes' %}show active{% endif %}" id="recipes-pane" role="tabpanel" aria-labelledby="recipes-tab">
         <p class="text-muted small mb-3">Ingredients and prep notes per recipe.</p>
         {% for recipe in recipes %}
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span class="badge bg-secondary">{{ recipe.name }}</span>
-                <button type="button" class="btn btn-sm btn-outline-danger remove-recipe-btn" aria-label="Remove {{ recipe.name }} from plan" data-recipe-name="{{ recipe.name }}" data-form-id="remove-recipe-form-{{ recipe.id }}">Remove from plan</button>
             </div>
             <div class="card-body">
                 <div class="row g-3">
@@ -208,6 +242,43 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="recalculateStoresModal" tabindex="-1" aria-labelledby="recalculateStoresModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recalculateStoresModalLabel">Recalculate store lists</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">This will recalculate the shopping lists based on the <strong>current items</strong> and <strong>manually added stores</strong>.<br><br>
+                    Store assignments may change.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="recalculate-stores-confirm">Recalculate</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resetShoppingListModal" tabindex="-1" aria-labelledby="resetShoppingListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resetShoppingListModalLabel">Reset shopping list</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">This will reset the shopping list back to the default. <strong>All customization will be lost</strong>: removed items, manual store assignments, and any stores you added will be cleared. The list will be rebuilt from the current plan recipes only.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="reset-shopping-list-confirm">Reset</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_css %}
@@ -237,7 +308,63 @@
         });
     }
 
+    // Recalculate stores: show confirmation modal, then submit form on confirm
+    var recalcBtn = document.getElementById('recalculate-stores-btn');
+    var recalcModal = document.getElementById('recalculateStoresModal');
+    var recalcForm = document.getElementById('recalculate-stores-form');
+    var recalcConfirm = document.getElementById('recalculate-stores-confirm');
+    if (recalcBtn && recalcModal && recalcForm && recalcConfirm) {
+        var bsRecalcModal = new bootstrap.Modal(recalcModal);
+        recalcBtn.addEventListener('click', function() { bsRecalcModal.show(); });
+        recalcConfirm.addEventListener('click', function() {
+            bsRecalcModal.hide();
+            recalcForm.submit();
+        });
+    }
+
+    // Reset shopping list: show confirmation modal, then submit form on confirm
+    var resetBtn = document.getElementById('reset-shopping-list-btn');
+    var resetModal = document.getElementById('resetShoppingListModal');
+    var resetForm = document.getElementById('reset-shopping-list-form');
+    var resetConfirm = document.getElementById('reset-shopping-list-confirm');
+    if (resetBtn && resetModal && resetForm && resetConfirm) {
+        var bsResetModal = new bootstrap.Modal(resetModal);
+        resetBtn.addEventListener('click', function() { bsResetModal.show(); });
+        resetConfirm.addEventListener('click', function() {
+            bsResetModal.hide();
+            resetForm.submit();
+        });
+    }
+
     var placeholderHtml = '<li class="list-group-item text-muted store-empty-placeholder">No ingredients</li>';
+    var allIngredientsDataEl = document.getElementById('all-ingredients-data');
+    var ALL_INGREDIENTS = allIngredientsDataEl ? JSON.parse(allIngredientsDataEl.textContent) : [];
+
+    function getAddIngredientOptionsHtml() {
+        var opts = ['<option value="">-- Add ingredient --</option>'];
+        ALL_INGREDIENTS.forEach(function(i) {
+            opts.push('<option value="' + escapeHtml(i.id) + '">' + escapeHtml(i.name) + '</option>');
+        });
+        return opts.join('');
+    }
+
+    function createAdHocIngredientLi(name, ingredientId) {
+        return '<li class="list-group-item d-flex align-items-center px-3 draggable-ingredient" draggable="true" data-name="' + escapeHtml(name) + '" data-recipes="" data-is-staple="false" data-ingredient-id="' + escapeHtml(ingredientId) + '">' +
+            '<span class="drag-handle me-2 text-muted" aria-hidden="true">⋮⋮</span>' +
+            '<span class="flex-grow-1"><span class="border-bottom border-2 border-secondary">' + escapeHtml(name) + ' </span></span>' +
+            '<button type="button" class="btn btn-link btn-sm text-muted p-0 ms-1 store-item-remove text-decoration-none" aria-label="Remove from list" title="Remove from list">×</button></li>';
+    }
+
+    function attachDragToIngredient(li) {
+        li.addEventListener('dragstart', function(e) {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', '');
+            li.classList.add('dragging');
+        });
+        li.addEventListener('dragend', function() {
+            li.classList.remove('dragging');
+        });
+    }
 
     function getCookie(name) {
         var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -262,14 +389,15 @@
                 if (ingId) payload.ingredient_id = ingId;
                 items.push(payload);
             });
-            listItems[storeKey] = items;
+            var isManual = card.getAttribute('data-is-manual') === 'true';
+            listItems[storeKey] = { ingredients: items, is_manual: isManual };
         });
         return listItems;
     }
 
     function validateIngredientStore(storeKey, ingredientName, ingredientId, callback) {
-        if (storeKey === 'Other' || !storeKey) {
-            callback(true);
+        if (!storeKey) {
+            callback(false);
             return;
         }
         var pane = document.getElementById('shopping-pane');
@@ -406,16 +534,7 @@
         });
     }
 
-    document.querySelectorAll('.draggable-ingredient').forEach(function(li) {
-        li.addEventListener('dragstart', function(e) {
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', ''); // required for some browsers
-            li.classList.add('dragging');
-        });
-        li.addEventListener('dragend', function(e) {
-            li.classList.remove('dragging');
-        });
-    });
+    document.querySelectorAll('.draggable-ingredient').forEach(attachDragToIngredient);
 
     function updateStoreRemoveButtonVisibility() {
         document.querySelectorAll('.store-card').forEach(function(card) {
@@ -429,6 +548,34 @@
 
     if (shoppingPane) {
         shoppingPane.addEventListener('click', function(e) {
+            if (e.target.closest('.add-ingredient-btn')) {
+                e.preventDefault();
+                var btn = e.target.closest('.add-ingredient-btn');
+                var card = btn.closest('.store-card');
+                if (!card) return;
+                var select = card.querySelector('.add-ingredient-select');
+                if (!select || !select.value) return;
+                var storeKey = card.getAttribute('data-store-key');
+                var ingredientId = select.value.trim();
+                var ingredientName = select.options[select.selectedIndex].text;
+                var storeDisplayName = card.querySelector('.card-header > span') ? card.querySelector('.card-header > span').textContent.trim() : 'that store';
+                validateIngredientStore(storeKey, ingredientName, ingredientId, function(valid) {
+                    if (valid) {
+                        var list = card.querySelector('.store-ingredient-list');
+                        if (list) {
+                            removePlaceholder(list);
+                            list.insertAdjacentHTML('beforeend', createAdHocIngredientLi(ingredientName, ingredientId));
+                            attachDragToIngredient(list.lastElementChild);
+                            updateStoreRemoveButtonVisibility();
+                            persistShoppingList();
+                            select.selectedIndex = 0;
+                        }
+                    } else {
+                        showIngredientStoreWarning(ingredientName, storeDisplayName);
+                    }
+                });
+                return;
+            }
             if (e.target.closest('.store-remove-btn')) {
                 e.preventDefault();
                 var card = e.target.closest('.store-card');
@@ -462,16 +609,22 @@
         });
     }
 
-    function createStoreCardHtml(storeId, storeDisplayName) {
+    function createStoreCardHtml(storeId, storeDisplayName, isManual) {
         var displayName = storeDisplayName && storeDisplayName.trim() ? storeDisplayName.trim() : 'New store';
-        var key = storeId || 'Other';
-        return '<div class="col"><div class="card h-100 store-card" data-store-key="' + escapeHtml(key) + '">' +
+        var key = storeId;
+        var manualSuffix = (isManual === true) ? ' <span class="text-muted">(manually added)</span>' : '';
+        var dataIsManual = (isManual === true) ? ' data-is-manual="true"' : ' data-is-manual="false"';
+        return '<div class="col"><div class="card h-100 store-card" data-store-key="' + escapeHtml(key) + '"' + dataIsManual + '>' +
             '<div class="card-header d-flex justify-content-between align-items-center">' +
-            '<span>' + escapeHtml(displayName) + '</span>' +
+            '<span>' + escapeHtml(displayName) + manualSuffix + '</span>' +
             '<button type="button" class="btn btn-link btn-sm text-muted p-0 store-remove-btn" aria-label="Remove store from list" title="Remove store">×</button></div>' +
             '<div class="card-body store-drop-zone">' +
             '<ul class="list-group list-group-flush store-ingredient-list">' +
-            '<li class="list-group-item text-muted store-empty-placeholder">No ingredients</li></ul></div></div></div>';
+            '<li class="list-group-item text-muted store-empty-placeholder">No ingredients</li></ul>' +
+            '<div class="mt-2 add-ingredient-row d-flex gap-1 align-items-center">' +
+            '<select class="form-select form-select-sm add-ingredient-select" aria-label="Add ingredient">' + getAddIngredientOptionsHtml() + '</select>' +
+            '<button type="button" class="btn btn-sm btn-outline-secondary add-ingredient-btn" aria-label="Add selected ingredient">Add</button></div>' +
+            '</div></div></div>';
     }
 
     var addStoreBtn = document.getElementById('add-store-btn');
@@ -501,11 +654,11 @@
                 var newGrid = document.createElement('div');
                 newGrid.className = 'row row-cols-1 row-cols-md-2 g-3';
                 newGrid.id = 'shopping-list-grid';
-                newGrid.innerHTML = createStoreCardHtml(storeId, storeName);
+                newGrid.innerHTML = createStoreCardHtml(storeId, storeName, true);
                 if (emptyMsg) emptyMsg.remove();
                 container.appendChild(newGrid);
             } else {
-                grid.insertAdjacentHTML('beforeend', createStoreCardHtml(storeId, storeName));
+                grid.insertAdjacentHTML('beforeend', createStoreCardHtml(storeId, storeName, true));
             }
             var opts = addStoreSelect.querySelectorAll('option[value]');
             for (var i = 0; i < opts.length; i++) { if (opts[i].value === storeId) { opts[i].remove(); break; } }

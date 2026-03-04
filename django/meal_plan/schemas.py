@@ -3,10 +3,10 @@ Data structures for PlanShoppingList.list_items JSON field.
 
 Structure:
     {
-        "<store uuid>": [  # or "Other" for unassigned
-            {"name": str, "recipes": [...], "is_staple": bool, "ingredient_id": "<uuid>"},
-            ...
-        ],
+        "<store uuid>": {
+            "ingredients": [{"name": str, "recipes": [...], "is_staple": bool, "ingredient_id": "<uuid>"}, ...],
+            "is_manual": bool,  # True if store was added by user (e.g. "Add store" button)
+        },
         ...
     }
 """
@@ -39,19 +39,19 @@ class ShoppingListItem:
         )
 
 
-def serialize_list_items(store_to_items: dict[str, list[ShoppingListItem]]) -> dict[str, list[dict[str, Any]]]:
-    """Convert typed structure to JSON-serializable dict for storage."""
-    return {
-        store_name: [item.to_dict() for item in items]
-        for store_name, items in store_to_items.items()
-    }
-
-
-def deserialize_list_items(data: dict[str, Any]) -> dict[str, list[ShoppingListItem]]:
-    """Parse stored JSON back into typed structure."""
-    if not data:
-        return {}
-    return {
-        store_name: [ShoppingListItem.from_dict(item) for item in items]
-        for store_name, items in data.items()
-    }
+def serialize_list_items(
+    store_to_data: dict[str, dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    """
+    Convert typed structure to JSON-serializable dict for storage.
+    store_to_data: { store_key: {"ingredients": list[ShoppingListItem], "is_manual": bool} }
+    Returns: { store_key: {"ingredients": [item.to_dict(), ...], "is_manual": bool} }
+    """
+    result: dict[str, dict[str, Any]] = {}
+    for store_key, data in store_to_data.items():
+        ingredients = data.get("ingredients", [])
+        result[store_key] = {
+            "ingredients": [item.to_dict() for item in ingredients],
+            "is_manual": bool(data.get("is_manual", False)),
+        }
+    return result
