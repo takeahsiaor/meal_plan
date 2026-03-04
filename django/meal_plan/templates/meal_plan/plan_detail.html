@@ -14,13 +14,42 @@
 
 <section class="mb-4">
     <h2 class="h5 mb-2">Recipes</h2>
-    <p class="mb-0">
-        {% for recipe, color in recipe_color_pairs %}
-        <span class="badge bg-{{ color }}">{{ recipe.name }}</span>
+    <p class="mb-2">
+        {% for recipe in recipes %}
+        <span class="badge bg-secondary d-inline-flex align-items-center">
+            {{ recipe.name }}
+            <button type="button" class="btn btn-link text-white p-0 border-0 remove-recipe-btn ms-1 align-baseline" style="font-size: 1.25em; line-height: 1; font-weight: bold;" aria-label="Remove {{ recipe.name }} from plan" data-recipe-name="{{ recipe.name }}" data-form-id="remove-recipe-form-{{ recipe.id }}">×</button>
+        </span>
         {% empty %}
         <span class="text-muted">None</span>
         {% endfor %}
     </p>
+    {% for recipe in recipes %}
+    <form method="post" action="{% url 'meal_plan:plan_remove_recipe' plan.id recipe.id %}" id="remove-recipe-form-{{ recipe.id }}" class="d-none">
+        {% csrf_token %}
+    </form>
+    {% endfor %}
+    <p class="mb-0">
+        <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#add-recipe-collapse" aria-expanded="false" aria-controls="add-recipe-collapse">Add recipe</button>
+    </p>
+    <div class="collapse mt-2" id="add-recipe-collapse">
+        <div class="d-flex flex-wrap align-items-center gap-2">
+            <form method="post" action="{% url 'meal_plan:plan_add_recipe' plan.id %}" class="d-flex align-items-center gap-2">
+                {% csrf_token %}
+                <label for="add-recipe-select" class="form-label mb-0 small text-muted">Recipe:</label>
+                <select name="recipe_id" id="add-recipe-select" class="form-select form-select-sm" style="width: auto; min-width: 12rem;">
+                    <option value="">-- Choose recipe --</option>
+                    {% for r in available_recipes %}
+                    <option value="{{ r.id }}">{{ r.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-sm btn-outline-primary" {% if not available_recipes %}disabled{% endif %}>Add</button>
+            </form>
+            {% if not available_recipes and recipes %}
+            <span class="small text-muted">All recipes are already in this plan.</span>
+            {% endif %}
+        </div>
+    </div>
 </section>
 
 <ul class="nav nav-tabs mb-3" id="planDetailTabs" role="tablist">
@@ -33,28 +62,35 @@
 </ul>
 
 <div class="tab-content" id="planDetailTabContent">
-    <div class="tab-pane fade {% if active_tab == 'shopping' %}show active{% endif %}" id="shopping-pane" role="tabpanel" aria-labelledby="shopping-tab">
-        <p class="text-muted small mb-3">Ingredients grouped by store (staples: check current stock). Drag ingredients between stores to override.</p>
+    <div class="tab-pane fade {% if active_tab == 'shopping' %}show active{% endif %}" id="shopping-pane" role="tabpanel" aria-labelledby="shopping-tab" data-plan-id="{{ plan.id }}" data-update-url="{{ plan_update_shopping_list_url }}" data-validate-url="{{ validate_ingredient_store_url }}" data-plan-date="{{ plan.plan_date|date:'l m/d/Y' }}">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <p class="text-muted small mb-0">Ingredients grouped by store (staples: check current stock). Drag ingredients between stores to override.</p>
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="add-store-btn" aria-label="Add store" title="Add ad hoc store">Add store</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="print-all-shopping-list-btn" aria-label="Print shopping list" title="Print all stores">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" class="me-1"><path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/><path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/></svg>Print list
+                </button>
+            </div>
+        </div>
 
-    {% if shopping_by_store %}
-    <div class="row row-cols-1 row-cols-md-2 g-3">
-        {% for store, items in shopping_by_store %}
+    <div id="shopping-list-container">
+    {% if shopping_list_display %}
+    <div class="row row-cols-1 row-cols-md-2 g-3" id="shopping-list-grid">
+        {% for store_key, store_display_name, items in shopping_list_display %}
         <div class="col">
-            <div class="card h-100 store-card">
+            <div class="card h-100 store-card" data-store-key="{{ store_key }}">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>{% if store %}{{ store.name }}{% else %}Other / Unassigned{% endif %}</span>
-                    <button type="button" class="btn btn-link btn-sm text-secondary p-1 store-print-btn" aria-label="Print this store list" title="Print list">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/><path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/></svg>
-                    </button>
+                    <span>{{ store_display_name }}</span>
+                    <button type="button" class="btn btn-link btn-sm text-muted p-0 store-remove-btn {% if items %}d-none{% endif %}" aria-label="Remove store from list" title="Remove store">×</button>
                 </div>
                 <div class="card-body store-drop-zone">
                     <ul class="list-group list-group-flush store-ingredient-list">
-                        {% for ingredient, recipe_names, is_staple, color in items %}
-                        <li class="list-group-item d-flex align-items-center px-3 draggable-ingredient" draggable="true">
+                        {% for item in items %}
+                        <li class="list-group-item d-flex align-items-center px-3 draggable-ingredient" draggable="true" data-name="{{ item.name|escapejs }}" data-recipes="{{ item.recipes|join:'|||' }}" data-is-staple="{% if item.is_staple %}true{% else %}false{% endif %}" {% if item.ingredient_id %}data-ingredient-id="{{ item.ingredient_id }}"{% endif %}>
                             <span class="drag-handle me-2 text-muted" aria-hidden="true">⋮⋮</span>
                             <span class="flex-grow-1">
-                                <span class="border-bottom border-2 border-{{ color }}">{{ ingredient.name }} <span class="text-muted">({{ recipe_names|join:", " }})</span></span>
-                                {% if is_staple %}<span class="badge bg-light text-dark ms-1 small fw-bold">check current stock</span>{% endif %}
+                                <span class="border-bottom border-2 border-secondary">{{ item.name }} <span class="text-muted">({{ item.recipes|join:", " }})</span></span>
+                                {% if item.is_staple %}<span class="badge bg-light text-dark ms-1 small fw-bold">check current stock</span>{% endif %}
                             </span>
                             <button type="button" class="btn btn-link btn-sm text-muted p-0 ms-1 store-item-remove text-decoration-none" aria-label="Remove from list" title="Remove from list">×</button>
                         </li>
@@ -68,16 +104,17 @@
         {% endfor %}
     </div>
     {% else %}
-    <p class="text-muted">No ingredients in this plan.</p>
+    <p class="text-muted" id="shopping-list-empty-msg">No ingredients in this plan.</p>
     {% endif %}
     </div>
 
     <div class="tab-pane fade {% if active_tab == 'recipes' %}show active{% endif %}" id="recipes-pane" role="tabpanel" aria-labelledby="recipes-tab">
         <p class="text-muted small mb-3">Ingredients and prep notes per recipe.</p>
-        {% for recipe, color in recipe_color_pairs %}
+        {% for recipe in recipes %}
         <div class="card mb-3">
-            <div class="card-header">
-                <span class="badge bg-{{ color }}">{{ recipe.name }}</span>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="badge bg-secondary">{{ recipe.name }}</span>
+                <button type="button" class="btn btn-sm btn-outline-danger remove-recipe-btn" aria-label="Remove {{ recipe.name }} from plan" data-recipe-name="{{ recipe.name }}" data-form-id="remove-recipe-form-{{ recipe.id }}">Remove from plan</button>
             </div>
             <div class="card-body">
                 <div class="row g-3">
@@ -109,6 +146,68 @@
         {% endfor %}
     </div>
 </div>
+
+<div class="modal fade" id="addStoreModal" tabindex="-1" aria-labelledby="addStoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStoreModalLabel">Add store</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="add-store-select" class="form-label">Store</label>
+                <select class="form-select" id="add-store-select">
+                    <option value="">-- Select store --</option>
+                    {% for store in available_stores %}
+                    <option value="{{ store.id }}">{{ store.name }}</option>
+                    {% endfor %}
+                </select>
+                {% if not available_stores %}
+                <p class="text-muted small mt-2 mb-0">All stores are already in this list.</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="add-store-confirm" {% if not available_stores %}disabled{% endif %}>Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ingredientStoreWarningModal" tabindex="-1" aria-labelledby="ingredientStoreWarningModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ingredientStoreWarningModalLabel">Can't move ingredient</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="ingredientStoreWarningModalBody">
+                <p class="mb-0"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeRecipeModal" tabindex="-1" aria-labelledby="removeRecipeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeRecipeModalLabel">Remove recipe from plan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Remove <strong id="removeRecipeName"></strong> from this plan?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="removeRecipeConfirm">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_css %}
@@ -118,6 +217,8 @@
 .store-drop-zone.drag-over { background-color: rgba(0, 123, 255, 0.08); border-radius: 0.25rem; min-height: 4rem; }
 .drag-handle { cursor: grab; font-size: 0.9rem; user-select: none; }
 .store-item-remove:hover, .store-item-remove:focus { text-decoration: none !important; color: #6c757d !important; }
+.store-remove-btn { font-size: 1.25em; font-weight: bold; }
+.store-remove-btn:hover, .store-remove-btn:focus { text-decoration: none !important; color: #dc3545 !important; }
 </style>
 {% endblock %}
 
@@ -138,6 +239,86 @@
 
     var placeholderHtml = '<li class="list-group-item text-muted store-empty-placeholder">No ingredients</li>';
 
+    function getCookie(name) {
+        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? match[2] : null;
+    }
+
+    function buildListItemsFromDom() {
+        var listItems = {};
+        document.querySelectorAll('.store-card').forEach(function(card) {
+            var storeKey = card.getAttribute('data-store-key');
+            if (!storeKey) return;
+            var list = card.querySelector('.store-ingredient-list');
+            if (!list) return;
+            var items = [];
+            list.querySelectorAll('li.draggable-ingredient').forEach(function(li) {
+                var name = li.getAttribute('data-name') || '';
+                var recipesStr = li.getAttribute('data-recipes') || '';
+                var recipes = recipesStr ? recipesStr.split('|||') : [];
+                var isStaple = li.getAttribute('data-is-staple') === 'true';
+                var payload = { name: name, recipes: recipes, is_staple: isStaple };
+                var ingId = li.getAttribute('data-ingredient-id');
+                if (ingId) payload.ingredient_id = ingId;
+                items.push(payload);
+            });
+            listItems[storeKey] = items;
+        });
+        return listItems;
+    }
+
+    function validateIngredientStore(storeKey, ingredientName, ingredientId, callback) {
+        if (storeKey === 'Other' || !storeKey) {
+            callback(true);
+            return;
+        }
+        var pane = document.getElementById('shopping-pane');
+        var url = pane && pane.getAttribute('data-validate-url') ? pane.getAttribute('data-validate-url') : '/shopping-list/validate-ingredient-store/';
+        var csrfToken = getCookie('csrftoken');
+        var body = { store_id: storeKey };
+        if (ingredientId) body.ingredient_id = ingredientId;
+        else if (ingredientName) body.ingredient_name = ingredientName;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken || '',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }).then(function(r) { return r.json(); }).then(function(data) {
+            callback(data.valid === true);
+        }).catch(function() { callback(false); });
+    }
+
+    function persistShoppingList() {
+        var pane = document.getElementById('shopping-pane');
+        if (!pane) return;
+        var planId = pane.getAttribute('data-plan-id');
+        if (!planId) return;
+        var listItems = buildListItemsFromDom();
+        var url = pane.getAttribute('data-update-url') || ('/plans/' + planId + '/shopping-list/');
+        var csrfToken = getCookie('csrftoken');
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken || '',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ list_items: listItems })
+        }).catch(function() {});
+    }
+
+    function showIngredientStoreWarning(ingredientName, storeName) {
+        var modal = document.getElementById('ingredientStoreWarningModal');
+        var body = document.getElementById('ingredientStoreWarningModalBody');
+        if (!modal || !body) return;
+        body.querySelector('p').innerHTML = '<strong>' + escapeHtml(ingredientName) + '</strong> is not available from <strong>' + escapeHtml(storeName) + '</strong>. The move was not saved.';
+        var bsModal = new bootstrap.Modal(modal);
+        bsModal.show();
+    }
+
     function getPlaceholder(el) {
         return el.querySelector('.store-empty-placeholder');
     }
@@ -153,30 +334,49 @@
         if (ph) ph.remove();
     }
 
-    document.querySelectorAll('.store-drop-zone').forEach(function(zone) {
-        var list = zone.querySelector('.store-ingredient-list');
-        if (!list) return;
-        function addDragOver(e) {
+    var shoppingPane = document.getElementById('shopping-pane');
+    if (shoppingPane) {
+        shoppingPane.addEventListener('dragover', function(e) {
+            var zone = e.target.closest('.store-drop-zone');
+            if (!zone) return;
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
             zone.classList.add('drag-over');
-        }
-        function removeDragOver(e) {
-            if (!zone.contains(e.relatedTarget)) zone.classList.remove('drag-over');
-        }
-        function handleDrop(e) {
+        });
+        shoppingPane.addEventListener('dragenter', function(e) {
+            var zone = e.target.closest('.store-drop-zone');
+            if (!zone) return;
+            e.preventDefault();
+            zone.classList.add('drag-over');
+        });
+        shoppingPane.addEventListener('dragleave', function(e) {
+            var zone = e.target.closest('.store-drop-zone');
+            if (zone && !zone.contains(e.relatedTarget)) zone.classList.remove('drag-over');
+        });
+        shoppingPane.addEventListener('drop', function(e) {
+            var zone = e.target.closest('.store-drop-zone');
+            if (!zone) return;
             e.preventDefault();
             zone.classList.remove('drag-over');
+            var list = zone.querySelector('.store-ingredient-list');
+            if (!list) return;
             var li = document.querySelector('.draggable-ingredient.dragging');
             if (!li) return;
             li.classList.remove('dragging');
             var sourceList = li.parentElement;
             var dropTarget = e.target.closest('li.draggable-ingredient') || e.target.closest('li.store-empty-placeholder');
+            var isCrossStore = sourceList !== list;
             if (sourceList === list) {
                 if (dropTarget && dropTarget !== li) {
                     list.insertBefore(li, dropTarget);
                 }
+                updateStoreRemoveButtonVisibility();
+                persistShoppingList();
             } else {
+                var targetCard = zone.closest('.store-card');
+                var storeKey = targetCard ? targetCard.getAttribute('data-store-key') : null;
+                var ingredientName = li.getAttribute('data-name') || '';
+                var ingredientId = li.getAttribute('data-ingredient-id') || '';
                 removePlaceholder(list);
                 if (dropTarget && dropTarget.classList.contains('store-empty-placeholder')) {
                     dropTarget.remove();
@@ -187,13 +387,24 @@
                     list.appendChild(li);
                 }
                 ensurePlaceholder(sourceList);
+                validateIngredientStore(storeKey, ingredientName, ingredientId, function(valid) {
+                    if (valid) {
+                        updateStoreRemoveButtonVisibility();
+                        persistShoppingList();
+                    } else {
+                        sourceList.appendChild(li);
+                        if (list.querySelectorAll('li.draggable-ingredient').length === 0) {
+                            list.insertAdjacentHTML('beforeend', placeholderHtml);
+                        }
+                        ensurePlaceholder(list);
+                        updateStoreRemoveButtonVisibility();
+                        var storeDisplayName = targetCard ? (targetCard.querySelector('.card-header > span') && targetCard.querySelector('.card-header > span').textContent.trim()) || 'that store' : 'that store';
+                        showIngredientStoreWarning(ingredientName, storeDisplayName);
+                    }
+                });
             }
-        }
-        zone.addEventListener('dragover', addDragOver);
-        zone.addEventListener('dragenter', addDragOver);
-        zone.addEventListener('dragleave', removeDragOver);
-        zone.addEventListener('drop', handleDrop);
-    });
+        });
+    }
 
     document.querySelectorAll('.draggable-ingredient').forEach(function(li) {
         li.addEventListener('dragstart', function(e) {
@@ -206,71 +417,185 @@
         });
     });
 
-    document.querySelectorAll('.store-item-remove').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
+    function updateStoreRemoveButtonVisibility() {
+        document.querySelectorAll('.store-card').forEach(function(card) {
+            var list = card.querySelector('.store-ingredient-list');
+            var btn = card.querySelector('.store-remove-btn');
+            if (!list || !btn) return;
+            var hasItems = list.querySelectorAll('li.draggable-ingredient').length > 0;
+            btn.classList.toggle('d-none', hasItems);
+        });
+    }
+
+    if (shoppingPane) {
+        shoppingPane.addEventListener('click', function(e) {
+            if (e.target.closest('.store-remove-btn')) {
+                e.preventDefault();
+                var card = e.target.closest('.store-card');
+                if (!card) return;
+                var col = card.closest('.col');
+                var grid = document.getElementById('shopping-list-grid');
+                if (col) col.remove();
+                if (grid && grid.querySelectorAll('.col').length === 0) {
+                    var container = document.getElementById('shopping-list-container');
+                    grid.remove();
+                    var emptyMsg = document.createElement('p');
+                    emptyMsg.className = 'text-muted';
+                    emptyMsg.id = 'shopping-list-empty-msg';
+                    emptyMsg.textContent = 'No ingredients in this plan.';
+                    container.appendChild(emptyMsg);
+                }
+                persistShoppingList();
+                return;
+            }
+            if (!e.target.closest('.store-item-remove')) return;
             e.preventDefault();
-            var li = btn.closest('.draggable-ingredient');
+            var li = e.target.closest('.draggable-ingredient');
             if (!li) return;
             var list = li.parentElement;
             li.remove();
             if (list.classList.contains('store-ingredient-list') && list.children.length === 0) {
                 list.insertAdjacentHTML('beforeend', placeholderHtml);
             }
+            updateStoreRemoveButtonVisibility();
+            persistShoppingList();
         });
-    });
+    }
 
-    document.querySelectorAll('.store-print-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            var card = btn.closest('.store-card');
-            var headerSpan = card.querySelector('.card-header > span');
-            var storeName = headerSpan ? headerSpan.textContent.trim() : 'Shopping list';
-            var list = card.querySelector('.store-ingredient-list');
-            var items = [];
-            if (list) {
-                [].slice.call(list.children).forEach(function(li) {
-                    if (li.classList.contains('draggable-ingredient')) {
+    function createStoreCardHtml(storeId, storeDisplayName) {
+        var displayName = storeDisplayName && storeDisplayName.trim() ? storeDisplayName.trim() : 'New store';
+        var key = storeId || 'Other';
+        return '<div class="col"><div class="card h-100 store-card" data-store-key="' + escapeHtml(key) + '">' +
+            '<div class="card-header d-flex justify-content-between align-items-center">' +
+            '<span>' + escapeHtml(displayName) + '</span>' +
+            '<button type="button" class="btn btn-link btn-sm text-muted p-0 store-remove-btn" aria-label="Remove store from list" title="Remove store">×</button></div>' +
+            '<div class="card-body store-drop-zone">' +
+            '<ul class="list-group list-group-flush store-ingredient-list">' +
+            '<li class="list-group-item text-muted store-empty-placeholder">No ingredients</li></ul></div></div></div>';
+    }
+
+    var addStoreBtn = document.getElementById('add-store-btn');
+    var addStoreModal = document.getElementById('addStoreModal');
+    var addStoreSelect = document.getElementById('add-store-select');
+    var addStoreConfirm = document.getElementById('add-store-confirm');
+    if (addStoreBtn && addStoreModal && addStoreSelect && addStoreConfirm) {
+        var bsAddStoreModal = new bootstrap.Modal(addStoreModal);
+        addStoreBtn.addEventListener('click', function() {
+            addStoreSelect.selectedIndex = 0;
+            addStoreConfirm.disabled = !addStoreSelect.value;
+            bsAddStoreModal.show();
+        });
+        addStoreSelect.addEventListener('change', function() {
+            addStoreConfirm.disabled = !addStoreSelect.value;
+        });
+        addStoreConfirm.addEventListener('click', function() {
+            var storeId = addStoreSelect.value ? addStoreSelect.value.trim() : '';
+            if (!storeId) return;
+            var opt = addStoreSelect.options[addStoreSelect.selectedIndex];
+            var storeName = opt ? opt.text : '';
+            var container = document.getElementById('shopping-list-container');
+            var grid = document.getElementById('shopping-list-grid');
+            var emptyMsg = document.getElementById('shopping-list-empty-msg');
+            if (!container) return;
+            if (!grid) {
+                var newGrid = document.createElement('div');
+                newGrid.className = 'row row-cols-1 row-cols-md-2 g-3';
+                newGrid.id = 'shopping-list-grid';
+                newGrid.innerHTML = createStoreCardHtml(storeId, storeName);
+                if (emptyMsg) emptyMsg.remove();
+                container.appendChild(newGrid);
+            } else {
+                grid.insertAdjacentHTML('beforeend', createStoreCardHtml(storeId, storeName));
+            }
+            var opts = addStoreSelect.querySelectorAll('option[value]');
+            for (var i = 0; i < opts.length; i++) { if (opts[i].value === storeId) { opts[i].remove(); break; } }
+            if (addStoreSelect.options.length <= 1) addStoreConfirm.disabled = true;
+            addStoreSelect.selectedIndex = 0;
+            bsAddStoreModal.hide();
+            persistShoppingList();
+        });
+        addStoreSelect.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') addStoreConfirm.click();
+        });
+    }
+
+    var printAllBtn = document.getElementById('print-all-shopping-list-btn');
+    if (printAllBtn) {
+        printAllBtn.addEventListener('click', function() {
+            var pane = document.getElementById('shopping-pane');
+            var planDate = pane && pane.getAttribute('data-plan-date') ? pane.getAttribute('data-plan-date') : '';
+            var dateSuffix = planDate ? ' - ' + planDate : '';
+            var cards = document.querySelectorAll('.store-card');
+            var quadrants = [];
+            cards.forEach(function(card) {
+                var headerSpan = card.querySelector('.card-header > span');
+                var storeName = (headerSpan ? headerSpan.textContent.trim() : 'Store') + dateSuffix;
+                var list = card.querySelector('.store-ingredient-list');
+                var items = [];
+                if (list) {
+                    list.querySelectorAll('li.draggable-ingredient').forEach(function(li) {
                         var contentSpan = li.querySelector('span:not(.drag-handle)');
                         var text = contentSpan ? contentSpan.textContent.trim() : li.textContent.trim();
-                        var colorSpan = li.querySelector('span[class*="border-"]');
-                        var color = 'secondary';
-                        if (colorSpan && colorSpan.className) {
-                            var m = colorSpan.className.match(/border-(primary|success|info|warning|danger|secondary|dark)/);
-                            if (m) color = m[1];
-                        }
                         var staple = text.indexOf('check current stock') !== -1;
                         if (staple) text = text.replace(/\s*check current stock\s*$/, '').trim();
-                        items.push({ text: text, color: color, staple: staple });
-                    }
-                });
-            }
-            var printColors = { primary: '#0d6efd', success: '#198754', info: '#0dcaf0', warning: '#ffc107', danger: '#dc3545', secondary: '#6c757d', dark: '#212529' };
-            var listHtml = items.map(function(item) {
-                var colorStyle = 'border-left: 3px solid ' + (printColors[item.color] || printColors.secondary) + '; padding-left: 0.35em;';
-                var stapleHtml = item.staple ? ' <span class="print-staple">check current stock</span>' : '';
-                return '<li class="print-item" style="' + colorStyle + '"><label class="print-label"><input type="checkbox" class="print-checkbox"> <span>' + escapeHtml(item.text) + stapleHtml + '</span></label></li>';
-            }).join('');
-            var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Print: ' + escapeHtml(storeName) + '</title><style>' +
-                'body { font-family: system-ui, sans-serif; margin: 0.5in; max-width: 8in; font-size: 12pt; }' +
-                'h1 { font-size: 14pt; margin: 0 0 0.5em 0; }' +
-                'ul { list-style: none; padding: 0; margin: 0; }' +
-                '.print-item { margin: 0.25em 0; }' +
+                        items.push({ text: text, staple: staple });
+                    });
+                }
+                var listHtml = items.map(function(item) {
+                    var stapleHtml = item.staple ? ' <span class="print-staple">check current stock</span>' : '';
+                    return '<li class="print-item"><label class="print-label"><input type="checkbox" class="print-checkbox"> <span>' + escapeHtml(item.text) + stapleHtml + '</span></label></li>';
+                }).join('');
+                quadrants.push('<div class="print-quadrant"><h2 class="print-store-title">' + escapeHtml(storeName) + '</h2>' + (listHtml ? '<ul class="print-list">' + listHtml + '</ul>' : '<p class="print-empty">No items.</p>') + '</div>');
+            });
+            var gridHtml = quadrants.length ? quadrants.join('') : '<p>No stores in this list.</p>';
+            var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Shopping list</title><style>' +
+                '@page { size: 8.5in 11in; margin: 0.5in; }' +
+                'body { font-family: system-ui, sans-serif; margin: 0; padding: 0.5in; font-size: 11pt; box-sizing: border-box; max-width: 8.5in; min-height: 11in; }' +
+                '.print-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; width: 100%; box-sizing: border-box; }' +
+                '.print-quadrant { break-inside: avoid; padding: 0.4rem; border: 1px solid #ddd; border-radius: 4px; min-height: 0; box-sizing: border-box; }' +
+                '.print-store-title { font-size: 12pt; margin: 0 0 0.4rem 0; padding-bottom: 0.2rem; border-bottom: 2px solid #333; }' +
+                '.print-list { list-style: none; padding: 0; margin: 0; font-size: 10pt; }' +
+                '.print-item { margin: 0.15rem 0; }' +
                 '.print-label { display: flex; align-items: baseline; cursor: pointer; }' +
                 '.print-checkbox { margin-right: 0.5em; flex-shrink: 0; }' +
-                '.print-staple { font-size: 0.8em; font-weight: bold; }' +
-                '@media print { body { margin: 0.5in; } }</style></head><body>' +
-                '<h1>' + escapeHtml(storeName) + '</h1>' +
-                (listHtml ? '<ul>' + listHtml + '</ul>' : '<p>No items.</p>') +
+                '.print-staple { font-size: 0.85em; font-weight: bold; }' +
+                '.print-empty { margin: 0; color: #666; font-size: 0.9em; }' +
+                '@media print { body { padding: 0; margin: 0; } .print-grid { max-height: none; overflow: visible; } }' +
+                '</style></head><body>' +
+                '<div class="print-grid">' + gridHtml + '</div>' +
                 '</body></html>';
             var w = window.open('', '_blank');
             w.document.write(html);
             w.document.close();
         });
-    });
+    }
 
     function escapeHtml(text) {
         var div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    var removeRecipeModal = document.getElementById('removeRecipeModal');
+    if (removeRecipeModal) {
+        var bsModal = new bootstrap.Modal(removeRecipeModal);
+        var pendingRemoveFormId = null;
+        document.querySelectorAll('.remove-recipe-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var recipeName = this.getAttribute('data-recipe-name');
+                pendingRemoveFormId = this.getAttribute('data-form-id');
+                document.getElementById('removeRecipeName').textContent = recipeName || '';
+                bsModal.show();
+            });
+        });
+        document.getElementById('removeRecipeConfirm').addEventListener('click', function() {
+            if (pendingRemoveFormId) {
+                var form = document.getElementById(pendingRemoveFormId);
+                if (form) form.submit();
+            }
+            bsModal.hide();
+            pendingRemoveFormId = null;
+        });
     }
 })();
 </script>

@@ -91,13 +91,16 @@ class Store(models.Model):
         return self.name
 
 
-# class PlanShoppingListOverride(models.Model):
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, db_column="plan_id")
-#     list_data = models.JSONField()
+class PlanShoppingList(models.Model):
+    """
+    One-to-one with Plan; holds the persisted shopping list as JSON.
+    list_items: { "<store name>": [ {"name": str, "recipes": [str], "is_staple": bool}, ... ], ... }
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    plan = models.OneToOneField(
+        Plan, on_delete=models.CASCADE, db_column="plan_id", related_name="shopping_list"
+    )
+    list_items = models.JSONField(default=dict)
 
-
-# class PlanPrepNotesOverride(models.Model):
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, db_column="plan_id")
-#     notes = models.TextField()
+    def __str__(self):
+        return f"Shopping list for {self.plan}"

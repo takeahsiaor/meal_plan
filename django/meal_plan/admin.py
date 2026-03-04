@@ -3,6 +3,7 @@ from .models import (
     Recipe,
     Tag,
     Plan,
+    PlanShoppingList,
     Ingredient,
     RecipeIngredient,
     Store,
@@ -51,6 +52,19 @@ class PlanAdmin(admin.ModelAdmin):
     readonly_fields = ["id"]
     date_hierarchy = "plan_date"
     ordering = ["-plan_date"]
+
+
+@admin.register(PlanShoppingList)
+class PlanShoppingListAdmin(admin.ModelAdmin):
+    list_display = ["plan", "plan_date"]
+    list_filter = ["plan__plan_date"]
+    readonly_fields = ["id"]
+    date_hierarchy = "plan__plan_date"
+    ordering = ["-plan__plan_date"]
+
+    @admin.display(description="Plan date")
+    def plan_date(self, obj):
+        return obj.plan.plan_date if obj.plan_id else None
 
 
 class StoreIngredientInline(admin.TabularInline):

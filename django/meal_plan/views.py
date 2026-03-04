@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 from urllib.parse import urlencode
 
@@ -10,7 +11,16 @@ from django.utils import timezone
 from django.views.generic import ListView, View
 
 from .forms import PlanDateForm
-from .models import Ingredient, Plan, Recipe, Store, StoreIngredient, Tag
+from .models import (
+    Ingredient,
+    Plan,
+    PlanShoppingList,
+    Recipe,
+    Store,
+    StoreIngredient,
+    Tag,
+)
+from .schemas import ShoppingListItem, serialize_list_items
 
 
 class PlanListView(ListView):
@@ -167,18 +177,59 @@ def _build_plan_shopping_list(plan):
     return result
 
 
+def _initialize_plan_shopping_list(plan):
+    """
+    Build the shopping list from plan recipes and persist it as PlanShoppingList.list_items JSON.
+    Idempotent per plan: replaces any existing list.
+    Top-level keys are store UUID (str) or "Other".
+    """
+    shopping_by_store = _build_plan_shopping_list(plan)
+    store_to_items = {}
+    for store, items in shopping_by_store:
+        store_key = str(store.id) if store is not None else "Other"
+        store_to_items[store_key] = [
+            ShoppingListItem(
+                name=ing.name,
+                recipes=tuple(sorted(recipe_names)),
+                is_staple=is_staple,
+                ingredient_id=str(ing.id),
+            )
+            for ing, recipe_names, is_staple, _color in items
+        ]
+    shopping_list, _ = PlanShoppingList.objects.update_or_create(
+        plan=plan, defaults={}
+    )
+    shopping_list.list_items = serialize_list_items(store_to_items)
+    shopping_list.save(update_fields=["list_items"])
+
+
 def plan_detail(request, plan_id):
     plan = get_object_or_404(
         Plan.objects.prefetch_related("recipes__ingredients"),
         id=plan_id,
     )
-    shopping_by_store = _build_plan_shopping_list(plan)
-    recipes = list(plan.recipes.prefetch_related("ingredients").order_by("name"))
-    recipe_colors = [
-        "primary", "success", "info", "warning", "danger", "secondary", "dark",
-    ]
-    recipe_to_color = {r.name: recipe_colors[i % len(recipe_colors)] for i, r in enumerate(recipes)}
-    recipe_color_pairs = [(r, recipe_to_color[r.name]) for r in recipes]
+    try:
+        shopping_list = plan.shopping_list
+    except PlanShoppingList.DoesNotExist:
+        _initialize_plan_shopping_list(plan)
+        plan.refresh_from_db()
+        shopping_list = plan.shopping_list
+    recipes = list(plan.recipes.order_by("name"))
+    available_recipes = Recipe.objects.exclude(
+        id__in=plan.recipes.values_list("id", flat=True)
+    ).order_by("name")
+    list_items = shopping_list.list_items
+    store_ids_in_list = [k for k in list_items.keys() if k != "Other"]
+    available_stores = Store.objects.exclude(id__in=store_ids_in_list).order_by("priority")
+    stores_by_id = {str(s.id): s for s in Store.objects.filter(id__in=store_ids_in_list)}
+    shopping_list_display = []
+    for store_key, items in list_items.items():
+        if store_key == "Other":
+            display_name = "Other / Unassigned"
+        else:
+            store = stores_by_id.get(store_key)
+            display_name = store.name if store else store_key
+        shopping_list_display.append((store_key, display_name, items))
     tab_param = request.GET.get("tab", "shopping")
     active_tab = "recipes" if tab_param == "recipes" else "shopping"
     return render(
@@ -187,12 +238,90 @@ def plan_detail(request, plan_id):
         {
             "plan": plan,
             "recipes": recipes,
-            "recipe_color_pairs": recipe_color_pairs,
-            "shopping_by_store": shopping_by_store,
-            "recipe_to_color": recipe_to_color,
+            "shopping_list_display": shopping_list_display,
             "active_tab": active_tab,
+            "available_recipes": available_recipes,
+            "available_stores": available_stores,
+            "plan_update_shopping_list_url": reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
+            "validate_ingredient_store_url": reverse("meal_plan:validate_ingredient_store"),
         },
     )
+
+
+def validate_ingredient_store(request):
+    """
+    GET or POST with store_id and ingredient_id (preferred) or ingredient_name.
+    Returns JSON { "valid": true } if store_id is "Other" or StoreIngredient exists for that store/ingredient; else { "valid": false }.
+    """
+    if request.method == "GET":
+        store_id = request.GET.get("store_id")
+        ingredient_id = request.GET.get("ingredient_id")
+        ingredient_name = request.GET.get("ingredient_name")
+    else:
+        try:
+            data = json.loads(request.body) if request.body else {}
+        except (ValueError, TypeError):
+            return JsonResponse({"valid": False}, status=400)
+        store_id = data.get("store_id")
+        ingredient_id = data.get("ingredient_id")
+        ingredient_name = data.get("ingredient_name")
+    if store_id == "Other" or store_id is None:
+        return JsonResponse({"valid": True})
+    if ingredient_id:
+        try:
+            ingredient = Ingredient.objects.get(id=ingredient_id)
+        except (Ingredient.DoesNotExist, ValueError, TypeError):
+            return JsonResponse({"valid": False})
+    elif ingredient_name and isinstance(ingredient_name, str):
+        ingredient = Ingredient.objects.filter(name=ingredient_name.strip()).first()
+        if not ingredient:
+            return JsonResponse({"valid": False})
+    else:
+        return JsonResponse({"valid": False}, status=400)
+    try:
+        store = Store.objects.get(id=store_id)
+    except (Store.DoesNotExist, ValueError, TypeError):
+        return JsonResponse({"valid": False})
+    valid = StoreIngredient.objects.filter(store=store, ingredient=ingredient).exists()
+    return JsonResponse({"valid": valid})
+
+
+def plan_update_shopping_list(request, plan_id):
+    """POST with JSON body { list_items: { "<store_id or Other>": [{ name, recipes, is_staple }, ...], ... } } to persist list."""
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+    plan = get_object_or_404(Plan, id=plan_id)
+    try:
+        data = json.loads(request.body)
+    except (ValueError, TypeError):
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
+    list_items = data.get("list_items")
+    if not isinstance(list_items, dict):
+        return JsonResponse({"error": "list_items must be an object"}, status=400)
+    normalized = {}
+    for store_name, items in list_items.items():
+        if not isinstance(store_name, str) or not isinstance(items, list):
+            continue
+        normalized[store_name] = []
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            name = item.get("name")
+            recipes = item.get("recipes")
+            if not isinstance(name, str):
+                continue
+            if not isinstance(recipes, list):
+                recipes = []
+            recipes = [r for r in recipes if isinstance(r, str)]
+            is_staple = bool(item.get("is_staple", False))
+            row = {"name": name, "recipes": recipes, "is_staple": is_staple}
+            if item.get("ingredient_id") and isinstance(item.get("ingredient_id"), str):
+                row["ingredient_id"] = item["ingredient_id"]
+            normalized[store_name].append(row)
+    shopping_list, _ = PlanShoppingList.objects.get_or_create(plan=plan, defaults={})
+    shopping_list.list_items = normalized
+    shopping_list.save(update_fields=["list_items"])
+    return JsonResponse({"ok": True})
 
 
 def plan_delete(request, plan_id):
@@ -216,6 +345,50 @@ def plan_delete(request, plan_id):
     plan.delete()
     messages.success(request, f"Plan for {plan_date_str} deleted.")
     return redirect("meal_plan:plan_list")
+
+
+def plan_remove_recipe(request, plan_id, recipe_id):
+    """Remove a recipe from a plan. POST only. Updates recipe last_used_on."""
+    if request.method != "POST":
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    plan = get_object_or_404(Plan.objects.prefetch_related("recipes"), id=plan_id)
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if not plan.recipes.filter(id=recipe_id).exists():
+        messages.error(request, "Recipe is not in this plan.")
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    plan.recipes.remove(recipe)
+    last_plan = (
+        Plan.objects.filter(recipes=recipe)
+        .order_by("-plan_date")
+        .first()
+    )
+    recipe.last_used_on = last_plan.plan_date if last_plan else None
+    recipe.save(update_fields=["last_used_on"])
+    _initialize_plan_shopping_list(plan)
+    messages.success(request, f"Removed {recipe.name} from the plan.")
+    return redirect("meal_plan:plan_detail", plan_id=plan_id)
+
+
+def plan_add_recipe(request, plan_id):
+    """Add a recipe to a plan. POST with recipe_id. Redirects back to plan detail."""
+    if request.method != "POST":
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    plan = get_object_or_404(Plan.objects.prefetch_related("recipes"), id=plan_id)
+    recipe_id = request.POST.get("recipe_id")
+    if not recipe_id:
+        messages.error(request, "Please select a recipe.")
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if plan.recipes.filter(id=recipe_id).exists():
+        messages.info(request, f"{recipe.name} is already in this plan.")
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    plan.recipes.add(recipe)
+    if recipe.last_used_on is None or plan.plan_date > recipe.last_used_on:
+        recipe.last_used_on = plan.plan_date
+        recipe.save(update_fields=["last_used_on"])
+    _initialize_plan_shopping_list(plan)
+    messages.success(request, f"Added {recipe.name} to the plan.")
+    return redirect("meal_plan:plan_detail", plan_id=plan_id)
 
 
 CART_SESSION_KEY = "recipe_cart"
@@ -346,6 +519,7 @@ class CartView(View):
         plan_date = form.cleaned_data["plan_date"]
         plan = Plan.objects.create(plan_date=plan_date)
         plan.recipes.set(recipes)
+        _initialize_plan_shopping_list(plan)
         Recipe.objects.filter(id__in=cart).update(last_used_on=plan_date)
         request.session.pop(CART_SESSION_KEY, None)
         request.session.modified = True
