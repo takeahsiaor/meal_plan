@@ -17,6 +17,7 @@ urlpatterns = [
     path("plans/<uuid:plan_id>/shopping-list/recalculate-stores/", views.plan_recalculate_stores, name="plan_recalculate_stores"),
     path("plans/<uuid:plan_id>/shopping-list/reset/", views.plan_reset_shopping_list, name="plan_reset_shopping_list"),
     path("shopping-list/validate-ingredient-store/", views.validate_ingredient_store, name="validate_ingredient_store"),
+    path("ingredients/search/", views.ingredient_search, name="ingredient_search"),
     path("recipes/", views.RecipeListView.as_view(), name="recipe_list"),
     path("recipes/<uuid:recipe_id>/detail/", views.recipe_detail_json, name="recipe_detail"),
     path("recipes/cart/", views.CartView.as_view(), name="cart"),

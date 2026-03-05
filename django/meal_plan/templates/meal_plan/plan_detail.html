@@ -73,7 +73,7 @@
 </ul>
 
 <div class="tab-content" id="planDetailTabContent">
-    <div class="tab-pane fade {% if active_tab == 'shopping' %}show active{% endif %}" id="shopping-pane" role="tabpanel" aria-labelledby="shopping-tab" data-plan-id="{{ plan.id }}" data-update-url="{{ plan_update_shopping_list_url }}" data-validate-url="{{ validate_ingredient_store_url }}" data-plan-date="{{ plan.plan_date|date:'l m/d/Y' }}" data-plan-date-iso="{{ plan.plan_date.isoformat }}">
+    <div class="tab-pane fade {% if active_tab == 'shopping' %}show active{% endif %}" id="shopping-pane" role="tabpanel" aria-labelledby="shopping-tab" data-plan-id="{{ plan.id }}" data-update-url="{{ plan_update_shopping_list_url }}" data-validate-url="{{ validate_ingredient_store_url }}" data-ingredient-search-url="{{ ingredient_search_url }}" data-plan-date="{{ plan.plan_date|date:'l m/d/Y' }}" data-plan-date-iso="{{ plan.plan_date.isoformat }}">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
             <p class="text-muted small mb-0">Ingredients grouped by store (staples: check current stock). Drag ingredients between stores to override.</p>
             <div class="d-flex gap-2">
@@ -117,14 +117,10 @@
                         <li class="list-group-item text-muted store-empty-placeholder">No ingredients</li>
                         {% endfor %}
                     </ul>
-                    <div class="mt-2 add-ingredient-row d-flex gap-1 align-items-center">
-                        <select class="form-select form-select-sm add-ingredient-select" aria-label="Add ingredient">
-                            <option value="">-- Add ingredient --</option>
-                            {% for ing in all_ingredients %}
-                            <option value="{{ ing.id }}">{{ ing.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <button type="button" class="btn btn-sm btn-outline-secondary add-ingredient-btn" aria-label="Add selected ingredient">Add</button>
+                    <div class="mt-2 add-ingredient-row d-flex gap-1 align-items-center w-100">
+                        <input type="hidden" class="add-ingredient-id" value="">
+                        <input type="text" class="form-control form-control-sm add-ingredient-input typeahead flex-grow-1 min-width-0" placeholder="Search ingredient…" aria-label="Add ingredient" autocomplete="off">
+                        <button type="button" class="btn btn-sm btn-outline-secondary add-ingredient-btn flex-shrink-0" aria-label="Add selected ingredient">Add</button>
                     </div>
                 </div>
             </div>
@@ -143,7 +139,6 @@
             <button type="button" class="btn btn-sm btn-outline-secondary" id="reset-shopping-list-btn" title="Reset shopping list to default (all plan recipe ingredients)">Reset</button>
         </form>
     </div>
-    {{ all_ingredients|json_script:"all-ingredients-data" }}
 </div>
 
 <div class="tab-pane fade {% if active_tab == 'recipes' %}show active{% endif %}" id="recipes-pane" role="tabpanel" aria-labelledby="recipes-tab">
@@ -288,6 +283,23 @@
     </div>
 </div>
 
+<div class="modal fade" id="duplicateIngredientModal" tabindex="-1" aria-labelledby="duplicateIngredientModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="duplicateIngredientModalLabel">Duplicate ingredient</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="duplicateIngredientModalBody">
+                <p class="mb-0"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="removeRecipeModal" tabindex="-1" aria-labelledby="removeRecipeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -373,10 +385,17 @@
 .store-item-remove:hover, .store-item-remove:focus { text-decoration: none !important; color: #6c757d !important; }
 .store-remove-btn { font-size: 1.25em; font-weight: bold; }
 .store-remove-btn:hover, .store-remove-btn:focus { text-decoration: none !important; color: #dc3545 !important; }
+/* Typeahead.js dropdown */
+.tt-menu { background: #fff; border: 1px solid rgba(0,0,0,.15); border-radius: 0.25rem; box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15); max-height: 200px; overflow-y: auto; }
+.tt-suggestion { padding: 0.375rem 0.75rem; cursor: pointer; }
+.tt-suggestion:hover, .tt-suggestion.tt-cursor { background-color: var(--bs-secondary-bg); }
+/* Add ingredient row: search + button span full width */
+.add-ingredient-row .twitter-typeahead { flex: 1 1 0; min-width: 0; }
 </style>
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/typeahead.js@0.11.1/dist/typeahead.bundle.min.js"></script>
 <script>
 (function() {
     // Persist active tab in URL query param so refresh keeps the same tab.
@@ -420,16 +439,107 @@
     }
 
     var placeholderHtml = '<li class="list-group-item text-muted store-empty-placeholder">No ingredients</li>';
-    var allIngredientsDataEl = document.getElementById('all-ingredients-data');
-    var ALL_INGREDIENTS = allIngredientsDataEl ? JSON.parse(allIngredientsDataEl.textContent) : [];
 
-    function getAddIngredientOptionsHtml() {
-        var opts = ['<option value="">-- Add ingredient --</option>'];
-        ALL_INGREDIENTS.forEach(function(i) {
-            opts.push('<option value="' + escapeHtml(i.id) + '">' + escapeHtml(i.name) + '</option>');
-        });
-        return opts.join('');
+    function getIngredientSearchUrl() {
+        var pane = document.getElementById('shopping-pane');
+        return (pane && pane.getAttribute('data-ingredient-search-url')) || '/ingredients/search/';
     }
+
+    function initIngredientTypeahead(inputEl) {
+        if (!inputEl || typeof $ === 'undefined' || !$.fn.typeahead) return;
+        var row = inputEl.closest('.add-ingredient-row');
+        if (!row) return;
+        var card = row.closest('.store-card');
+        var storeKey = card ? card.getAttribute('data-store-key') : '';
+        var searchUrl = getIngredientSearchUrl();
+        var searchTimeoutId;
+        function ingredientSource(query, sync, processAsync) {
+            var done = processAsync || sync;
+            if (!query || query.trim().length < 1) {
+                done([]);
+                return;
+            }
+            var currentQuery = query.trim();
+            clearTimeout(searchTimeoutId);
+            searchTimeoutId = setTimeout(function() {
+                var url = searchUrl + (searchUrl.indexOf('?') >= 0 ? '&' : '?') + 'q=' + encodeURIComponent(currentQuery) + (storeKey ? '&store_id=' + encodeURIComponent(storeKey) : '');
+                fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+                    var list = Array.isArray(data) ? data.slice() : [];
+                    done(list);
+                }).catch(function() { done([]); });
+            }, 300);
+        }
+        $(inputEl).typeahead({ hint: true, highlight: true, minLength: 3 }, {
+            display: 'name',
+            source: ingredientSource,
+            limit: 15,
+            async: true,
+            templates: {
+                suggestion: function(ctx) {
+                    return $('<div>').text(ctx.name || '').get(0);
+                }
+            }
+        });
+        row._typeaheadInput = inputEl;
+        var hiddenId = row.querySelector('.add-ingredient-id');
+        $(inputEl).on('typeahead:select', function(ev, datum) {
+            if (hiddenId) hiddenId.value = datum.id || '';
+            row.setAttribute('data-selected-ingredient-id', datum.id || '');
+            row.setAttribute('data-selected-ingredient-name', datum.name || '');
+        });
+        $(inputEl).on('input', function() {
+            if (hiddenId) hiddenId.value = '';
+            row.removeAttribute('data-selected-ingredient-id');
+            row.removeAttribute('data-selected-ingredient-name');
+        });
+        var addBtn = row.querySelector('.add-ingredient-btn');
+        if (addBtn && !addBtn.hasAttribute('data-add-ingredient-bound')) {
+            addBtn.setAttribute('data-add-ingredient-bound', '1');
+            addBtn.addEventListener('click', function(ev) {
+                ev.preventDefault();
+                var card = row.closest('.store-card');
+                if (!card) return;
+                var input = row.querySelector('.add-ingredient-input');
+                var hiddenIdEl = row.querySelector('.add-ingredient-id');
+                var ingredientName = (row.getAttribute('data-selected-ingredient-name') || (input && input.value) || '').trim();
+                var ingredientId = (row.getAttribute('data-selected-ingredient-id') || (hiddenIdEl && hiddenIdEl.value) || '').trim();
+                if (!ingredientName) return;
+                var list = card.querySelector('.store-ingredient-list');
+                if (list) {
+                    var isDuplicate = false;
+                    list.querySelectorAll('li.draggable-ingredient').forEach(function(li) {
+                        var existingId = (li.getAttribute('data-ingredient-id') || '').trim();
+                        var existingName = (li.getAttribute('data-name') || '').trim();
+                        if (ingredientId && existingId && existingId === ingredientId) isDuplicate = true;
+                        else if (existingName && ingredientName && existingName.toLowerCase() === ingredientName.toLowerCase()) isDuplicate = true;
+                    });
+                    if (isDuplicate) {
+                        showDuplicateIngredientWarning(ingredientName);
+                        clearIngredientTypeahead(row);
+                        return;
+                    }
+                }
+                var storeKey = card.getAttribute('data-store-key');
+                var storeDisplayName = card.querySelector('.card-header > span') ? card.querySelector('.card-header > span').textContent.trim() : 'that store';
+                validateIngredientStore(storeKey, ingredientName, ingredientId, function(valid) {
+                    if (valid) {
+                        if (list) {
+                            removePlaceholder(list);
+                            list.insertAdjacentHTML('beforeend', createAdHocIngredientLi(ingredientName, ingredientId));
+                            attachDragToIngredient(list.lastElementChild);
+                            updateStoreRemoveButtonVisibility();
+                            persistShoppingList();
+                            clearIngredientTypeahead(row);
+                        }
+                    } else {
+                        showIngredientStoreWarning(ingredientName, storeDisplayName);
+                    }
+                });
+            });
+        }
+    }
+
+    document.querySelectorAll('.add-ingredient-input').forEach(initIngredientTypeahead);
 
     function createAdHocIngredientLi(name, ingredientId) {
         return '<li class="list-group-item d-flex align-items-center px-3 draggable-ingredient" draggable="true" data-name="' + escapeHtml(name) + '" data-recipes="" data-is-staple="false" data-ingredient-id="' + escapeHtml(ingredientId) + '">' +
@@ -542,6 +652,31 @@
         bsModal.show();
     }
 
+    function showDuplicateIngredientWarning(ingredientName) {
+        var modal = document.getElementById('duplicateIngredientModal');
+        var body = document.getElementById('duplicateIngredientModalBody');
+        if (!modal || !body) return;
+        body.querySelector('p').innerHTML = '<strong>' + escapeHtml(ingredientName) + '</strong> is already in this store\'s list.';
+        var bsModal = new bootstrap.Modal(modal);
+        bsModal.show();
+    }
+
+    function clearIngredientTypeahead(row) {
+        var clearInput = row._typeaheadInput || row.querySelector('.add-ingredient-input');
+        if (clearInput) {
+            clearInput.blur();
+            clearInput.value = '';
+            try {
+                if (typeof $ !== 'undefined' && $.fn.typeahead) $(clearInput).typeahead('val', '');
+            } catch (err) {}
+            clearInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        var hiddenIdEl = row.querySelector('.add-ingredient-id');
+        if (hiddenIdEl) hiddenIdEl.value = '';
+        row.removeAttribute('data-selected-ingredient-id');
+        row.removeAttribute('data-selected-ingredient-name');
+    }
+
     function getPlaceholder(el) {
         return el.querySelector('.store-empty-placeholder');
     }
@@ -643,34 +778,6 @@
 
     if (shoppingPane) {
         shoppingPane.addEventListener('click', function(e) {
-            if (e.target.closest('.add-ingredient-btn')) {
-                e.preventDefault();
-                var btn = e.target.closest('.add-ingredient-btn');
-                var card = btn.closest('.store-card');
-                if (!card) return;
-                var select = card.querySelector('.add-ingredient-select');
-                if (!select || !select.value) return;
-                var storeKey = card.getAttribute('data-store-key');
-                var ingredientId = select.value.trim();
-                var ingredientName = select.options[select.selectedIndex].text;
-                var storeDisplayName = card.querySelector('.card-header > span') ? card.querySelector('.card-header > span').textContent.trim() : 'that store';
-                validateIngredientStore(storeKey, ingredientName, ingredientId, function(valid) {
-                    if (valid) {
-                        var list = card.querySelector('.store-ingredient-list');
-                        if (list) {
-                            removePlaceholder(list);
-                            list.insertAdjacentHTML('beforeend', createAdHocIngredientLi(ingredientName, ingredientId));
-                            attachDragToIngredient(list.lastElementChild);
-                            updateStoreRemoveButtonVisibility();
-                            persistShoppingList();
-                            select.selectedIndex = 0;
-                        }
-                    } else {
-                        showIngredientStoreWarning(ingredientName, storeDisplayName);
-                    }
-                });
-                return;
-            }
             if (e.target.closest('.store-remove-btn')) {
                 e.preventDefault();
                 var card = e.target.closest('.store-card');
@@ -741,9 +848,10 @@
             '<div class="card-body store-drop-zone">' +
             '<ul class="list-group list-group-flush store-ingredient-list">' +
             '<li class="list-group-item text-muted store-empty-placeholder">No ingredients</li></ul>' +
-            '<div class="mt-2 add-ingredient-row d-flex gap-1 align-items-center">' +
-            '<select class="form-select form-select-sm add-ingredient-select" aria-label="Add ingredient">' + getAddIngredientOptionsHtml() + '</select>' +
-            '<button type="button" class="btn btn-sm btn-outline-secondary add-ingredient-btn" aria-label="Add selected ingredient">Add</button></div>' +
+            '<div class="mt-2 add-ingredient-row d-flex gap-1 align-items-center w-100">' +
+            '<input type="hidden" class="add-ingredient-id" value="">' +
+            '<input type="text" class="form-control form-control-sm add-ingredient-input typeahead flex-grow-1 min-width-0" placeholder="Search ingredient…" aria-label="Add ingredient" autocomplete="off">' +
+            '<button type="button" class="btn btn-sm btn-outline-secondary add-ingredient-btn flex-shrink-0" aria-label="Add selected ingredient">Add</button></div>' +
             '</div></div></div>';
     }
 
@@ -810,8 +918,18 @@
                 newGrid.innerHTML = createStoreCardHtml(storeId, storeName, true, planDateIso);
                 if (emptyMsg) emptyMsg.remove();
                 container.appendChild(newGrid);
+                var newCard = newGrid.querySelector('.store-card');
+                if (newCard) {
+                    var newInput = newCard.querySelector('.add-ingredient-input');
+                    if (newInput) initIngredientTypeahead(newInput);
+                }
             } else {
                 grid.insertAdjacentHTML('beforeend', createStoreCardHtml(storeId, storeName, true, planDateIso));
+                var lastCol = grid.lastElementChild;
+                if (lastCol) {
+                    var newInput = lastCol.querySelector('.add-ingredient-input');
+                    if (newInput) initIngredientTypeahead(newInput);
+                }
             }
             var opts = addStoreSelect.querySelectorAll('option[value]');
             for (var i = 0; i < opts.length; i++) { if (opts[i].value === storeId) { opts[i].remove(); break; } }

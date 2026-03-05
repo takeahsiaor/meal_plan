@@ -301,6 +301,7 @@ def plan_detail(request, plan_id):
             "all_ingredients": all_ingredients,
             "plan_update_shopping_list_url": reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
             "validate_ingredient_store_url": reverse("meal_plan:validate_ingredient_store"),
+            "ingredient_search_url": reverse("meal_plan:ingredient_search"),
         },
     )
 
@@ -339,6 +340,27 @@ def validate_ingredient_store(request):
         return JsonResponse({"valid": False})
     valid = StoreIngredient.objects.filter(store=store, ingredient=ingredient).exists()
     return JsonResponse({"valid": valid})
+
+
+def ingredient_search(request):
+    """
+    GET ?q=... [&store_id=<uuid>] returns JSON list of up to 5 ingredients whose name matches (case-insensitive).
+    If store_id is provided, only ingredients available at that store (via StoreIngredient) are returned.
+    Each item: { "id": "<uuid>", "name": "..." }.
+    """
+    q = (request.GET.get("q") or "").strip()
+    if not q:
+        return JsonResponse([], safe=False)
+    base_qs = Ingredient.objects.filter(name__icontains=q).order_by("name")
+    store_id = (request.GET.get("store_id") or "").strip()
+    if store_id:
+        try:
+            base_qs = base_qs.filter(storeingredient__store_id=store_id).distinct()
+        except (ValueError, TypeError):
+            pass
+    ingredients = list(base_qs.values("id", "name"))
+    results = [{"id": str(r["id"]), "name": r["name"]} for r in ingredients]
+    return JsonResponse(results, safe=False)
 
 
 def plan_update_shopping_list(request, plan_id):
