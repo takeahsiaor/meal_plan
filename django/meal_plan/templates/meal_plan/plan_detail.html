@@ -40,29 +40,16 @@
         {% csrf_token %}
     </form>
     {% endfor %}
-    <p class="mb-0">
-        <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#add-recipe-collapse" aria-expanded="false" aria-controls="add-recipe-collapse">Add recipe</button>
-    </p>
-    <div class="collapse mt-2" id="add-recipe-collapse">
-        <div class="d-flex flex-wrap align-items-center gap-2">
-            <form method="post" action="{% url 'meal_plan:plan_add_recipe' plan.id %}" class="d-flex align-items-center gap-2">
-                {% csrf_token %}
-                <label for="add-recipe-select" class="form-label mb-0 small text-muted">Recipe:</label>
-                <select name="recipe_id" id="add-recipe-select" class="form-select form-select-sm" style="width: auto; min-width: 12rem;">
-                    <option value="">-- Choose recipe --</option>
-                    {% for r in available_recipes %}
-                    <option value="{{ r.id }}">{{ r.name }}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-sm btn-outline-primary" {% if not available_recipes %}disabled{% endif %}>Add</button>
-            </form>
-            {% if not available_recipes and plan_recipes %}
-            <span class="small text-muted">All recipes are already in this plan.</span>
-            {% endif %}
-        </div>
+    <div class="mt-2" id="add-recipe-collapse" data-recipe-search-url="{{ recipe_search_url }}" data-plan-id="{{ plan.id }}">
+        <form method="post" action="{% url 'meal_plan:plan_add_recipe' plan.id %}" id="add-recipe-form" class="d-flex align-items-center gap-2 flex-wrap w-100">
+            {% csrf_token %}
+            <input type="hidden" name="recipe_id" id="add-recipe-id" value="">
+            <input type="text" id="add-recipe-input" class="form-control form-control-sm add-recipe-input typeahead" placeholder="Search recipe…" aria-label="Search recipe" autocomplete="off">
+            <button type="submit" class="btn btn-sm btn-outline-primary" id="add-recipe-submit-btn" disabled>Add</button>
+        </form>
     </div>
 </section>
-
+<br>
 <ul class="nav nav-tabs mb-3" id="planDetailTabs" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link {% if active_tab == 'shopping' %}active{% endif %}" id="shopping-tab" data-bs-toggle="tab" data-bs-target="#shopping-pane" type="button" role="tab" aria-controls="shopping-pane" aria-selected="{% if active_tab == 'shopping' %}true{% else %}false{% endif %}" data-tab-param="shopping">Shopping list</button>
@@ -391,6 +378,8 @@
 .tt-suggestion:hover, .tt-suggestion.tt-cursor { background-color: var(--bs-secondary-bg); }
 /* Add ingredient row: search + button span full width */
 .add-ingredient-row .twitter-typeahead { flex: 1 1 0; min-width: 0; }
+/* Recipe typeahead: half page width */
+#add-recipe-form .twitter-typeahead { width: 50%; min-width: 12rem; }
 </style>
 {% endblock %}
 
@@ -407,6 +396,58 @@
             var url = new URL(window.location.href);
             url.searchParams.set('tab', param);
             window.history.replaceState({}, '', url.toString());
+        });
+    }
+
+    // Recipe typeahead for "Add recipe"
+    var addRecipeCollapse = document.getElementById('add-recipe-collapse');
+    var addRecipeInput = document.getElementById('add-recipe-input');
+    var addRecipeIdEl = document.getElementById('add-recipe-id');
+    var addRecipeSubmitBtn = document.getElementById('add-recipe-submit-btn');
+    if (addRecipeInput && typeof $ !== 'undefined' && $.fn.typeahead && addRecipeCollapse) {
+        var recipeSearchUrl = addRecipeCollapse.getAttribute('data-recipe-search-url') || '/recipes/search/';
+        var planId = addRecipeCollapse.getAttribute('data-plan-id') || '';
+        var recipeSearchTimeoutId;
+        function recipeSource(query, sync, processAsync) {
+            var done = processAsync || sync;
+            if (!query || query.trim().length < 1) {
+                done([]);
+                return;
+            }
+            var currentQuery = query.trim();
+            clearTimeout(recipeSearchTimeoutId);
+            recipeSearchTimeoutId = setTimeout(function() {
+                var url = recipeSearchUrl + (recipeSearchUrl.indexOf('?') >= 0 ? '&' : '?') + 'q=' + encodeURIComponent(currentQuery) + (planId ? '&plan_id=' + encodeURIComponent(planId) : '');
+                fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+                    var list = Array.isArray(data) ? data.slice() : [];
+                    if (processAsync) processAsync(list);
+                    else sync(list);
+                }).catch(function() {
+                    if (processAsync) processAsync([]);
+                    else sync([]);
+                });
+            }, 300);
+        }
+        $(addRecipeInput).typeahead({ hint: true, highlight: true, minLength: 1 }, {
+            display: 'name',
+            source: recipeSource,
+            limit: 15,
+            async: true,
+            templates: {
+                suggestion: function(ctx) {
+                    var div = document.createElement('div');
+                    div.textContent = ctx.name || '';
+                    return div;
+                }
+            }
+        });
+        $(addRecipeInput).on('typeahead:select', function(ev, datum) {
+            if (addRecipeIdEl) addRecipeIdEl.value = datum.id || '';
+            if (addRecipeSubmitBtn) addRecipeSubmitBtn.disabled = !(datum.id);
+        });
+        $(addRecipeInput).on('input', function() {
+            if (addRecipeIdEl) addRecipeIdEl.value = '';
+            if (addRecipeSubmitBtn) addRecipeSubmitBtn.disabled = true;
         });
     }
 

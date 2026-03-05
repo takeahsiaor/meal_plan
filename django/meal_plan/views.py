@@ -260,9 +260,6 @@ def plan_detail(request, plan_id):
         .prefetch_related("recipe__ingredients")
         .order_by("recipe__name")
     )
-    available_recipes = Recipe.objects.exclude(
-        id__in=plan.recipes.values_list("id", flat=True)
-    ).order_by("name")
     list_items = shopping_list.list_items
     store_ids_in_list = [k for k in list_items.keys() if k != "Other"]
     available_stores = Store.objects.exclude(id__in=store_ids_in_list).order_by("name")
@@ -285,7 +282,6 @@ def plan_detail(request, plan_id):
         except (ValueError, TypeError):
             trip_date_display = datetime.strptime(plan_date_iso, "%Y-%m-%d").strftime("%A %m/%d/%Y")
         shopping_list_display.append((store_key, display_name, items, is_manual, trip_date_iso, trip_date_display))
-    all_ingredients = [{"id": str(i.id), "name": i.name} for i in Ingredient.objects.order_by("name")]
     tab_param = request.GET.get("tab", "shopping")
     active_tab = "recipes" if tab_param == "recipes" else "shopping"
     return render(
@@ -296,9 +292,8 @@ def plan_detail(request, plan_id):
             "plan_recipes": plan_recipes,
             "shopping_list_display": shopping_list_display,
             "active_tab": active_tab,
-            "available_recipes": available_recipes,
             "available_stores": available_stores,
-            "all_ingredients": all_ingredients,
+            "recipe_search_url": reverse("meal_plan:recipe_search"),
             "plan_update_shopping_list_url": reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
             "validate_ingredient_store_url": reverse("meal_plan:validate_ingredient_store"),
             "ingredient_search_url": reverse("meal_plan:ingredient_search"),
@@ -360,6 +355,28 @@ def ingredient_search(request):
             pass
     ingredients = list(base_qs.values("id", "name"))
     results = [{"id": str(r["id"]), "name": r["name"]} for r in ingredients]
+    return JsonResponse(results, safe=False)
+
+
+def recipe_search(request):
+    """
+    GET ?q=... [&plan_id=<uuid>] returns JSON list of up to 10 recipes whose name matches (case-insensitive).
+    If plan_id is provided, recipes already in that plan are excluded.
+    Each item: { "id": "<uuid>", "name": "..." }.
+    """
+    q = (request.GET.get("q") or "").strip()
+    if not q:
+        return JsonResponse([], safe=False)
+    base_qs = Recipe.objects.filter(name__icontains=q).order_by("name")
+    plan_id = (request.GET.get("plan_id") or "").strip()
+    if plan_id:
+        try:
+            in_plan_ids = PlanRecipe.objects.filter(plan_id=plan_id).values_list("recipe_id", flat=True)
+            base_qs = base_qs.exclude(id__in=in_plan_ids)
+        except (ValueError, TypeError):
+            pass
+    recipes = list(base_qs.values("id", "name")[:10])
+    results = [{"id": str(r["id"]), "name": r["name"]} for r in recipes]
     return JsonResponse(results, safe=False)
 
 
