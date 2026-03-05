@@ -265,7 +265,7 @@ def plan_detail(request, plan_id):
     ).order_by("name")
     list_items = shopping_list.list_items
     store_ids_in_list = [k for k in list_items.keys() if k != "Other"]
-    available_stores = Store.objects.exclude(id__in=store_ids_in_list).order_by("priority")
+    available_stores = Store.objects.exclude(id__in=store_ids_in_list).order_by("name")
     stores_by_id = {str(s.id): s for s in Store.objects.filter(id__in=store_ids_in_list)}
     shopping_list_display = []
     plan_date_iso = plan.plan_date.isoformat()

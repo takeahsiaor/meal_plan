@@ -675,6 +675,10 @@
                 e.preventDefault();
                 var card = e.target.closest('.store-card');
                 if (!card) return;
+                var storeKey = card.getAttribute('data-store-key');
+                var headerSpan = card.querySelector('.card-header > span');
+                var storeNameRaw = headerSpan ? headerSpan.textContent.trim() : '';
+                var storeName = storeNameRaw.replace(/\s*—\s*[^\s].*$/, '').trim().replace(/\s*\(manually added\)\s*$/i, '').trim() || 'Store';
                 var col = card.closest('.col');
                 var grid = document.getElementById('shopping-list-grid');
                 if (col) col.remove();
@@ -688,6 +692,22 @@
                     container.appendChild(emptyMsg);
                 }
                 persistShoppingList();
+                if (storeKey && addStoreSelect) {
+                    var opt = document.createElement('option');
+                    opt.value = storeKey;
+                    opt.textContent = storeName;
+                    var opts = addStoreSelect.options;
+                    var inserted = false;
+                    for (var i = 1; i < opts.length; i++) {
+                        if (opts[i].textContent.localeCompare(storeName, undefined, { sensitivity: 'base' }) > 0) {
+                            addStoreSelect.insertBefore(opt, opts[i]);
+                            inserted = true;
+                            break;
+                        }
+                    }
+                    if (!inserted) addStoreSelect.appendChild(opt);
+                    if (addStoreConfirm) addStoreConfirm.disabled = false;
+                }
                 return;
             }
             if (!e.target.closest('.store-item-remove')) return;
