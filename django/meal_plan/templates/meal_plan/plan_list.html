@@ -3,6 +3,7 @@
 {% block title %}Plans - Meal Plan{% endblock %}
 
 {% block content %}
+{% load tz %}
 <h1 class="mb-4">Plans</h1>
 
 <ul class="nav nav-tabs mb-3" role="tablist">
@@ -23,6 +24,7 @@
             <tr>
                 <th>Plan date</th>
                 <th>Recipes used</th>
+                <th>Last printed</th>
                 <th class="no-sort">Actions</th>
             </tr>
         </thead>
@@ -37,6 +39,13 @@
                     <span class="text-muted">—</span>
                     {% endfor %}
                 </td>
+                <td data-order="{% if plan.last_printed_at %}{{ plan.last_printed_at|date:'U' }}{% else %}0{% endif %}">
+                    {% if plan.last_printed_at %}
+                    <span class="text-muted small">{% timezone "America/Chicago" %}{{ plan.last_printed_at|localtime|date:"M j, Y g:i A" }}{% endtimezone %}</span>
+                    {% else %}
+                    <span class="text-muted">—</span>
+                    {% endif %}
+                </td>
                 <td>
                     <form method="post" action="{% url 'meal_plan:plan_delete' plan.id %}" class="d-inline delete-plan-form" id="delete-form-{{ plan.id }}">
                         {% csrf_token %}
@@ -46,7 +55,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="3" class="text-center text-muted">No plans yet.</td>
+                <td colspan="4" class="text-center text-muted">No plans yet.</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -81,7 +90,7 @@ $(document).ready(function() {
             order: [[0, 'desc']],
             pageLength: 25,
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            columnDefs: [{ targets: 2, orderable: false }]
+            columnDefs: [{ targets: 3, orderable: false }]
         });
     }
 

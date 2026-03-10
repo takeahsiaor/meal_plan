@@ -297,8 +297,33 @@ def plan_detail(request, plan_id):
             "plan_update_shopping_list_url": reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
             "validate_ingredient_store_url": reverse("meal_plan:validate_ingredient_store"),
             "ingredient_search_url": reverse("meal_plan:ingredient_search"),
+            "plan_mark_printed_url": reverse("meal_plan:plan_mark_printed", kwargs={"plan_id": plan.id}),
+            "plan_clear_printed_url": reverse("meal_plan:plan_clear_printed", kwargs={"plan_id": plan.id}),
         },
     )
+
+
+def plan_mark_printed(request, plan_id):
+    """POST: set plan.last_printed_at to now. Returns JSON { \"ok\": true, \"last_printed_at\": \"...\" }."""
+    if request.method != "POST":
+        return JsonResponse({"ok": False}, status=405)
+    plan = get_object_or_404(Plan, id=plan_id)
+    plan.last_printed_at = timezone.now()
+    plan.save(update_fields=["last_printed_at"])
+    return JsonResponse({
+        "ok": True,
+        "last_printed_at": plan.last_printed_at.isoformat() if plan.last_printed_at else None,
+    })
+
+
+def plan_clear_printed(request, plan_id):
+    """POST: clear plan.last_printed_at, then redirect to plan detail."""
+    if request.method != "POST":
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    plan = get_object_or_404(Plan, id=plan_id)
+    plan.last_printed_at = None
+    plan.save(update_fields=["last_printed_at"])
+    return redirect("meal_plan:plan_detail", plan_id=plan_id)
 
 
 def validate_ingredient_store(request):

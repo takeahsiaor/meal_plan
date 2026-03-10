@@ -29,6 +29,7 @@ class Plan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     plan_date = models.DateField()
     recipes = models.ManyToManyField(Recipe, blank=True, through="PlanRecipe")
+    last_printed_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return str(self.plan_date)

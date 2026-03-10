@@ -3,6 +3,7 @@
 {% block title %}Plan {{ plan.plan_date|date:"M j, Y" }} - Meal Plan{% endblock %}
 
 {% block content %}
+{% load tz %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'meal_plan:plan_list' %}">Plans</a></li>
@@ -10,7 +11,21 @@
     </ol>
 </nav>
 
-<h1 class="mb-4">Plan: {{ plan.plan_date|date:"M j, Y" }}</h1>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 w-100">
+    <h1 class="mb-0">Plan: {{ plan.plan_date|date:"M j, Y" }}</h1>
+    {% if plan.last_printed_at %}
+    <p class="mb-0 ms-auto d-flex align-items-center gap-2 rounded px-2 py-1 bg-success text-white small">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/><path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/></svg>
+        <span id="last-printed-value" class="fw-medium">{% timezone "America/Chicago" %}{{ plan.last_printed_at|localtime|date:"M j, Y g:i A" }}{% endtimezone %}</span>
+        <form method="post" action="{% url 'meal_plan:plan_clear_printed' plan.id %}" class="d-inline" id="clear-printed-form" aria-label="Clear last printed date">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link p-0 text-white text-decoration-none d-inline-flex align-items-center justify-content-center rounded-circle" style="line-height: 1; width: 1.5rem; height: 1.5rem; background: rgba(0,0,0,0.2);" aria-label="Clear last printed">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/></svg>
+            </button>
+        </form>
+    </p>
+    {% endif %}
+</div>
 
 {% if messages %}
 <div class="mb-3">
@@ -60,7 +75,7 @@
 </ul>
 
 <div class="tab-content" id="planDetailTabContent">
-    <div class="tab-pane fade {% if active_tab == 'shopping' %}show active{% endif %}" id="shopping-pane" role="tabpanel" aria-labelledby="shopping-tab" data-plan-id="{{ plan.id }}" data-update-url="{{ plan_update_shopping_list_url }}" data-validate-url="{{ validate_ingredient_store_url }}" data-ingredient-search-url="{{ ingredient_search_url }}" data-plan-date="{{ plan.plan_date|date:'l m/d/Y' }}" data-plan-date-iso="{{ plan.plan_date.isoformat }}">
+    <div class="tab-pane fade {% if active_tab == 'shopping' %}show active{% endif %}" id="shopping-pane" role="tabpanel" aria-labelledby="shopping-tab" data-plan-id="{{ plan.id }}" data-mark-printed-url="{{ plan_mark_printed_url }}" data-update-url="{{ plan_update_shopping_list_url }}" data-validate-url="{{ validate_ingredient_store_url }}" data-ingredient-search-url="{{ ingredient_search_url }}" data-plan-date="{{ plan.plan_date|date:'l m/d/Y' }}" data-plan-date-iso="{{ plan.plan_date.isoformat }}">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
             <p class="text-muted small mb-0">Ingredients grouped by store (staples: check current stock). Drag ingredients between stores to override.</p>
             <div class="d-flex gap-2">
@@ -987,6 +1002,9 @@
     var printAllBtn = document.getElementById('print-all-shopping-list-btn');
     if (printAllBtn) {
         printAllBtn.addEventListener('click', function() {
+            var pane = document.getElementById('shopping-pane');
+            var markPrintedUrl = pane && pane.getAttribute('data-mark-printed-url');
+            var doPrint = function() {
             var cards = document.querySelectorAll('.store-card');
             var quadrants = [];
             cards.forEach(function(card) {
@@ -1047,6 +1065,26 @@
             var w = window.open('', '_blank');
             w.document.write(html);
             w.document.close();
+            };
+            if (markPrintedUrl) {
+                var csrfToken = getCookie('csrftoken');
+                fetch(markPrintedUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken || '',
+                        'Accept': 'application/json'
+                    },
+                    body: '{}'
+                }).then(function(r) { return r.json(); }).then(function(data) {
+                    doPrint();
+                    if (data && data.ok) {
+                        window.location.reload();
+                    }
+                }).catch(function() { doPrint(); });
+            } else {
+                doPrint();
+            }
         });
     }
 
