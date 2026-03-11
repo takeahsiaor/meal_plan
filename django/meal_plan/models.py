@@ -109,13 +109,16 @@ class Store(models.Model):
 class PlanShoppingList(models.Model):
     """
     One-to-one with Plan; holds the persisted shopping list as JSON.
-    list_items: { "<store name>": [ {"name": str, "recipes": [str], "is_staple": bool}, ... ], ... }
+    list_items: { "<store_id>": { "ingredients": [...], "is_manual": bool, "trip_date": str }, ... }
+    removed_items: list of { "store_id": str, "name": str, "recipes": list, "is_staple": bool,
+        "ingredient_id": str (optional), "quantity": str (optional) } so items can be put back in the correct store.
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     plan = models.OneToOneField(
         Plan, on_delete=models.CASCADE, db_column="plan_id", related_name="shopping_list"
     )
     list_items = models.JSONField(default=dict)
+    removed_items = models.JSONField(default=list)  # list of {store_id, name, recipes, is_staple, ingredient_id?, quantity?}; use default=list (Django copies for new instances)
 
     def __str__(self):
         return f"Shopping list for {self.plan}"

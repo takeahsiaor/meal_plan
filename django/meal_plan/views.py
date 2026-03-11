@@ -271,19 +271,24 @@ def plan_detail(request, plan_id):
             items = value["ingredients"]
             is_manual = value.get("is_manual", False)
             trip_date_iso = value.get("trip_date") or plan_date_iso
+            notes = value.get("notes") if isinstance(value.get("notes"), str) else ""
         else:
             items = value if isinstance(value, list) else []
             is_manual = False
             trip_date_iso = plan_date_iso
+            notes = ""
         store = stores_by_id.get(store_key)
         display_name = store.name if store else store_key
         try:
             trip_date_display = datetime.strptime(trip_date_iso, "%Y-%m-%d").strftime("%A %m/%d/%Y")
         except (ValueError, TypeError):
             trip_date_display = datetime.strptime(plan_date_iso, "%Y-%m-%d").strftime("%A %m/%d/%Y")
-        shopping_list_display.append((store_key, display_name, items, is_manual, trip_date_iso, trip_date_display))
+        shopping_list_display.append((store_key, display_name, items, is_manual, trip_date_iso, trip_date_display, notes or ""))
     tab_param = request.GET.get("tab", "shopping")
     active_tab = "recipes" if tab_param == "recipes" else "shopping"
+    removed_items = getattr(shopping_list, "removed_items", None)
+    if not isinstance(removed_items, list):
+        removed_items = []
     return render(
         request,
         "meal_plan/plan_detail.html",
@@ -293,6 +298,7 @@ def plan_detail(request, plan_id):
             "shopping_list_display": shopping_list_display,
             "active_tab": active_tab,
             "available_stores": available_stores,
+            "removed_items": removed_items,
             "recipe_search_url": reverse("meal_plan:recipe_search"),
             "plan_update_shopping_list_url": reverse("meal_plan:plan_update_shopping_list", kwargs={"plan_id": plan.id}),
             "validate_ingredient_store_url": reverse("meal_plan:validate_ingredient_store"),
@@ -405,8 +411,79 @@ def recipe_search(request):
     return JsonResponse(results, safe=False)
 
 
+def _normalize_recipes(recipes):
+    """Return a list of recipe name strings from item.get('recipes')."""
+    if not isinstance(recipes, list):
+        return []
+    return [r for r in recipes if isinstance(r, str)]
+
+
+def _parse_list_items(list_items, plan_date_iso=None):
+    """
+    Parse list_items into a uniform structure for in-place updates.
+    Returns (stores, passthrough):
+    - stores: dict store_key -> { "ingredients": [item_dict, ...], "is_manual": bool, "trip_date": str, "notes": str|None }
+      Only entries that are dict with "ingredients" are included. trip_date is validated or defaulted to plan_date_iso.
+    - passthrough: dict store_key -> value for entries that are not dict-with-ingredients (preserved as-is).
+    """
+    raw = list_items or {}
+    stores = {}
+    passthrough = {}
+    for store_key, value in raw.items():
+        if not isinstance(value, dict) or "ingredients" not in value:
+            passthrough[store_key] = value
+            continue
+        ingredients = [item for item in value.get("ingredients", []) if isinstance(item, dict)]
+        td = value.get("trip_date")
+        if isinstance(td, str) and td.strip():
+            try:
+                datetime.strptime(td.strip(), "%Y-%m-%d")
+                trip_date = td.strip()
+            except (ValueError, TypeError):
+                trip_date = plan_date_iso or ""
+        else:
+            trip_date = plan_date_iso if plan_date_iso else (td if isinstance(td, str) else None)
+        stores[store_key] = {
+            "ingredients": ingredients,
+            "is_manual": bool(value.get("is_manual", False)),
+            "trip_date": trip_date,
+            "notes": value.get("notes") if isinstance(value.get("notes"), str) else None,
+        }
+    return stores, passthrough
+
+
+def _normalize_removed_items(raw):
+    """Accept list of { store_id, name, recipes, is_staple, ingredient_id?, quantity? }; return normalized list."""
+    if not isinstance(raw, list):
+        return []
+    result = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        store_id = item.get("store_id")
+        if not isinstance(store_id, str) or not store_id.strip():
+            continue
+        try:
+            uuid.UUID(store_id.strip())
+        except (ValueError, TypeError):
+            continue
+        name = item.get("name")
+        if not isinstance(name, str):
+            continue
+        recipes = _normalize_recipes(item.get("recipes"))
+        is_staple = bool(item.get("is_staple", False))
+        is_manual = bool(item.get("is_manual", False))
+        row = {"store_id": store_id.strip(), "name": name, "recipes": recipes, "is_staple": is_staple, "is_manual": is_manual}
+        if item.get("ingredient_id") and isinstance(item.get("ingredient_id"), str):
+            row["ingredient_id"] = item["ingredient_id"]
+        if item.get("quantity") is not None and isinstance(item.get("quantity"), str):
+            row["quantity"] = item["quantity"]
+        result.append(row)
+    return result
+
+
 def plan_update_shopping_list(request, plan_id):
-    """POST with JSON body { list_items: { "<store_id>": { "ingredients": [...], "is_manual": bool }, ... } } to persist list."""
+    """POST with JSON body { list_items: { ... }, removed_items: [ { store_id, name, recipes, is_staple, ingredient_id?, quantity? }, ... ] }."""
     if request.method != "POST":
         return JsonResponse({"error": "Method not allowed"}, status=405)
     plan = get_object_or_404(Plan, id=plan_id)
@@ -445,9 +522,12 @@ def plan_update_shopping_list(request, plan_id):
                 recipes = []
             recipes = [r for r in recipes if isinstance(r, str)]
             is_staple = bool(item.get("is_staple", False))
-            row = {"name": name, "recipes": recipes, "is_staple": is_staple}
+            is_manual_item = bool(item.get("is_manual", False))
+            row = {"name": name, "recipes": recipes, "is_staple": is_staple, "is_manual": is_manual_item}
             if item.get("ingredient_id") and isinstance(item.get("ingredient_id"), str):
                 row["ingredient_id"] = item["ingredient_id"]
+            if item.get("quantity") is not None and isinstance(item.get("quantity"), str):
+                row["quantity"] = item["quantity"]
             ingredient_rows.append(row)
         out = {"ingredients": ingredient_rows, "is_manual": is_manual}
         if trip_date:
@@ -456,10 +536,14 @@ def plan_update_shopping_list(request, plan_id):
                 out["trip_date"] = trip_date
             except (ValueError, TypeError):
                 pass
+        if value.get("notes") is not None and isinstance(value.get("notes"), str):
+            out["notes"] = value["notes"]
         normalized[store_name] = out
+    removed_items = _normalize_removed_items(data.get("removed_items"))
     shopping_list, _ = PlanShoppingList.objects.get_or_create(plan=plan, defaults={})
     shopping_list.list_items = normalized
-    shopping_list.save(update_fields=["list_items"])
+    shopping_list.removed_items = removed_items
+    shopping_list.save(update_fields=["list_items", "removed_items"])
     return JsonResponse({"ok": True})
 
 
@@ -479,11 +563,14 @@ def plan_recalculate_stores(request, plan_id):
 
     list_items = shopping_list.list_items or {}
     plan_date_iso = plan.plan_date.isoformat()
-    # Flatten: collect items with valid ingredient_id; collect manually added store IDs (must-visit); preserve trip_date per store
+    # Flatten: collect items with valid ingredient_id; collect manually added store IDs (must-visit); preserve trip_date, notes, quantity; track per-ingredient is_manual
     ingredient_ids = []
     extra = {}
     manual_store_keys = set()  # string keys for preserving is_manual in output
+    manual_ingredient_ids = set()  # ingredient IDs that were manually added (preserve when recalculating)
     trip_dates_by_store = {}  # store_key -> "YYYY-MM-DD" from existing list_items
+    notes_by_store = {}  # store_key -> notes string
+    quantity_by_ingredient = {}  # ing_id -> quantity str (preserve when recalculating)
 
     for store_key, value in list_items.items():
         if store_key == "Other":
@@ -492,6 +579,8 @@ def plan_recalculate_stores(request, plan_id):
             items = value["ingredients"]
             if value.get("is_manual"):
                 manual_store_keys.add(store_key)
+            if value.get("notes") is not None and isinstance(value.get("notes"), str):
+                notes_by_store[store_key] = value["notes"]
             td = value.get("trip_date")
             if isinstance(td, str) and td.strip():
                 try:
@@ -523,6 +612,10 @@ def plan_recalculate_stores(request, plan_id):
                 recipes = []
             recipes = [r for r in recipes if isinstance(r, str)]
             is_staple = bool(item.get("is_staple", False))
+            if item.get("is_manual"):
+                manual_ingredient_ids.add(parsed_id)
+            if item.get("quantity") is not None and isinstance(item.get("quantity"), str):
+                quantity_by_ingredient[parsed_id] = item["quantity"]
             ingredient_ids.append(parsed_id)
             extra[parsed_id] = {"recipe_names": recipes, "is_staple": is_staple}
 
@@ -556,11 +649,14 @@ def plan_recalculate_stores(request, plan_id):
                         "recipes": sorted(recipe_names),
                         "is_staple": is_staple,
                         "ingredient_id": str(ing.id),
+                        "is_manual": ing.id in manual_ingredient_ids,
+                        "quantity": quantity_by_ingredient.get(ing.id),
                     }
                     for ing, recipe_names, is_staple, _ in items
                 ],
                 "is_manual": is_manual,
                 "trip_date": trip_date,
+                "notes": notes_by_store.get(store_key),
             }
         # When there are no ingredients, _build_shopping_list returns []; preserve manual stores with empty ingredients
         if not ingredient_ids and must_visit_store_ids:
@@ -568,7 +664,7 @@ def plan_recalculate_stores(request, plan_id):
                 store_key = str(store.id)
                 if store_key not in store_to_items:
                     trip_date = trip_dates_by_store.get(store_key, plan_date_iso)
-                    store_to_items[store_key] = {"ingredients": [], "is_manual": True, "trip_date": trip_date}
+                    store_to_items[store_key] = {"ingredients": [], "is_manual": True, "trip_date": trip_date, "notes": notes_by_store.get(store_key)}
 
     shopping_list.list_items = store_to_items
     shopping_list.save(update_fields=["list_items"])
@@ -615,8 +711,71 @@ def plan_delete(request, plan_id):
     return redirect("meal_plan:plan_list")
 
 
+def _remove_recipe_from_shopping_list(shopping_list, recipe_name):
+    """
+    Update list_items and removed_items in place when a recipe is removed from the plan.
+    list_items: remove or update ingredients that reference the removed recipe; preserve manual items.
+    removed_items: remove entries that only referenced the removed recipe, unless the entry is manual.
+    """
+    list_items = shopping_list.list_items or {}
+    stores, passthrough = _parse_list_items(list_items)
+    update_list_items = bool(stores or passthrough)
+    if update_list_items:
+        new_list_items = dict(passthrough)
+        for store_key, data in stores.items():
+            new_ingredients = []
+            for item in data["ingredients"]:
+                recipes = _normalize_recipes(item.get("recipes"))
+                if recipe_name not in recipes:
+                    new_ingredients.append(dict(item))
+                    continue
+                new_recipes = [r for r in recipes if r != recipe_name]
+                if not new_recipes:
+                    continue
+                item_copy = dict(item)
+                item_copy["recipes"] = new_recipes
+                new_ingredients.append(item_copy)
+            new_list_items[store_key] = {
+                "ingredients": new_ingredients,
+                "is_manual": data["is_manual"],
+                "trip_date": data["trip_date"],
+                "notes": data["notes"],
+            }
+        shopping_list.list_items = new_list_items
+
+    removed_raw = getattr(shopping_list, "removed_items", None) or []
+    if not isinstance(removed_raw, list):
+        removed_raw = []
+    new_removed_items = []
+    for item in removed_raw:
+        if not isinstance(item, dict):
+            continue
+        is_manual = bool(item.get("is_manual", False))
+        recipes = _normalize_recipes(item.get("recipes"))
+        if recipe_name not in recipes:
+            new_removed_items.append(dict(item))
+            continue
+        if is_manual:
+            item_copy = dict(item)
+            item_copy["recipes"] = [r for r in recipes if r != recipe_name]
+            new_removed_items.append(item_copy)
+            continue
+        new_recipes = [r for r in recipes if r != recipe_name]
+        if not new_recipes:
+            continue
+        item_copy = dict(item)
+        item_copy["recipes"] = new_recipes
+        new_removed_items.append(item_copy)
+    shopping_list.removed_items = new_removed_items
+
+    if update_list_items:
+        shopping_list.save(update_fields=["list_items", "removed_items"])
+    else:
+        shopping_list.save(update_fields=["removed_items"])
+
+
 def plan_remove_recipe(request, plan_id, recipe_id):
-    """Remove a recipe from a plan. POST only. Updates recipe last_used_on."""
+    """Remove a recipe from a plan. POST only. Updates recipe last_used_on and shopping list in place."""
     if request.method != "POST":
         return redirect("meal_plan:plan_detail", plan_id=plan_id)
     plan = get_object_or_404(Plan.objects.prefetch_related("recipes"), id=plan_id)
@@ -624,6 +783,7 @@ def plan_remove_recipe(request, plan_id, recipe_id):
     if not plan.recipes.filter(id=recipe_id).exists():
         messages.error(request, "Recipe is not in this plan.")
         return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    recipe_name = recipe.name
     PlanRecipe.objects.filter(plan=plan, recipe=recipe).delete()
     last_plan = (
         Plan.objects.filter(recipes=recipe)
@@ -633,16 +793,133 @@ def plan_remove_recipe(request, plan_id, recipe_id):
     recipe.last_used_on = last_plan.plan_date if last_plan else None
     recipe.save(update_fields=["last_used_on"])
     try:
-        plan.shopping_list.delete()
+        shopping_list = plan.shopping_list
+        _remove_recipe_from_shopping_list(shopping_list, recipe_name)
     except PlanShoppingList.DoesNotExist:
         pass
-    _initialize_plan_shopping_list(plan)
     messages.success(request, f"Removed {recipe.name} from the plan.")
     return redirect("meal_plan:plan_detail", plan_id=plan_id)
 
 
+def _merge_recipe_into_shopping_list(shopping_list, recipe, plan):
+    """
+    Merge a newly added recipe's ingredients into existing list_items.
+    Only add ingredients not already in the list and not in removed_items.
+    Recalculate stores from effective set (current + new - removed). Preserve manual stores and trip_date.
+    """
+    plan_date_iso = plan.plan_date.isoformat()
+    stores, _ = _parse_list_items(shopping_list.list_items, plan_date_iso=plan_date_iso)
+
+    removed_raw = getattr(shopping_list, "removed_items", None) or []
+    removed_set = set()
+    for item in removed_raw:
+        if isinstance(item, dict) and item.get("ingredient_id"):
+            try:
+                removed_set.add(uuid.UUID(item["ingredient_id"]))
+            except (ValueError, TypeError):
+                pass
+
+    current_ids = set()
+    extra = {}
+    trip_dates_by_store = {}
+    manual_store_keys = set()
+    existing_manual = {}  # (store_key, ing_id_str) -> bool
+    existing_quantity = {}  # (store_key, ing_id_str) -> quantity str
+    for store_key, data in stores.items():
+        if data["is_manual"]:
+            manual_store_keys.add(store_key)
+        trip_dates_by_store[store_key] = data["trip_date"] or plan_date_iso
+        for item in data["ingredients"]:
+            ing_id_str = item.get("ingredient_id") if isinstance(item.get("ingredient_id"), str) else None
+            if not ing_id_str:
+                continue
+            try:
+                ing_id = uuid.UUID(ing_id_str)
+            except (ValueError, TypeError):
+                continue
+            current_ids.add(ing_id)
+            recipes = _normalize_recipes(item.get("recipes"))
+            extra[ing_id] = {"recipe_names": recipes, "is_staple": bool(item.get("is_staple", False))}
+            existing_manual[(store_key, ing_id_str)] = bool(item.get("is_manual", False))
+            if item.get("quantity") is not None and isinstance(item.get("quantity"), str):
+                existing_quantity[(store_key, ing_id_str)] = item["quantity"]
+
+    new_recipe_ids = set(recipe.ingredients.values_list("id", flat=True))
+    in_removed_also_in_new = new_recipe_ids & removed_set
+    updated_removed_items = []
+    for item in removed_raw:
+        if not isinstance(item, dict):
+            continue
+        item_copy = dict(item)
+        recipes = _normalize_recipes(item_copy.get("recipes"))
+        ing_id_str = item_copy.get("ingredient_id") if isinstance(item_copy.get("ingredient_id"), str) else None
+        if ing_id_str and in_removed_also_in_new:
+            try:
+                if uuid.UUID(ing_id_str) in in_removed_also_in_new and recipe.name not in recipes:
+                    recipes.append(recipe.name)
+                    item_copy["recipes"] = sorted(recipes)
+            except (ValueError, TypeError):
+                pass
+        updated_removed_items.append(item_copy)
+
+    to_add_ids = new_recipe_ids - current_ids - removed_set
+    if not to_add_ids:
+        shopping_list.removed_items = updated_removed_items
+        shopping_list.save(update_fields=["removed_items"])
+        return
+    effective_ids = current_ids | to_add_ids
+    to_add_ingredients = {ing.id: ing for ing in Ingredient.objects.filter(id__in=to_add_ids)}
+    for ing_id in to_add_ids:
+        ing = to_add_ingredients.get(ing_id)
+        if not ing:
+            continue
+        existing = extra.get(ing_id, {})
+        recipe_names = list(existing.get("recipe_names", []))
+        if recipe.name not in recipe_names:
+            recipe_names.append(recipe.name)
+        extra[ing_id] = {"recipe_names": sorted(recipe_names), "is_staple": ing.is_staple}
+
+    must_visit_store_ids = set()
+    if manual_store_keys:
+        try:
+            must_visit_store_ids = set(
+                Store.objects.filter(id__in=[uuid.UUID(k) for k in manual_store_keys]).values_list("id", flat=True)
+            )
+        except (ValueError, TypeError):
+            pass
+
+    shopping_by_store = _build_shopping_list(
+        effective_ids, extra=extra, must_visit_store_ids=must_visit_store_ids
+    )
+    notes_by_store = {store_key: data.get("notes") for store_key, data in stores.items() if data.get("notes") is not None}
+    store_to_data = {}
+    for store, items in shopping_by_store:
+        store_key = str(store.id) if store is not None else "Other"
+        is_manual = store_key in manual_store_keys
+        trip_date = trip_dates_by_store.get(store_key, plan_date_iso)
+        store_to_data[store_key] = {
+            "ingredients": [
+                ShoppingListItem(
+                    name=ing.name,
+                    recipes=tuple(sorted(recipe_names)),
+                    is_staple=is_staple,
+                    ingredient_id=str(ing.id),
+                    is_manual=existing_manual.get((store_key, str(ing.id)), False),
+                    quantity=existing_quantity.get((store_key, str(ing.id))),
+                )
+                for ing, recipe_names, is_staple, _ in items
+            ],
+            "is_manual": is_manual,
+            "trip_date": trip_date,
+            "notes": notes_by_store.get(store_key),
+        }
+    shopping_list.list_items = serialize_list_items(store_to_data)
+    shopping_list.removed_items = updated_removed_items
+    shopping_list.save(update_fields=["list_items", "removed_items"])
+
+
 def plan_add_recipe(request, plan_id):
-    """Add a recipe to a plan. POST with recipe_id. Redirects back to plan detail."""
+    """Add a recipe to a plan. POST with recipe_id. Merge new ingredients into existing list (no reset)."""
     if request.method != "POST":
         return redirect("meal_plan:plan_detail", plan_id=plan_id)
     plan = get_object_or_404(Plan.objects.prefetch_related("recipes"), id=plan_id)
@@ -650,7 +927,9 @@ def plan_add_recipe(request, plan_id):
     if not recipe_id:
         messages.error(request, "Please select a recipe.")
         return redirect("meal_plan:plan_detail", plan_id=plan_id)
-    recipe = get_object_or_404(Recipe, id=recipe_id)
+    recipe = get_object_or_404(
+        Recipe.objects.prefetch_related("ingredients"), id=recipe_id
+    )
     if plan.recipes.filter(id=recipe_id).exists():
         messages.info(request, f"{recipe.name} is already in this plan.")
         return redirect("meal_plan:plan_detail", plan_id=plan_id)
@@ -659,10 +938,12 @@ def plan_add_recipe(request, plan_id):
         recipe.last_used_on = plan.plan_date
         recipe.save(update_fields=["last_used_on"])
     try:
-        plan.shopping_list.delete()
+        shopping_list = plan.shopping_list
     except PlanShoppingList.DoesNotExist:
-        pass
-    _initialize_plan_shopping_list(plan)
+        _initialize_plan_shopping_list(plan)
+        messages.success(request, f"Added {recipe.name} to the plan.")
+        return redirect("meal_plan:plan_detail", plan_id=plan_id)
+    _merge_recipe_into_shopping_list(shopping_list, recipe, plan)
     messages.success(request, f"Added {recipe.name} to the plan.")
     return redirect("meal_plan:plan_detail", plan_id=plan_id)
 
