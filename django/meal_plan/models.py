@@ -12,6 +12,7 @@ class Recipe(models.Model):
         "Ingredient", through="RecipeIngredient", blank=True
     )
     prep_notes = models.TextField(null=True, blank=True)
+    vetoed_on = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name

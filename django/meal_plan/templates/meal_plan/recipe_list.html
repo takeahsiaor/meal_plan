@@ -26,7 +26,8 @@
             <tr>
                 <th>Name</th>
                 <th>Tags</th>
-                <th>Last used</th>
+                <th>Last Used</th>
+                <th>Vetoed On</th>
                 <th class="text-nowrap">Cart</th>
             </tr>
         </thead>
@@ -52,6 +53,13 @@
                     <span class="text-muted">Never</span>
                     {% endif %}
                 </td>
+                <td class="recipe-col-vetoed" data-order="{{ recipe.vetoed_on|date:'U'|default:0 }}">
+                    {% if recipe.vetoed_on %}
+                    {{ recipe.vetoed_on|date:"M j, Y" }}
+                    {% else %}
+                    <span class="text-muted">—</span>
+                    {% endif %}
+                </td>
                 <td>
                     {% if recipe.id|stringformat:"s" in cart_recipe_ids %}
                     <form method="post" action="{% url 'meal_plan:remove_from_cart' recipe.id %}" class="d-inline">
@@ -70,7 +78,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="4" class="text-center text-muted">No recipes found.</td>
+                <td colspan="5" class="text-center text-muted">No recipes found.</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -145,6 +153,11 @@
                 <div id="recipeModalContent" class="d-none">
                     <p class="mb-2"><strong>Tags:</strong> <span id="recipeModalTags"></span></p>
                     <p class="mb-2"><strong>Last used:</strong> <span id="recipeModalLastUsed"></span></p>
+                    <p class="mb-2 d-flex flex-wrap align-items-center gap-2">
+                        <span><strong>Vetoed on:</strong> <span id="recipeModalVetoedOn"></span></span>
+                        <button type="button" id="recipeModalVetoToday" class="btn btn-outline-primary btn-sm d-none">Veto</button>
+                        <button type="button" id="recipeModalClearVeto" class="btn btn-outline-secondary btn-sm d-none">Clear</button>
+                    </p>
                     <p class="mb-2"><strong>Ingredients:</strong></p>
                     <ul id="recipeModalIngredients" class="mb-3"></ul>
                     <p class="mb-2"><strong>Latest plans:</strong></p>
@@ -167,6 +180,11 @@
 
 {% block extra_js %}
 <script>
+function getCookie(name) {
+    var value = '; ' + document.cookie;
+    var parts = value.split('; ' + name + '=');
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
 $(document).ready(function() {
     var $table = $('#recipe-table');
     if ($table.find('tbody tr').length > 0 && !$table.find('tbody tr td[colspan]').length) {
@@ -178,6 +196,7 @@ $(document).ready(function() {
     }
 
     var recipeDetailBase = "{% url 'meal_plan:recipe_list' %}";
+    var recipeClearVetoBase = recipeDetailBase.replace(/\/?$/, '');
     var planDetailBase = "{% url 'meal_plan:plan_list' %}".replace(/\/?$/, '');
     var modal = new bootstrap.Modal(document.getElementById('recipeDetailModal'));
     var $loading = $('#recipeModalLoading');
@@ -192,9 +211,20 @@ $(document).ready(function() {
         $content.addClass('d-none');
         modal.show();
         $.getJSON(url).done(function(data) {
+            $('#recipeDetailModal').data('recipe-id', recipeId);
             $('#recipeDetailModalLabel').text(data.name);
             $('#recipeModalTags').text(data.tags.length ? data.tags.join(', ') : '—');
             $('#recipeModalLastUsed').text(data.last_used_on || 'Never');
+            $('#recipeModalVetoedOn').text(data.vetoed_on || '—');
+            var $clearVeto = $('#recipeModalClearVeto');
+            var $vetoToday = $('#recipeModalVetoToday');
+            if (data.vetoed_on) {
+                $clearVeto.removeClass('d-none').prop('disabled', false);
+                $vetoToday.addClass('d-none').prop('disabled', false);
+            } else {
+                $clearVeto.addClass('d-none').prop('disabled', false);
+                $vetoToday.removeClass('d-none').prop('disabled', false);
+            }
             var $ul = $('#recipeModalIngredients').empty();
             if (data.ingredients.length) {
                 data.ingredients.forEach(function(ing) { $ul.append($('<li></li>').text(ing)); });
@@ -219,6 +249,66 @@ $(document).ready(function() {
         }).fail(function() {
             $loading.text('Failed to load recipe.').addClass('text-danger').removeClass('d-none').show();
             $content.addClass('d-none');
+        });
+    });
+
+    $('#recipeModalClearVeto').on('click', function() {
+        var recipeId = $('#recipeDetailModal').data('recipe-id');
+        if (!recipeId) return;
+        var $btn = $(this);
+        var clearUrl = recipeClearVetoBase + '/' + recipeId + '/clear-veto/';
+        $btn.prop('disabled', true);
+        $.ajax({
+            url: clearUrl,
+            type: 'POST',
+            headers: {'X-CSRFToken': getCookie('csrftoken') || ''}
+        }).done(function() {
+            $('#recipeModalVetoedOn').text('—');
+            $btn.addClass('d-none').prop('disabled', false);
+            $('#recipeModalVetoToday').removeClass('d-none').prop('disabled', false);
+            var $row = $('a.recipe-name-link[data-recipe-id="' + recipeId + '"]').closest('tr');
+            var $vetoCell = $row.find('td.recipe-col-vetoed');
+            $vetoCell.attr('data-order', '0');
+            $vetoCell.html('<span class="text-muted">—</span>');
+            if ($.fn.dataTable.isDataTable($table)) {
+                $table.DataTable().row($row).invalidate('data').draw(false);
+            }
+        }).fail(function() {
+            $btn.prop('disabled', false);
+            alert('Could not clear veto date.');
+        });
+    });
+
+    $('#recipeModalVetoToday').on('click', function() {
+        var recipeId = $('#recipeDetailModal').data('recipe-id');
+        if (!recipeId) return;
+        var $btn = $(this);
+        var vetoUrl = recipeClearVetoBase + '/' + recipeId + '/veto-today/';
+        $btn.prop('disabled', true);
+        $.ajax({
+            url: vetoUrl,
+            type: 'POST',
+            headers: {'X-CSRFToken': getCookie('csrftoken') || ''},
+            dataType: 'json'
+        }).done(function(data) {
+            if (!data.ok) return;
+            $('#recipeModalVetoedOn').text(data.vetoed_on);
+            $btn.addClass('d-none').prop('disabled', false);
+            $('#recipeModalClearVeto').removeClass('d-none');
+            var $row = $('a.recipe-name-link[data-recipe-id="' + recipeId + '"]').closest('tr');
+            var $vetoCell = $row.find('td.recipe-col-vetoed');
+            $vetoCell.attr('data-order', String(data.vetoed_on_order));
+            $vetoCell.text(data.vetoed_on_table);
+            if ($.fn.dataTable.isDataTable($table)) {
+                $table.DataTable().row($row).invalidate('data').draw(false);
+            }
+        }).fail(function(xhr) {
+            $btn.prop('disabled', false);
+            if (xhr.status === 400) {
+                alert('This recipe already has a veto date.');
+            } else {
+                alert('Could not set veto date.');
+            }
         });
     });
 });

@@ -42,7 +42,7 @@ class RecipeIngredientInline(admin.TabularInline):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ["name", "last_used_on"]
+    list_display = ["name", "last_used_on", "vetoed_on"]
     list_filter = ["tags"]
     search_fields = ["name"]
     filter_horizontal = ["tags"]

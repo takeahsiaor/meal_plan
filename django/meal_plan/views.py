@@ -1,6 +1,6 @@
 import json
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 from urllib.parse import urlencode
 
 from django.contrib import messages
@@ -9,6 +9,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import date_format
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView, View
 
 from .forms import PlanDateForm
@@ -1116,6 +1118,33 @@ class CartView(View):
         return redirect("meal_plan:plan_detail", plan_id=plan.id)
 
 
+@require_POST
+def recipe_clear_vetoed(request, recipe_id):
+    """Clear Recipe.vetoed_on (POST, JSON)."""
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    recipe.vetoed_on = None
+    recipe.save(update_fields=["vetoed_on"])
+    return JsonResponse({"ok": True})
+
+
+@require_POST
+def recipe_veto_today(request, recipe_id):
+    """Set Recipe.vetoed_on to today in the active timezone (POST, JSON). No-op if already set."""
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if recipe.vetoed_on is not None:
+        return JsonResponse({"ok": False, "error": "already_vetoed"}, status=400)
+    today = timezone.localdate()
+    recipe.vetoed_on = today
+    recipe.save(update_fields=["vetoed_on"])
+    aware = timezone.make_aware(datetime.combine(today, time.min))
+    return JsonResponse({
+        "ok": True,
+        "vetoed_on": today.strftime("%b %d, %Y"),
+        "vetoed_on_table": date_format(today, "M j, Y"),
+        "vetoed_on_order": int(aware.timestamp()),
+    })
+
+
 def recipe_detail_json(request, recipe_id):
     """Return recipe details as JSON for the recipe modal."""
     recipe = get_object_or_404(
@@ -1125,6 +1154,9 @@ def recipe_detail_json(request, recipe_id):
     last_used = None
     if recipe.last_used_on:
         last_used = recipe.last_used_on.strftime("%b %d, %Y")
+    vetoed = None
+    if recipe.vetoed_on:
+        vetoed = recipe.vetoed_on.strftime("%b %d, %Y")
     recent_plans = []
     for p in Plan.objects.filter(recipes=recipe).prefetch_related("recipes").order_by("-plan_date")[:5]:
         recent_plans.append({
@@ -1135,6 +1167,7 @@ def recipe_detail_json(request, recipe_id):
     return JsonResponse({
         "name": recipe.name,
         "last_used_on": last_used,
+        "vetoed_on": vetoed,
         "tags": [t.name for t in recipe.tags.all()],
         "ingredients": [i.name for i in recipe.ingredients.order_by("name")],
         "recent_plans": recent_plans,
